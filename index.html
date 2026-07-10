@@ -2,8 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>BIM WOW - Mohamed Mokhtar Dashboard</title>
-    <!-- استدعاء الخطوط الاحترافية -->
+    <title>BIM WOW - Mohamed Mokhtar Live Dashboard</title>
+    <!-- استدعاء الخطوط والـ Icons الاحترافية -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
@@ -35,15 +35,11 @@
             box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
         }
 
-        /* عنصر الفيديو الخلفي المطور */
         .header-bg-video {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
+            top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
             transform: translate(-50%, -50%);
             z-index: 1;
             object-fit: cover;
@@ -51,7 +47,6 @@
             pointer-events: none;
         }
 
-        /* طبقة داكنة ذكية لحماية ووضوح النصوص فوق الفيديو */
         .header-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -61,7 +56,7 @@
 
         .user-info, .company-logo-box { position: relative; z-index: 3; }
         .user-info { display: flex; flex-direction: column; }
-        .user-name-glow { color: #ffffff; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; letter-spacing: -0.3px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .user-name-glow { color: #ffffff; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         .user-name-glow i { color: #4a72b2; font-size: 15px; filter: drop-shadow(0 0 3px #4a72b2); }
         .glow-line { width: 100%; height: 2px; background: #4a72b2; box-shadow: 0 0 8px #4a72b2; border-radius: 2px; }
 
@@ -88,7 +83,7 @@
         h1 { text-align: center; color: #ffffff; margin-bottom: 35px; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
         h1 i { color: #4a72b2; margin-right: 8px; }
 
-        /* Add Task Box */
+        /* صندوق إضافة الحالات */
         .add-task-box { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
         .add-task-box input, .add-task-box select, .add-task-box button {
             padding: 12px; border: 1px solid #1d273b; background-color: #181f32; color: white; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box; width: 100%; font-family: inherit;
@@ -100,7 +95,7 @@
 
         .task-list { list-style: none; padding: 0; margin: 0; }
 
-        /* Cards Styling */
+        /* الكروت */
         .task-item {
             display: flex; align-items: center; justify-content: space-between; background: #181f32; padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 5px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.25s;
         }
@@ -118,7 +113,7 @@
         .task-item.status-100 { background-color: #0f1422; opacity: 0.5; }
         .task-item.status-100 .task-text { text-decoration: line-through; color: #5c6e8c; }
 
-        /* Status Circles */
+        /* الدوائر الملونة للحالات */
         .status-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-right: 15px; width: 75px; flex-shrink: 0; }
         .progress-circle-container { position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
         .progress-circle-container svg { width: 44px; height: 44px; transform: rotate(-90deg); position: absolute; }
@@ -155,7 +150,7 @@
         .matrix-table td.check-item-name { background-color: #131824; color: #cbd5e1; font-weight: 500; font-size: 13px; line-height: 1.4; }
         .matrix-table td.check-item-name span { font-family: 'Roboto Mono', monospace; font-size: 12px; color: #3498db; }
 
-        /* كبسولات الحالات */
+        /* كبسولات الماتريكس */
         .status-badge { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 0; border-radius: 20px; font-weight: 700; font-size: 11px; width: 125px; text-transform: capitalize; box-sizing: border-box; text-align: center; }
         .matrix-editable { cursor: pointer; transition: transform 0.2s; }
         .matrix-editable:hover { transform: scale(1.04); }
@@ -170,7 +165,6 @@
 </head>
 <body>
 
-    <!-- الهيدر السينمائي -->
     <div class="user-header">
         <video class="header-bg-video" autoplay loop muted playsinline>
             <source src="company_video.mp4" type="video/mp4">
@@ -188,7 +182,6 @@
         </div>
     </div>
 
-    <!-- شريط التنقل -->
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('tasks-page', this)"><i class="fa-solid fa-list-check"></i> My Tasks</button>
         <button class="tab-btn" onclick="switchTab('status-page', this)"><i class="fa-solid fa-table-list"></i> Projects Matrix</button>
@@ -196,7 +189,6 @@
 
     <div class="container">
         
-        <!-- ================= الصفحة الأولى: الـ Tasks ================= -->
         <div id="tasks-page">
             <h1><i class="fa-solid fa-folder-tree"></i> Project Task Tracker</h1>
             <div class="add-task-box" id="admin-box">
@@ -226,7 +218,6 @@
             <ul class="task-list" id="task-list-container"></ul>
         </div>
 
-        <!-- ================= الصفحة الثانية: جدول الـ Matrix الاحترافي ================= -->
         <div id="status-page" class="hidden">
             <h1><i class="fa-solid fa-table"></i> QA/QC Projects Checklist Matrix</h1>
             <div class="matrix-table-container">
@@ -239,9 +230,7 @@
                             <th style="width: 20%;">GoodWill</th>
                         </tr>
                     </thead>
-                    <tbody id="matrix-tbody">
-                        <!-- الداتا تبنى هنا تلقائياً -->
-                    </tbody>
+                    <tbody id="matrix-tbody"></tbody>
                 </table>
             </div>
         </div>
@@ -249,8 +238,20 @@
     </div>
 
     <script>
-        const ADMIN_PASSWORD = "Crazymoney98$"; 
+        const ADMIN_PASSWORD = "Crazymoney98$";
+        // 🔗 ربط قاعدة البيانات السحابية الخاصة بك مباشرةً
+        const FIREBASE_BASE_URL = "https://bimwowdashboard-default-rtdb.firebaseio.com/";
+        
         let isLoggedIn = sessionStorage.getItem('isBimAdmin') === 'true';
+        let tasks = [];
+        let matrixData = {};
+
+        const checkItemsList = [
+            "Pipe Insulation", "P-Trap at Drains", "Pipes in Concrete Walls",
+            "Raise UG Drain Network to Highest Possible Elevation", "Floor Drain Branch ≤ 2'-0\"",
+            "Required RFIs Prepared", "Equipment Clearance &Accessibility Verification",
+            "Supports, Fixation", "Modeling", "Coordination"
+        ];
 
         function switchTab(pageId, btnElement) {
             document.getElementById('tasks-page').classList.add('hidden');
@@ -270,7 +271,7 @@
                 if(adminBox) adminBox.classList.add('hidden');
                 loginBtn.innerText = "Admin Login";
             }
-            renderMatrix();
+            renderAll();
         }
 
         function handleLogin() {
@@ -278,122 +279,60 @@
                 sessionStorage.setItem('isBimAdmin', 'false');
                 isLoggedIn = false;
                 checkPermissions();
-                saveAndRender();
             } else {
                 let pass = prompt("Enter Admin Password to Edit:");
                 if (pass === ADMIN_PASSWORD) {
                     sessionStorage.setItem('isBimAdmin', 'true');
                     isLoggedIn = true;
                     checkPermissions();
-                    saveAndRender();
                 } else if (pass !== null) { alert("Wrong Password! Access Denied."); }
             }
         }
 
-        const checkItemsList = [
-            "Pipe Insulation",
-            "P-Trap at Drains",
-            "Pipes in Concrete Walls",
-            "Raise UG Drain Network to Highest Possible Elevation",
-            "Floor Drain Branch ≤ 2'-0\"",
-            "Required RFIs Prepared",
-            "Equipment Clearance &Accessibility Verification",
-            "Supports, Fixation",
-            "Modeling",
-            "Coordination"
-        ];
-
-        // 📊 جدول الماتريكس الثابت والمحفوظ أونلاين
-        let defaultMatrixData = {
-            "Pipe Insulation": { arff: "complete", pwc: "complete", goodwill: "progress" },
-            "P-Trap at Drains": { arff: "progress", pwc: "progress", goodwill: "progress" },
-            "Pipes in Concrete Walls": { arff: "rfi", pwc: "notdone", goodwill: "notdone" },
-            "Raise UG Drain Network to Highest Possible Elevation": { arff: "complete", pwc: "complete", goodwill: "progress" },
-            "Floor Drain Branch ≤ 2'-0\"": { arff: "progress", pwc: "progress", goodwill: "progress" },
-            "Required RFIs Prepared": { arff: "progress", pwc: "progress", goodwill: "progress" },
-            "Equipment Clearance &Accessibility Verification": { arff: "notdone", pwc: "notdone", goodwill: "notdone" },
-            "Supports, Fixation": { arff: "notdone", pwc: "notdone", goodwill: "notdone" },
-            "Modeling": { arff: "progress", pwc: "progress", goodwill: "progress" },
-            "Coordination": { arff: "progress", pwc: "progress", goodwill: "progress" }
-        };
-
-        // 📌 📌 هنا لستة التاسكات الرسمية اللي مديرك هيشوفها فوراً (تعدلها من هنا في ثواني) 📌 📌
-        let defaultTasks = [
-            { project: "BRENT ELEMENTARY SCHOOL", type: "Shop Drawing", details: "Main structural sheets review and annotations", priority: "high", progress: 50 },
-            { project: "PWC FIRE STATION", type: "Modeling", details: "Plumbing system initial modeling based on latest architectural update", priority: "medium", progress: 0 },
-            { project: "ARFF", type: "Coordination", details: "Resolve clash reports between HVAC and structural beams", priority: "high", progress: 100 }
-        ];
-
-        let matrixData = JSON.parse(localStorage.getItem('bim_matrix_data')) || defaultMatrixData;
-        
-        // تعديل: الموقع يقرأ دائماً اللستة الرسمية من الكود أولاً عشان تظهر لمديرك
-        let tasks = JSON.parse(localStorage.getItem('bim_tasks_live')) || defaultTasks;
-
-        function getStatusBadgeHtml(status, rowName, projectKey) {
-            let className = ""; let text = ""; let icon = "";
-            if (status === "complete") { className = "badge-complete"; text = "Complete"; icon = "✓ "; }
-            if (status === "progress") { className = "badge-progress"; text = "In Progress"; icon = ""; }
-            if (status === "notdone") { className = "badge-notdone"; text = "Not Done"; icon = "✗ "; }
-            if (status === "rfi") { className = "badge-rfi"; text = "RFI Preparation"; icon = ""; }
-
-            const editableClass = isLoggedIn ? "matrix-editable" : "";
-            const clickAction = isLoggedIn ? `onclick="toggleMatrixStatus('${rowName}', '${projectKey}')"` : "";
-
-            return `<span class="status-badge ${className} ${editableClass}" ${clickAction}>${icon}${text}</span>`;
+        // 🔄 دالة سحب البيانات الحية من سحابة جوجل فور فتح الموقع
+        async function fetchLiveCloudData() {
+            try {
+                // سحب التسكاب
+                let tResponse = await fetch(`${FIREBASE_BASE_URL}/tasks.json`);
+                let tData = await tResponse.json();
+                tasks = tData ? Object.keys(tData).map(key => ({id: key, ...tData[key]})) : [];
+                
+                // سحب الماتريكس
+                let mResponse = await fetch(`${FIREBASE_BASE_URL}/matrix.json`);
+                let mData = await mResponse.json();
+                
+                if (mData) {
+                    matrixData = mData;
+                } else {
+                    // داتا افتراضية لأول مرة فقط لو السيرفر فاضي
+                    checkItemsList.forEach(item => {
+                        matrixData[item] = { arff: "progress", pwc: "progress", goodwill: "progress" };
+                    });
+                }
+                renderAll();
+            } catch (e) { console.error("Error loading live data: ", e); }
         }
 
-        function renderMatrix() {
-            const tbody = document.getElementById('matrix-tbody');
-            tbody.innerHTML = '';
-
-            checkItemsList.forEach(item => {
-                const rowData = matrixData[item];
-                const tr = document.createElement('tr');
-                let formattedItemName = item.replace(/(≤ 2'-0")/g, '<span>$1</span>');
-
-                tr.innerHTML = `
-                    <td class="check-item-name">${formattedItemName}</td>
-                    <td>${getStatusBadgeHtml(rowData.arff, item, 'arff')}</td>
-                    <td>${getStatusBadgeHtml(rowData.pwc, item, 'pwc')}</td>
-                    <td>${getStatusBadgeHtml(rowData.goodwill, item, 'goodwill')}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function toggleMatrixStatus(rowName, projectKey) {
-            if (!isLoggedIn) return;
-            const current = matrixData[rowName][projectKey];
-            let next = "complete";
-
-            if (current === "complete") next = "progress";
-            else if (current === "progress") next = "notdone";
-            else if (current === "notdone") next = "rfi";
-            else if (current === "rfi") next = "complete";
-
-            matrixData[rowName][projectKey] = next;
-            localStorage.setItem('bim_matrix_data', JSON.stringify(matrixData));
+        function renderAll() {
+            renderTasks();
             renderMatrix();
         }
 
-        function saveAndRender() {
+        function renderTasks() {
             const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
             tasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-            
-            // حفظ الداتا في التخزين المحدث
-            localStorage.setItem('bim_tasks_live', JSON.stringify(tasks));
             
             const container = document.getElementById('task-list-container');
             container.innerHTML = '';
 
-            tasks.forEach((task, index) => {
+            tasks.forEach((task) => {
                 const li = document.createElement('li');
                 li.className = `task-item priority-${task.priority} status-${task.progress}`;
                 
                 const actionsHtml = isLoggedIn ? `
                     <div class="task-actions">
-                        <button class="done-btn" onclick="cycleProgress(${index})"><i class="fa-solid fa-rotate"></i></button>
-                        <button class="delete-btn" onclick="deleteTask(${index})"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="done-btn" onclick="cycleProgress('${task.id}', ${task.progress})"><i class="fa-solid fa-rotate"></i></button>
+                        <button class="delete-btn" onclick="deleteTask('${task.id}')"><i class="fa-solid fa-trash-can"></i></button>
                     </div>
                 ` : '';
 
@@ -419,32 +358,103 @@
                 `;
                 container.appendChild(li);
             });
+        }
+
+        function getStatusBadgeHtml(status, rowName, projectKey) {
+            let className = ""; let text = ""; let icon = "";
+            if (status === "complete") { className = "badge-complete"; text = "Complete"; icon = "✓ "; }
+            if (status === "progress") { className = "badge-progress"; text = "In Progress"; icon = ""; }
+            if (status === "notdone") { className = "badge-notdone"; text = "Not Done"; icon = "✗ "; }
+            if (status === "rfi") { className = "badge-rfi"; text = "RFI Preparation"; icon = ""; }
+
+            const editableClass = isLoggedIn ? "matrix-editable" : "";
+            const clickAction = isLoggedIn ? `onclick="toggleMatrixStatus('${rowName}', '${projectKey}')"` : "";
+
+            return `<span class="status-badge ${className} ${editableClass}" ${clickAction}>${icon}${text}</span>`;
+        }
+
+        function renderMatrix() {
+            const tbody = document.getElementById('matrix-tbody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            checkItemsList.forEach(item => {
+                const rowData = matrixData[item] || { arff: "progress", pwc: "progress", goodwill: "progress" };
+                const tr = document.createElement('tr');
+                let formattedItemName = item.replace(/(≤ 2'-0")/g, '<span>$1</span>');
+
+                tr.innerHTML = `
+                    <td class="check-item-name">${formattedItemName}</td>
+                    <td>${getStatusBadgeHtml(rowData.arff, item, 'arff')}</td>
+                    <td>${getStatusBadgeHtml(rowData.pwc, item, 'pwc')}</td>
+                    <td>${getStatusBadgeHtml(rowData.goodwill, item, 'goodwill')}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 🟢 إرسال تاسك جديدة للسيرفر فوراً
+        async function addNewTask() {
+            if (!isLoggedIn) return;
+            const project = document.getElementById('project-input').value;
+            const type = document.getElementById('type-input').value;
+            const details = document.getElementById('task-input').value;
+            const priority = document.getElementById('priority-input').value;
+
+            let newTask = { project, type, details, priority, progress: 0 };
+
+            await fetch(`${FIREBASE_BASE_URL}/tasks.json`, {
+                method: 'POST',
+                body: JSON.stringify(newTask)
+            });
+            document.getElementById('task-input').value = '';
+            fetchLiveCloudData();
+        }
+
+        // 🔄 تغيير حالة الدائرة السحابية
+        async function cycleProgress(id, currentProgress) {
+            if (!isLoggedIn) return;
+            let nextProgress = 0;
+            if (currentProgress === 0) nextProgress = 50;
+            else if (currentProgress === 50) nextProgress = 100;
+
+            await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, {
+                method: 'PATCH',
+                body: JSON.stringify({ progress: nextProgress })
+            });
+            fetchLiveCloudData();
+        }
+
+        // ❌ مسح تاسك نهائياً من سحابة جوجل
+        async function deleteTask(id) {
+            if (!isLoggedIn) return;
+            await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, { method: 'DELETE' });
+            fetchLiveCloudData();
+        }
+
+        // 📊 تغيير حالة كبسولات الماتريكس السحابية
+        async function toggleMatrixStatus(rowName, projectKey) {
+            if (!isLoggedIn) return;
+            const current = matrixData[rowName][projectKey];
+            let next = "complete";
+
+            if (current === "complete") next = "progress";
+            else if (current === "progress") next = "notdone";
+            else if (current === "notdone") next = "rfi";
+            else if (current === "rfi") next = "complete";
+
+            matrixData[rowName][projectKey] = next;
+
+            await fetch(`${FIREBASE_BASE_URL}/matrix/${rowName}.json`, {
+                method: 'PATCH',
+                body: JSON.stringify({ [projectKey]: next })
+            });
             renderMatrix();
         }
 
-        function addNewTask() {
-            if (!isLoggedIn) return;
-            const projectInput = document.getElementById('project-input');
-            const typeInput = document.getElementById('type-input');
-            const taskInput = document.getElementById('task-input');
-            const priorityInput = document.getElementById('priority-input');
-            tasks.push({ project: projectInput.value, type: typeInput.value, details: taskInput.value, priority: priorityInput.value, progress: 0 });
-            taskInput.value = '';
-            saveAndRender();
-        }
-
-        function cycleProgress(index) {
-            if (!isLoggedIn) return;
-            if (tasks[index].progress === 0) tasks[index].progress = 50;
-            else if (tasks[index].progress === 50) tasks[index].progress = 100;
-            else tasks[index].progress = 0;
-            saveAndRender();
-        }
-
-        function deleteTask(index) { if (!isLoggedIn) return; tasks.splice(index, 1); saveAndRender(); }
-
+        // تشغيل السيستم الذكي
         checkPermissions();
-        saveAndRender();
+        fetchLiveCloudData();
     </script>
 </body>
 </html>
