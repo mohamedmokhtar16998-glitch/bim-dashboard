@@ -88,11 +88,14 @@
         }
         .tab-btn:hover, .tab-btn.active { background: #4a72b2; color: #ffffff; border-color: #4a72b2; box-shadow: 0 0 10px rgba(74, 114, 178, 0.3); }
 
+        .auth-buttons-wrapper { display: flex; gap: 8px; margin-top: 12px; }
         .login-btn {
-            background: rgba(29, 39, 59, 0.6); color: #8fa0bc; border: 1px solid rgba(255, 255, 255, 0.05); padding: 4px 10px; border-radius: 4px; font-size: 11px;
-            cursor: pointer; font-weight: 600; transition: all 0.25s ease; margin-top: 12px; align-self: flex-start;
+            background: rgba(29, 39, 59, 0.6); color: #8fa0bc; border: 1px solid rgba(255, 255, 255, 0.05); padding: 5px 12px; border-radius: 4px; font-size: 11px;
+            cursor: pointer; font-weight: 600; transition: all 0.25s ease;
         }
         .login-btn:hover { background: #4a72b2; color: #fff; border-color: #4a72b2; }
+        .manager-active-btn { background-color: rgba(241, 196, 15, 0.2); color: #f1c40f; border-color: rgba(241, 196, 15, 0.4); }
+        .admin-active-btn { background-color: rgba(46, 204, 113, 0.2); color: #2ecc71; border-color: rgba(46, 204, 113, 0.4); }
 
         /* 🔮 لوحة التحكم الزجاجية الشفافة الفخمة */
         .container { 
@@ -177,6 +180,11 @@
             background-color: rgba(24, 31, 50, 0.9); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; font-family: inherit;
         }
         .inline-priority-select option { background-color: #111625; color: white; }
+        
+        /* شارة نصية ثابتة للفيور مريحة جداً للعين بدل السلكت */
+        .viewer-priority-badge {
+            font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; background-color: rgba(255,255,255,0.04); color: #cbd5e1;
+        }
 
         /* الجداول الزجاجية الشفافة */
         .matrix-table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.06); }
@@ -187,7 +195,7 @@
         .matrix-table td.check-item-name { background-color: rgba(19, 24, 36, 0.4); color: #cbd5e1; font-weight: 500; font-size: 13px; line-height: 1.4; }
         .matrix-table td.check-item-name span { font-family: 'Roboto Mono', monospace; font-size: 12px; color: #3498db; }
 
-        /* 📊 كبسولات الماتريكس المطورة بالخمس حالات الكاملة */
+        /* كبسولات الماتريكس المطورة بالخمس حالات الكاملة */
         .status-badge { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 0; border-radius: 20px; font-weight: 700; font-size: 11px; width: 145px; text-transform: capitalize; box-sizing: border-box; text-align: center; border: 1px solid transparent; }
         .matrix-select-wrapper { position: relative; width: 145px; display: inline-block; }
         
@@ -217,7 +225,11 @@
         <div class="user-info">
             <div class="user-name-glow"><i class="fa-solid fa-gears"></i> Mohamed Mokhtar</div>
             <div class="glow-line"></div>
-            <button id="login-action-btn" class="login-btn" onclick="handleLogin()">Admin Login</button>
+            <!-- 🛠️ تم فصل أزرار الدخول لنظام الأدمن ونظام المدير المنفصلين -->
+            <div class="auth-buttons-wrapper">
+                <button id="admin-login-btn" class="login-btn" onclick="handleAdminLogin()">Admin Login</button>
+                <button id="manager-login-btn" class="login-btn" onclick="handleManagerLogin()">Manager Login</button>
+            </div>
         </div>
         <div class="company-logo-box">
             <h2 class="company-title">BIM<font>WOW</font></h2>
@@ -284,9 +296,10 @@
 
     <script>
         const ADMIN_PASSWORD = "Crazymoney98$";
+        const MANAGER_PASSWORD = "ManagerWow2026"; // 🔐 الباسوورد الخاص بمديرك للـ Priority فقط
         const FIREBASE_BASE_URL = "https://bimwowdashboard-default-rtdb.firebaseio.com/";
         
-        let isLoggedIn = sessionStorage.getItem('isBimAdmin') === 'true';
+        let userRole = sessionStorage.getItem('bimUserRole') || 'viewer'; // 'admin', 'manager', 'viewer'
         let tasks = [];
         let matrixData = {};
 
@@ -305,32 +318,54 @@
             btnElement.classList.add('active');
         }
 
+        // دالة فحص وتأمين المستويات التلاتة بالملّي
         function checkPermissions() {
             const adminBox = document.getElementById('admin-box');
-            const loginBtn = document.getElementById('login-action-btn');
-            if (isLoggedIn) {
+            const adminBtn = document.getElementById('admin-login-btn');
+            const managerBtn = document.getElementById('manager-login-btn');
+            
+            // إعادة تصفير الستايلز للأزرار
+            adminBtn.innerText = "Admin Login"; adminBtn.className = "login-btn";
+            managerBtn.innerText = "Manager Login"; managerBtn.className = "login-btn";
+            if(adminBox) adminBox.classList.add('hidden');
+
+            if (userRole === 'admin') {
                 if(adminBox) adminBox.classList.remove('hidden');
-                loginBtn.innerText = "Logout";
-            } else {
-                if(adminBox) adminBox.classList.add('hidden');
-                loginBtn.innerText = "Admin Login";
+                adminBtn.innerText = "Logout Admin";
+                adminBtn.className = "login-btn admin-active-btn";
+            } else if (userRole === 'manager') {
+                managerBtn.innerText = "Logout Manager";
+                managerBtn.className = "login-btn manager-active-btn";
             }
             renderAll();
         }
 
-        function handleLogin() {
-            if (isLoggedIn) {
-                sessionStorage.setItem('isBimAdmin', 'false');
-                isLoggedIn = false;
-                checkPermissions();
+        function handleAdminLogin() {
+            if (userRole === 'admin') {
+                sessionStorage.setItem('bimUserRole', 'viewer');
+                userRole = 'viewer';
             } else {
-                let pass = prompt("Enter Admin Password to Edit:");
+                let pass = prompt("Enter Admin Password:");
                 if (pass === ADMIN_PASSWORD) {
-                    sessionStorage.setItem('isBimAdmin', 'true');
-                    isLoggedIn = true;
-                    checkPermissions();
-                } else if (pass !== null) { alert("Wrong Password! Access Denied."); }
+                    sessionStorage.setItem('bimUserRole', 'admin');
+                    userRole = 'admin';
+                } else if (pass !== null) { alert("Wrong Password!"); }
             }
+            checkPermissions();
+        }
+
+        function handleManagerLogin() {
+            if (userRole === 'manager') {
+                sessionStorage.setItem('bimUserRole', 'viewer');
+                userRole = 'viewer';
+            } else {
+                let pass = prompt("Enter Manager Password:");
+                if (pass === MANAGER_PASSWORD) {
+                    sessionStorage.setItem('bimUserRole', 'manager');
+                    userRole = 'manager';
+                } else if (pass !== null) { alert("Wrong Password!"); }
+            }
+            checkPermissions();
         }
 
         async function fetchLiveCloudData() {
@@ -369,24 +404,26 @@
                 const li = document.createElement('li');
                 li.className = `task-item priority-${task.priority} status-${task.progress}`;
                 
-                const actionsHtml = isLoggedIn ? `
-                    <div class="task-actions">
-                        <button class="done-btn" onclick="cycleProgress('${task.id}', ${task.progress})" title="Change Status"><i class="fa-solid fa-rotate"></i></button>
-                        
+                // أزرار الحالة والحذف تفتح حصرياً للأدمن فقط
+                const adminStatusAndDelHtml = (userRole === 'admin') ? `
+                    <button class="done-btn" onclick="cycleProgress('${task.id}', ${task.progress})" title="Change Status"><i class="fa-solid fa-rotate"></i></button>
+                    <button class="delete-btn" onclick="deleteTask('${task.id}')" title="Delete Task"><i class="fa-solid fa-trash-can"></i></button>
+                ` : '';
+
+                // قائمة التحكم بالأولوية تفتح للأدمن وللمدير فقط! الفيور العادي تظهر له كـ شارة نصية ثابتة ومحمية
+                let priorityControlHtml = '';
+                if (userRole === 'admin' || userRole === 'manager') {
+                    priorityControlHtml = `
                         <select class="inline-priority-select" onchange="changePriorityDirect('${task.id}', this.value)" title="Change Priority">
                             <option value="high" ${task.priority === 'high' ? 'selected' : ''}>🔥 High</option>
                             <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>🟡 Med</option>
                             <option value="low" ${task.priority === 'low' ? 'selected' : ''}>🟢 Low</option>
                         </select>
-
-                        <button class="delete-btn" onclick="deleteTask('${task.id}')" title="Delete Task"><i class="fa-solid fa-trash-can"></i></button>
-                    </div>
-                ` : '';
-
-                let iconHtml = '<i class="fa-regular fa-clock circle-icon"></i>';
-                let textLabel = "PENDING";
-                if (task.progress === 50) { iconHtml = '<i class="fa-solid fa-gear circle-icon"></i>'; textLabel = "IN PROGRESS"; }
-                if (task.progress === 100) { iconHtml = '<i class="fa-solid fa-check circle-icon"></i>'; textLabel = "COMPLETED"; }
+                    `;
+                } else {
+                    let pEmoji = task.priority === 'high' ? '🔥 ' : task.priority === 'medium' ? '🟡 ' : '🟢 ';
+                    priorityControlHtml = `<span class="viewer-priority-badge">${pEmoji}${task.priority}</span>`;
+                }
 
                 li.innerHTML = `
                     <div class="task-content-details">
@@ -397,17 +434,19 @@
                     <div class="status-wrapper">
                         <div class="progress-circle-container">
                             <svg><circle class="circle-bg"></circle><circle class="circle-progress"></circle></svg>
-                            ${iconHtml}
+                            ${task.progress === 100 ? '<i class="fa-solid fa-check circle-icon"></i>' : task.progress === 50 ? '<i class="fa-solid fa-gear circle-icon"></i>' : '<i class="fa-regular fa-clock circle-icon"></i>'}
                         </div>
-                        <div class="status-label-text">${textLabel}</div>
+                        <div class="status-label-text">${task.progress === 100 ? 'COMPLETED' : task.progress === 50 ? 'IN PROGRESS' : 'PENDING'}</div>
                     </div>
-                    ${actionsHtml}
+                    <div class="task-actions">
+                        ${priorityControlHtml}
+                        ${adminStatusAndDelHtml}
+                    </div>
                 `;
                 container.appendChild(li);
             });
         }
 
-        // 🛠️ الكبسولة الذكية السليمة بنظام الـ 5 حالات الكاملة
         function getStatusBadgeHtml(status, rowName, projectKey) {
             let className = ""; let text = ""; let icon = "";
             if (status === "complete") { className = "badge-complete"; text = "Complete"; icon = "✓ "; }
@@ -416,7 +455,8 @@
             if (status === "rfi") { className = "badge-rfi"; text = "RFI Preparation"; icon = ""; }
             if (status === "needcheck") { className = "badge-needcheck"; text = "Need to Check Files"; icon = "⚠ "; }
 
-            if (!isLoggedIn) {
+            // جدول الماتريكس مقفول بالكامل عن الفيور وعن المدير، ولا يُعدل إلا بنظام الـ Admin الحصري
+            if (userRole !== 'admin') {
                 return `<span class="status-badge ${className}">${icon}${text}</span>`;
             }
 
@@ -455,7 +495,7 @@
         }
 
         async function addNewTask() {
-            if (!isLoggedIn) return;
+            if (userRole !== 'admin') return;
             const project = document.getElementById('project-input').value;
             const type = document.getElementById('type-input').value;
             const details = document.getElementById('task-input').value;
@@ -472,7 +512,7 @@
         }
 
         async function cycleProgress(id, currentProgress) {
-            if (!isLoggedIn) return;
+            if (userRole !== 'admin') return;
             let nextProgress = 0;
             if (currentProgress === 0) nextProgress = 50;
             else if (currentProgress === 50) nextProgress = 100;
@@ -484,8 +524,9 @@
             fetchLiveCloudData();
         }
 
+        // تغيير الأولوية متاح للأدمن وللمدير (Manager) فقط ومحمي تماماً عن الفيور العادي
         async function changePriorityDirect(id, selectedPriority) {
-            if (!isLoggedIn) return;
+            if (userRole !== 'admin' && userRole !== 'manager') return;
             await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, {
                 method: 'PATCH',
                 body: JSON.stringify({ priority: selectedPriority })
@@ -494,17 +535,13 @@
         }
 
         async function deleteTask(id) {
-            if (!isLoggedIn) return;
+            if (userRole !== 'admin') return;
             await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, { method: 'DELETE' });
             fetchLiveCloudData();
         }
 
-        async function toggleMatrixStatus(rowName, projectKey) {
-            // معطلة لأننا استبدلناها بالـ Dropdown المباشر السريع
-        }
-
         async function changeMatrixStatusDirect(rowName, projectKey, selectedStatus) {
-            if (!isLoggedIn) return;
+            if (userRole !== 'admin') return;
 
             if(!matrixData[rowName]) matrixData[rowName] = {};
             matrixData[rowName][projectKey] = selectedStatus;
