@@ -173,18 +173,8 @@
         .task-actions .done-btn { color: #4a72b2; } 
         .task-actions .delete-btn { color: #e74c3c; }
 
-        /* ستايل قائمة الأولوية الذكية داخل الفايل */
         .inline-priority-select {
-            background-color: rgba(24, 31, 50, 0.9);
-            color: #cbd5e1;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            padding: 5px 8px;
-            font-size: 12px;
-            font-weight: 600;
-            outline: none;
-            cursor: pointer;
-            font-family: inherit;
+            background-color: rgba(24, 31, 50, 0.9); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; font-family: inherit;
         }
         .inline-priority-select option { background-color: #111625; color: white; }
 
@@ -197,15 +187,19 @@
         .matrix-table td.check-item-name { background-color: rgba(19, 24, 36, 0.4); color: #cbd5e1; font-weight: 500; font-size: 13px; line-height: 1.4; }
         .matrix-table td.check-item-name span { font-family: 'Roboto Mono', monospace; font-size: 12px; color: #3498db; }
 
-        /* كبسولات الماتريكس */
-        .status-badge { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 0; border-radius: 20px; font-weight: 700; font-size: 11px; width: 125px; text-transform: capitalize; box-sizing: border-box; text-align: center; }
-        .matrix-editable { cursor: pointer; transition: transform 0.2s; }
-        .matrix-editable:hover { transform: scale(1.04); }
+        /* 📊 كبسولات الماتريكس المطورة بالخمس حالات الكاملة */
+        .status-badge { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 0; border-radius: 20px; font-weight: 700; font-size: 11px; width: 145px; text-transform: capitalize; box-sizing: border-box; text-align: center; border: 1px solid transparent; }
+        .matrix-select-wrapper { position: relative; width: 145px; display: inline-block; }
+        
+        .matrix-hidden-select {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 14px;
+        }
 
-        .badge-complete { background-color: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.4); }
-        .badge-progress { background-color: rgba(155, 89, 182, 0.2); color: #d6b4fc; border: 1px solid rgba(155, 89, 182, 0.4); }
-        .badge-notdone { background-color: rgba(231, 76, 60, 0.15); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.4); }
-        .badge-rfi { background-color: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.4); }
+        .badge-complete { background-color: rgba(46, 204, 113, 0.15); color: #2ecc71; border-color: rgba(46, 204, 113, 0.4); }
+        .badge-progress { background-color: rgba(155, 89, 182, 0.2); color: #d6b4fc; border-color: rgba(155, 89, 182, 0.4); }
+        .badge-notdone { background-color: rgba(231, 76, 60, 0.15); color: #e74c3c; border-color: rgba(231, 76, 60, 0.4); }
+        .badge-rfi { background-color: rgba(241, 196, 15, 0.15); color: #f1c40f; border-color: rgba(241, 196, 15, 0.4); }
+        .badge-needcheck { background-color: rgba(230, 126, 34, 0.15); color: #e67e22; border-color: rgba(230, 126, 34, 0.4); }
 
         .hidden { display: none !important; }
     </style>
@@ -375,7 +369,6 @@
                 const li = document.createElement('li');
                 li.className = `task-item priority-${task.priority} status-${task.progress}`;
                 
-                // 🛠️ التعديل الجوهري: تحويل العلم لقائمة خيارات Drop-down تظهر للأدمن فقط
                 const actionsHtml = isLoggedIn ? `
                     <div class="task-actions">
                         <button class="done-btn" onclick="cycleProgress('${task.id}', ${task.progress})" title="Change Status"><i class="fa-solid fa-rotate"></i></button>
@@ -414,17 +407,31 @@
             });
         }
 
+        // 🛠️ الكبسولة الذكية السليمة بنظام الـ 5 حالات الكاملة
         function getStatusBadgeHtml(status, rowName, projectKey) {
             let className = ""; let text = ""; let icon = "";
             if (status === "complete") { className = "badge-complete"; text = "Complete"; icon = "✓ "; }
             if (status === "progress") { className = "badge-progress"; text = "In Progress"; icon = ""; }
             if (status === "notdone") { className = "badge-notdone"; text = "Not Done"; icon = "✗ "; }
             if (status === "rfi") { className = "badge-rfi"; text = "RFI Preparation"; icon = ""; }
+            if (status === "needcheck") { className = "badge-needcheck"; text = "Need to Check Files"; icon = "⚠ "; }
 
-            const editableClass = isLoggedIn ? "matrix-editable" : "";
-            const clickAction = isLoggedIn ? `onclick="toggleMatrixStatus('${rowName}', '${projectKey}')"` : "";
+            if (!isLoggedIn) {
+                return `<span class="status-badge ${className}">${icon}${text}</span>`;
+            }
 
-            return `<span class="status-badge ${className} ${editableClass}" ${clickAction}>${icon}${text}</span>`;
+            return `
+                <div class="matrix-select-wrapper">
+                    <span class="status-badge ${className}">${icon}${text}</span>
+                    <select class="matrix-hidden-select" onchange="changeMatrixStatusDirect('${rowName}', '${projectKey}', this.value)">
+                        <option value="complete" ${status === 'complete' ? 'selected' : ''}>Complete</option>
+                        <option value="progress" ${status === 'progress' ? 'selected' : ''}>In Progress</option>
+                        <option value="notdone" ${status === 'notdone' ? 'selected' : ''}>Not Done</option>
+                        <option value="rfi" ${status === 'rfi' ? 'selected' : ''}>RFI Preparation</option>
+                        <option value="needcheck" ${status === 'needcheck' ? 'selected' : ''}>Need to Check Files</option>
+                    </select>
+                </div>
+            `;
         }
 
         function renderMatrix() {
@@ -477,15 +484,13 @@
             fetchLiveCloudData();
         }
 
-        // 🛠️ دالة التغيير المباشر للأولوية بضغطة واحدة وبدون الجري وراء الكارت
         async function changePriorityDirect(id, selectedPriority) {
             if (!isLoggedIn) return;
-
             await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, {
                 method: 'PATCH',
                 body: JSON.stringify({ priority: selectedPriority })
             });
-            fetchLiveCloudData(); // تحديث فوري وإعادة الترتيب التلقائي بالسيرفر
+            fetchLiveCloudData();
         }
 
         async function deleteTask(id) {
@@ -495,20 +500,18 @@
         }
 
         async function toggleMatrixStatus(rowName, projectKey) {
+            // معطلة لأننا استبدلناها بالـ Dropdown المباشر السريع
+        }
+
+        async function changeMatrixStatusDirect(rowName, projectKey, selectedStatus) {
             if (!isLoggedIn) return;
-            const current = matrixData[rowName][projectKey];
-            let next = "complete";
 
-            if (current === "complete") next = "progress";
-            else if (current === "progress") next = "notdone";
-            else if (current === "notdone") next = "rfi";
-            else if (current === "rfi") next = "complete";
-
-            matrixData[rowName][projectKey] = next;
+            if(!matrixData[rowName]) matrixData[rowName] = {};
+            matrixData[rowName][projectKey] = selectedStatus;
 
             await fetch(`${FIREBASE_BASE_URL}/matrix/${rowName}.json`, {
                 method: 'PATCH',
-                body: JSON.stringify({ [projectKey]: next })
+                body: JSON.stringify({ [projectKey]: selectedStatus })
             });
             renderMatrix();
         }
