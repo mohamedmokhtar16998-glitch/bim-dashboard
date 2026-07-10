@@ -14,79 +14,108 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background-color: #0b0f19; 
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
             color: #e2e8f0; 
             -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
 
-        /* 🎬 تصميم الهيدر السينمائي المطور بالفيديو */
-        .user-header {
-            max-width: 850px; 
-            margin: 20px auto 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 60px 25px; 
-            border-radius: 12px 12px 0 0;
-            border-bottom: 2px solid #1d273b;
-            position: relative;
-            overflow: hidden; 
-            background: #111625;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
-        }
-
-        .header-bg-video {
-            position: absolute;
+        /* 🎬 جعل الفيديو الخلفي يملأ الشاشة بالكامل */
+        .full-screen-video-bg {
+            position: fixed;
             top: 50%; left: 50%;
             min-width: 100%; min-height: 100%;
             width: auto; height: auto;
             transform: translate(-50%, -50%);
-            z-index: 1;
+            z-index: -2;
             object-fit: cover;
-            opacity: 0.45; 
             pointer-events: none;
         }
 
-        .header-overlay {
-            position: absolute;
+        /* طبقة حماية داكنة على الشاشة بالكامل لتوضيح النصوص */
+        .full-screen-overlay {
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(11, 15, 25, 0.95), rgba(11, 15, 25, 0.5));
-            z-index: 2;
+            background: radial-gradient(circle at center, rgba(11, 15, 25, 0.75) 0%, rgba(7, 10, 19, 0.93) 100%);
+            z-index: -1;
         }
 
-        .user-info, .company-logo-box { position: relative; z-index: 3; }
+        /* 🏢 تصميم الهيدر المدمج الشفاف */
+        .user-header {
+            max-width: 850px; 
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 25px; 
+            border-radius: 16px 16px 0 0;
+            background: rgba(17, 22, 37, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: none;
+            box-sizing: border-box;
+        }
+
         .user-info { display: flex; flex-direction: column; }
-        .user-name-glow { color: #ffffff; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .user-name-glow { color: #ffffff; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .user-name-glow i { color: #4a72b2; font-size: 15px; filter: drop-shadow(0 0 3px #4a72b2); }
         .glow-line { width: 100%; height: 2px; background: #4a72b2; box-shadow: 0 0 8px #4a72b2; border-radius: 2px; }
 
         .company-logo-box { text-align: right; }
-        .company-title { font-size: 30px; font-weight: 300; color: #ffffff; margin: 0; letter-spacing: 1px; line-height: 1; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .company-title { font-size: 28px; font-weight: 300; color: #ffffff; margin: 0; letter-spacing: 1px; line-height: 1; }
         .company-title font { font-weight: bold; }
-        .company-sub-title { font-size: 11px; color: #8fa0bc; font-weight: 700; letter-spacing: 1.5px; margin: 4px 0 0 0; text-transform: uppercase; }
+        .company-sub-title { font-size: 10px; color: #8fa0bc; font-weight: 700; letter-spacing: 1.5px; margin: 4px 0 0 0; text-transform: uppercase; }
 
-        /* شريط التنقل */
-        .nav-tabs { max-width: 850px; margin: 0 auto; display: flex; background: #111625; padding: 5px 20px; gap: 10px; }
+        /* شريط التنقل الزجاجي */
+        .nav-tabs { 
+            max-width: 850px; 
+            margin: 0 auto; 
+            display: flex; 
+            background: rgba(17, 22, 37, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 5px 25px; 
+            gap: 10px; 
+            border-left: 1px solid rgba(255, 255, 255, 0.06);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            box-sizing: border-box;
+        }
         .tab-btn {
-            background: #181f32; color: #8fa0bc; border: 1px solid #1d273b; padding: 8px 18px; border-radius: 6px; cursor: pointer;
+            background: rgba(24, 31, 50, 0.5); color: #8fa0bc; border: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 18px; border-radius: 6px; cursor: pointer;
             font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: all 0.25s ease;
         }
-        .tab-btn:hover, .tab-btn.active { background: #4a72b2; color: #ffffff; border-color: #4a72b2; box-shadow: 0 0 10px rgba(74, 114, 178, 0.2); }
+        .tab-btn:hover, .tab-btn.active { background: #4a72b2; color: #ffffff; border-color: #4a72b2; box-shadow: 0 0 10px rgba(74, 114, 178, 0.3); }
 
         .login-btn {
-            background: #1d273b; color: #8fa0bc; border: 1px solid #1d273b; padding: 4px 10px; border-radius: 4px; font-size: 11px;
-            cursor: pointer; font-weight: 600; transition: all 0.25s ease; margin-top: 12px; align-self: flex-start; box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            background: rgba(29, 39, 59, 0.6); color: #8fa0bc; border: 1px solid rgba(255, 255, 255, 0.05); padding: 4px 10px; border-radius: 4px; font-size: 11px;
+            cursor: pointer; font-weight: 600; transition: all 0.25s ease; margin-top: 12px; align-self: flex-start;
         }
         .login-btn:hover { background: #4a72b2; color: #fff; border-color: #4a72b2; }
 
-        .container { max-width: 850px; background: #111625; margin: 0 auto 40px auto; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* 🔮 لوحة التحكم الزجاجية الشفافة الفخمة */
+        .container { 
+            max-width: 850px; 
+            background: rgba(17, 22, 37, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            margin: 0 auto; 
+            padding: 30px; 
+            border-radius: 0 0 16px 16px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: none;
+            box-sizing: border-box;
+        }
+        
         h1 { text-align: center; color: #ffffff; margin-bottom: 35px; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
         h1 i { color: #4a72b2; margin-right: 8px; }
 
         /* صندوق إضافة الحالات */
         .add-task-box { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
         .add-task-box input, .add-task-box select, .add-task-box button {
-            padding: 12px; border: 1px solid #1d273b; background-color: #181f32; color: white; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box; width: 100%; font-family: inherit;
+            padding: 12px; border: 1px solid rgba(255, 255, 255, 0.08); background-color: rgba(24, 31, 50, 0.7); color: white; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box; width: 100%; font-family: inherit;
         }
         .add-task-box input:focus, .add-task-box select:focus { border-color: #4a72b2; background-color: #1d273b; }
         .add-task-box input::placeholder { color: #5c6e8c; }
@@ -95,22 +124,22 @@
 
         .task-list { list-style: none; padding: 0; margin: 0; }
 
-        /* الكروت */
+        /* الكروت الشفافة */
         .task-item {
-            display: flex; align-items: center; justify-content: space-between; background: #181f32; padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 5px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.25s;
+            display: flex; align-items: center; justify-content: space-between; background: rgba(24, 31, 50, 0.6); padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 5px solid #ccc; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03); transition: all 0.25s;
         }
-        .task-item:hover { transform: translateY(-2px); background: #1d273b; }
+        .task-item:hover { transform: translateY(-2px); background: rgba(29, 39, 59, 0.8); }
 
         .priority-high { border-left-color: #e74c3c; }   
         .priority-medium { border-left-color: #f1c40f; } 
         .priority-low { border-left-color: #2ecc71; }    
 
         .task-content-details { flex: 1; margin-left: 10px; }
-        .project-badge { font-size: 10px; background-color: #1d273b; color: #4a72b2; padding: 3px 8px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 5px; }
-        .type-badge { font-size: 10px; background-color: #28354f; color: #ecf0f1; padding: 3px 8px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 5px; margin-left: 5px; }
+        .project-badge { font-size: 10px; background-color: rgba(29, 39, 59, 0.8); color: #4a72b2; padding: 3px 8px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 5px; }
+        .type-badge { font-size: 10px; background-color: rgba(40, 53, 79, 0.8); color: #ecf0f1; padding: 3px 8px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 5px; margin-left: 5px; }
         .task-text { font-size: 14px; display: block; margin-top: 2px; font-weight: 500; color: #cbd5e1; }
 
-        .task-item.status-100 { background-color: #0f1422; opacity: 0.5; }
+        .task-item.status-100 { background-color: rgba(15, 20, 34, 0.4); opacity: 0.5; }
         .task-item.status-100 .task-text { text-decoration: line-through; color: #5c6e8c; }
 
         /* الدوائر الملونة للحالات */
@@ -118,7 +147,7 @@
         .progress-circle-container { position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
         .progress-circle-container svg { width: 44px; height: 44px; transform: rotate(-90deg); position: absolute; }
         .progress-circle-container circle { cx: 22; cy: 22; r: 18; fill: none; stroke-width: 3.5; stroke-linecap: round; }
-        .circle-bg { stroke: #1d273b; }
+        .circle-bg { stroke: rgba(29, 39, 59, 0.8); }
         .circle-progress { stroke-dasharray: 114; stroke-dashoffset: 114; transition: all 0.5s ease; }
 
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -141,13 +170,13 @@
         .task-actions button { background: none; border: none; font-size: 18px; cursor: pointer; margin-right: 5px; }
         .task-actions .done-btn { color: #4a72b2; } .task-actions .delete-btn { color: #e74c3c; }
 
-        /* الجداول */
-        .matrix-table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid #1d273b; }
-        .matrix-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; background: #111625; }
-        .matrix-table th, .matrix-table td { padding: 14px 16px; border: 1px solid #1d273b; vertical-align: middle; }
-        .matrix-table th { background-color: #161c2a; color: #94a3b8; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
-        .matrix-table th.check-item-head { background-color: #18271f; color: #a3c9a8; }
-        .matrix-table td.check-item-name { background-color: #131824; color: #cbd5e1; font-weight: 500; font-size: 13px; line-height: 1.4; }
+        /* الجداول الزجاجية الشفافة */
+        .matrix-table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.06); }
+        .matrix-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; background: rgba(17, 22, 37, 0.3); }
+        .matrix-table th, .matrix-table td { padding: 14px 16px; border: 1px solid rgba(255, 255, 255, 0.06); vertical-align: middle; }
+        .matrix-table th { background-color: rgba(22, 28, 42, 0.7); color: #94a3b8; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+        .matrix-table th.check-item-head { background-color: rgba(24, 39, 31, 0.6); color: #a3c9a8; }
+        .matrix-table td.check-item-name { background-color: rgba(19, 24, 36, 0.4); color: #cbd5e1; font-weight: 500; font-size: 13px; line-height: 1.4; }
         .matrix-table td.check-item-name span { font-family: 'Roboto Mono', monospace; font-size: 12px; color: #3498db; }
 
         /* كبسولات الماتريكس */
@@ -155,22 +184,24 @@
         .matrix-editable { cursor: pointer; transition: transform 0.2s; }
         .matrix-editable:hover { transform: scale(1.04); }
 
-        .badge-complete { background-color: rgba(46, 204, 113, 0.12); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.4); }
-        .badge-progress { background-color: rgba(155, 89, 182, 0.15); color: #d6b4fc; border: 1px solid rgba(155, 89, 182, 0.4); }
-        .badge-notdone { background-color: rgba(231, 76, 60, 0.12); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.4); }
-        .badge-rfi { background-color: rgba(241, 196, 15, 0.12); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.4); }
+        .badge-complete { background-color: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.4); }
+        .badge-progress { background-color: rgba(155, 89, 182, 0.2); color: #d6b4fc; border: 1px solid rgba(155, 89, 182, 0.4); }
+        .badge-notdone { background-color: rgba(231, 76, 60, 0.15); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.4); }
+        .badge-rfi { background-color: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.4); }
 
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div class="user-header">
-        <video class="header-bg-video" autoplay loop muted playsinline>
-            <source src="company_video.mp4" type="video/mp4">
-        </video>
-        <div class="header-overlay"></div>
+    <!-- 🎬 عنصر الفيديو الخلفي الممتد بكامل الشاشة -->
+    <video class="full-screen-video-bg" autoplay loop muted playsinline>
+        <source src="company_video.mp4" type="video/mp4">
+    </video>
+    <div class="full-screen-overlay"></div>
 
+    <!-- الهيدر المدمج الشفاف -->
+    <div class="user-header">
         <div class="user-info">
             <div class="user-name-glow"><i class="fa-solid fa-gears"></i> Mohamed Mokhtar</div>
             <div class="glow-line"></div>
@@ -182,11 +213,13 @@
         </div>
     </div>
 
+    <!-- شريط التنقل الشفاف -->
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('tasks-page', this)"><i class="fa-solid fa-list-check"></i> My Tasks</button>
         <button class="tab-btn" onclick="switchTab('status-page', this)"><i class="fa-solid fa-table-list"></i> Projects Matrix</button>
     </div>
 
+    <!-- اللوحة الزجاجية الرئيسية -->
     <div class="container">
         
         <div id="tasks-page">
@@ -239,7 +272,6 @@
 
     <script>
         const ADMIN_PASSWORD = "Crazymoney98$";
-        // 🔗 ربط قاعدة البيانات السحابية الخاصة بك مباشرةً
         const FIREBASE_BASE_URL = "https://bimwowdashboard-default-rtdb.firebaseio.com/";
         
         let isLoggedIn = sessionStorage.getItem('isBimAdmin') === 'true';
@@ -289,22 +321,18 @@
             }
         }
 
-        // 🔄 دالة سحب البيانات الحية من سحابة جوجل فور فتح الموقع
         async function fetchLiveCloudData() {
             try {
-                // سحب التسكاب
                 let tResponse = await fetch(`${FIREBASE_BASE_URL}/tasks.json`);
                 let tData = await tResponse.json();
                 tasks = tData ? Object.keys(tData).map(key => ({id: key, ...tData[key]})) : [];
                 
-                // سحب الماتريكس
                 let mResponse = await fetch(`${FIREBASE_BASE_URL}/matrix.json`);
                 let mData = await mResponse.json();
                 
                 if (mData) {
                     matrixData = mData;
                 } else {
-                    // داتا افتراضية لأول مرة فقط لو السيرفر فاضي
                     checkItemsList.forEach(item => {
                         matrixData[item] = { arff: "progress", pwc: "progress", goodwill: "progress" };
                     });
@@ -393,7 +421,6 @@
             });
         }
 
-        // 🟢 إرسال تاسك جديدة للسيرفر فوراً
         async function addNewTask() {
             if (!isLoggedIn) return;
             const project = document.getElementById('project-input').value;
@@ -411,7 +438,6 @@
             fetchLiveCloudData();
         }
 
-        // 🔄 تغيير حالة الدائرة السحابية
         async function cycleProgress(id, currentProgress) {
             if (!isLoggedIn) return;
             let nextProgress = 0;
@@ -425,14 +451,12 @@
             fetchLiveCloudData();
         }
 
-        // ❌ مسح تاسك نهائياً من سحابة جوجل
         async function deleteTask(id) {
             if (!isLoggedIn) return;
             await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, { method: 'DELETE' });
             fetchLiveCloudData();
         }
 
-        // 📊 تغيير حالة كبسولات الماتريكس السحابية
         async function toggleMatrixStatus(rowName, projectKey) {
             if (!isLoggedIn) return;
             const current = matrixData[rowName][projectKey];
@@ -452,7 +476,6 @@
             renderMatrix();
         }
 
-        // تشغيل السيستم الذكي
         checkPermissions();
         fetchLiveCloudData();
     </script>
