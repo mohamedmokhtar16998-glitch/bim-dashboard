@@ -127,21 +127,9 @@
 
         .task-list { list-style: none; padding: 0; margin: 0; }
 
-        /* 🛠️ الكروت الشفافة: تم ضبط التوزيع لضمان المحاذاة العمودية الكاملة للمكونات */
+        /* الكروت الشفافة */
         .task-item {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            background: rgba(24, 31, 50, 0.6); 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin-bottom: 12px; 
-            border-left: 5px solid #ccc; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
-            border-top: 1px solid rgba(255,255,255,0.03); 
-            border-right: 1px solid rgba(255,255,255,0.03); 
-            border-bottom: 1px solid rgba(255,255,255,0.03); 
-            transition: all 0.25s;
+            display: flex; align-items: center; justify-content: space-between; background: rgba(24, 31, 50, 0.6); padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 5px solid #ccc; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03); transition: all 0.25s;
         }
         .task-item:hover { transform: translateY(-2px); background: rgba(29, 39, 59, 0.8); }
 
@@ -149,7 +137,6 @@
         .priority-medium { border-left-color: #f1c40f; } 
         .priority-low { border-left-color: #2ecc71; }    
 
-        /* جعل منطقة النصوص مرنة لتترك باقي المساحة ثابتة للأدوات */
         .task-content-details { flex: 1; margin-left: 10px; padding-right: 15px; min-width: 0; }
         .project-badge { font-size: 10px; background-color: rgba(29, 39, 59, 0.8); color: #4a72b2; padding: 3px 8px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 5px; }
         .type-badge { font-size: 10px; background-color: rgba(40, 53, 79, 0.8); color: #ecf0f1; padding: 3px 8px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 5px; margin-left: 5px; }
@@ -158,7 +145,7 @@
         .task-item.status-100 { background-color: rgba(15, 20, 34, 0.4); opacity: 0.5; }
         .task-item.status-100 .task-text { text-decoration: line-through; color: #5c6e8c; }
 
-        /* 🛠️ تثبيت مساحة الدوائر الملونة لضمان اصطفافها الرأسي الكامل فوق بعضها */
+        /* الدوائر الملونة للحالات */
         .status-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100px; flex-shrink: 0; }
         .progress-circle-container { position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
         .progress-circle-container svg { width: 44px; height: 44px; transform: rotate(-90deg); position: absolute; }
@@ -183,13 +170,12 @@
         .circle-icon { font-size: 12px; z-index: 2; pointer-events: none; }
         .status-label-text { font-weight: 700; font-size: 9px; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.3px; text-align: center; }
 
-        /* 🛠️ تثبيت مساحة الأزرار والسلكت ليكون مصفوفاً عمودياً كالخط المستقيم */
+        /* منطقة الأزرار والـ Select */
         .task-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; width: 170px; flex-shrink: 0; }
         .task-actions button { background: none; border: none; font-size: 18px; cursor: pointer; }
         .task-actions .done-btn { color: #4a72b2; } 
         .task-actions .delete-btn { color: #e74c3c; }
 
-        /* تثبيت عرض السلكت والشارة لعدم التفاوت بصرياً */
         .inline-priority-select {
             background-color: rgba(24, 31, 50, 0.9); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; font-family: inherit; width: 95px; box-sizing: border-box; text-align: center;
         }
@@ -307,7 +293,8 @@
     </div>
 
     <script>
-        const ADMIN_PASSWORD = "Crazymoney98$";
+        // 🛠️ تم تحديث الباسوورد الجديد هنا بالملّي
+        const ADMIN_PASSWORD = "27598Mokhtar";
         const MANAGER_PASSWORD = "ManagerWow2026"; 
         const FIREBASE_BASE_URL = "https://bimwowdashboard-default-rtdb.firebaseio.com/";
         
@@ -352,11 +339,13 @@
 
         function handleAdminLogin() {
             if (userRole === 'admin') {
+                sessionStorage.removeItem('bimAdminPassToken');
                 sessionStorage.setItem('bimUserRole', 'viewer');
                 userRole = 'viewer';
             } else {
                 let pass = prompt("Enter Admin Password:");
                 if (pass === ADMIN_PASSWORD) {
+                    sessionStorage.setItem('bimAdminPassToken', pass); // حفظ الباسوورد للتحقق الأمني اللاحق
                     sessionStorage.setItem('bimUserRole', 'admin');
                     userRole = 'admin';
                 } else if (pass !== null) { alert("Wrong Password!"); }
@@ -379,6 +368,17 @@
         }
 
         async function fetchLiveCloudData() {
+            // 🛠️ ميزة الطرد الفوري (Force Logout) عند الريفريش لو الباسوورد القديم محفوظ في أي جهاز
+            if (userRole === 'admin') {
+                let savedPass = sessionStorage.getItem('bimAdminPassToken');
+                if (savedPass !== ADMIN_PASSWORD) {
+                    sessionStorage.clear();
+                    userRole = 'viewer';
+                    checkPermissions();
+                    console.log("Security Alert: Old Password detected, forcing global logout.");
+                }
+            }
+
             try {
                 let tResponse = await fetch(`${FIREBASE_BASE_URL}/tasks.json`);
                 let tData = await tResponse.json();
