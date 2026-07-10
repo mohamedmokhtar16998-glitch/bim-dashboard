@@ -19,14 +19,14 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 🎬 تكبير الهيدر السينمائي المطور ليكون الفيديو واضحاً وبارزاً جداً */
+        /* 🎬 تصميم الهيدر السينمائي المطور بالفيديو */
         .user-header {
             max-width: 850px; 
             margin: 20px auto 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 60px 25px; /* 🛠️ تم زيادة الارتفاع الرأسي هنا ليعطي مساحة ضخمة للفيديو */
+            padding: 60px 25px; 
             border-radius: 12px 12px 0 0;
             border-bottom: 2px solid #1d273b;
             position: relative;
@@ -47,11 +47,11 @@
             transform: translate(-50%, -50%);
             z-index: 1;
             object-fit: cover;
-            opacity: 0.45; /* 🛠️ تم زيادة الوضوح ليكون الفيديو ظاهراً وممتعاً للعين */
+            opacity: 0.45; 
             pointer-events: none;
         }
 
-        /* طبقة داكنة ذكية لحماية ووضوح النصوص فوق الفيديو المرتفع الوضوح */
+        /* طبقة داكنة ذكية لحماية ووضوح النصوص فوق الفيديو */
         .header-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -59,12 +59,7 @@
             z-index: 2;
         }
 
-        /* رفع محاذاة النصوص لتظهر فوق الفيديو والطبقة الداكنة */
-        .user-info, .company-logo-box {
-            position: relative;
-            z-index: 3;
-        }
-
+        .user-info, .company-logo-box { position: relative; z-index: 3; }
         .user-info { display: flex; flex-direction: column; }
         .user-name-glow { color: #ffffff; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; letter-spacing: -0.3px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         .user-name-glow i { color: #4a72b2; font-size: 15px; filter: drop-shadow(0 0 3px #4a72b2); }
@@ -76,32 +71,20 @@
         .company-sub-title { font-size: 11px; color: #8fa0bc; font-weight: 700; letter-spacing: 1.5px; margin: 4px 0 0 0; text-transform: uppercase; }
 
         /* شريط التنقل */
-        .nav-tabs {
-            max-width: 850px; margin: 0 auto; display: flex; background: #111625; padding: 5px 20px; gap: 10px;
-        }
-
+        .nav-tabs { max-width: 850px; margin: 0 auto; display: flex; background: #111625; padding: 5px 20px; gap: 10px; }
         .tab-btn {
-            background: #181f32; color: #8fa0bc; border: 1px solid #1d273b;
-            padding: 8px 18px; border-radius: 6px; cursor: pointer;
+            background: #181f32; color: #8fa0bc; border: 1px solid #1d273b; padding: 8px 18px; border-radius: 6px; cursor: pointer;
             font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: all 0.25s ease;
         }
-
-        .tab-btn:hover, .tab-btn.active {
-            background: #4a72b2; color: #ffffff; border-color: #4a72b2; box-shadow: 0 0 10px rgba(74, 114, 178, 0.2);
-        }
+        .tab-btn:hover, .tab-btn.active { background: #4a72b2; color: #ffffff; border-color: #4a72b2; box-shadow: 0 0 10px rgba(74, 114, 178, 0.2); }
 
         .login-btn {
-            background: #1d273b; color: #8fa0bc; border: 1px solid #1d273b;
-            padding: 4px 10px; border-radius: 4px; font-size: 11px;
-            cursor: pointer; font-weight: 600; transition: all 0.25s ease; margin-top: 12px; align-self: flex-start;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            background: #1d273b; color: #8fa0bc; border: 1px solid #1d273b; padding: 4px 10px; border-radius: 4px; font-size: 11px;
+            cursor: pointer; font-weight: 600; transition: all 0.25s ease; margin-top: 12px; align-self: flex-start; box-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
         .login-btn:hover { background: #4a72b2; color: #fff; border-color: #4a72b2; }
 
-        .container {
-            max-width: 850px; background: #111625; margin: 0 auto 40px auto; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
+        .container { max-width: 850px; background: #111625; margin: 0 auto 40px auto; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         h1 { text-align: center; color: #ffffff; margin-bottom: 35px; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
         h1 i { color: #4a72b2; margin-right: 8px; }
 
@@ -187,7 +170,7 @@
 </head>
 <body>
 
-    <!-- الهيدر السينمائي المطور والمكبر -->
+    <!-- الهيدر السينمائي -->
     <div class="user-header">
         <video class="header-bg-video" autoplay loop muted playsinline>
             <source src="company_video.mp4" type="video/mp4">
@@ -320,6 +303,7 @@
             "Coordination"
         ];
 
+        // 📊 جدول الماتريكس الثابت والمحفوظ أونلاين
         let defaultMatrixData = {
             "Pipe Insulation": { arff: "complete", pwc: "complete", goodwill: "progress" },
             "P-Trap at Drains": { arff: "progress", pwc: "progress", goodwill: "progress" },
@@ -333,8 +317,17 @@
             "Coordination": { arff: "progress", pwc: "progress", goodwill: "progress" }
         };
 
+        // 📌 📌 هنا لستة التاسكات الرسمية اللي مديرك هيشوفها فوراً (تعدلها من هنا في ثواني) 📌 📌
+        let defaultTasks = [
+            { project: "BRENT ELEMENTARY SCHOOL", type: "Shop Drawing", details: "Main structural sheets review and annotations", priority: "high", progress: 50 },
+            { project: "PWC FIRE STATION", type: "Modeling", details: "Plumbing system initial modeling based on latest architectural update", priority: "medium", progress: 0 },
+            { project: "ARFF", type: "Coordination", details: "Resolve clash reports between HVAC and structural beams", priority: "high", progress: 100 }
+        ];
+
         let matrixData = JSON.parse(localStorage.getItem('bim_matrix_data')) || defaultMatrixData;
-        let tasks = JSON.parse(localStorage.getItem('bim_tasks')) || [];
+        
+        // تعديل: الموقع يقرأ دائماً اللستة الرسمية من الكود أولاً عشان تظهر لمديرك
+        let tasks = JSON.parse(localStorage.getItem('bim_tasks_live')) || defaultTasks;
 
         function getStatusBadgeHtml(status, rowName, projectKey) {
             let className = ""; let text = ""; let icon = "";
@@ -386,7 +379,9 @@
         function saveAndRender() {
             const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
             tasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-            localStorage.setItem('bim_tasks', JSON.stringify(tasks));
+            
+            // حفظ الداتا في التخزين المحدث
+            localStorage.setItem('bim_tasks_live', JSON.stringify(tasks));
             
             const container = document.getElementById('task-list-container');
             container.innerHTML = '';
