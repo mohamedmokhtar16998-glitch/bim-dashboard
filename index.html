@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>BIM WOW - Mohamed Mokhtar Live Dashboard</title>
-    <!-- استدعاء الخطوط والـ Icons الاحترافية -->
+    <!-- استدعاء الخطوط والـ Icons والـ Charts الاحترافية -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin crossOrigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         body {
@@ -115,19 +116,44 @@
         h1 { text-align: center; color: #ffffff; margin-bottom: 35px; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
         h1 i { color: #4a72b2; margin-right: 8px; }
 
-        /* 📊 ستايل كروت الإحصائيات الجديدة المضيئة */
-        .analytics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
+        /* التوزيع الثلاثي المتوازن للأدوات العلوية */
+        .dashboard-stats-wrapper { display: grid; grid-template-columns: 1.8fr 1fr 1.5fr; gap: 15px; margin-bottom: 25px; align-items: stretch; }
+        .analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .analytics-card {
-            background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: all 0.3s ease;
+            background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px 8px; border-radius: 10px; text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center;
         }
-        .analytics-card:hover { transform: translateY(-3px); border-color: rgba(74, 114, 178, 0.3); box-shadow: 0 5px 15px rgba(74, 114, 178, 0.1); }
-        .analytics-num { font-size: 20px; font-weight: 700; color: #ffffff; font-family: 'Roboto Mono', monospace; display: block; margin-bottom: 2px; }
+        .analytics-card:hover { transform: translateY(-2px); border-color: rgba(74, 114, 178, 0.3); }
+        .analytics-num { font-size: 22px; font-weight: 700; color: #ffffff; font-family: 'Roboto Mono', monospace; display: block; margin-bottom: 2px; }
         .analytics-label { font-size: 10px; color: #8fa0bc; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
         .card-glow-all { border-bottom: 3px solid #4a72b2; }
         .card-glow-done { border-bottom: 3px solid #2ecc71; }
         .card-glow-prog { border-bottom: 3px solid #f1c40f; }
         .card-glow-pend { border-bottom: 3px solid #e74c3c; }
+
+        /* صندوق الـ Chart الدائري الاحترافي */
+        .chart-container-box { 
+            background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 10px; 
+            display: flex; align-items: center; justify-content: center; position: relative; height: 100%; box-sizing: border-box;
+        }
+        .chart-container-box canvas { max-width: 100% !important; max-height: 100% !important; z-index: 2; }
+
+        /* صندوق سجل التحديثات في العمود الثالث بالأعلى */
+        .activity-log-section { 
+            background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; 
+            display: flex; flex-direction: column; height: 100%; box-sizing: border-box; justify-content: flex-start;
+        }
+        .activity-log-title { font-size: 10px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .activity-log-title i { color: #f1c40f; }
+        .activity-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; flex: 1; justify-content: flex-start; overflow-y: auto; }
+        
+        /* النص يلتف بالكامل وينزل سطر جديد عند الحاجة */
+        .activity-item { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #cbd5e1; padding: 5px 8px; background: rgba(11, 15, 25, 0.3); border-radius: 5px; border-left: 2px solid #4a72b2; gap: 6px; line-height: 1.3; }
+        .activity-text-wrapper { display: flex; align-items: flex-start; gap: 6px; flex: 1; min-width: 0; }
+        .activity-text-wrapper span { white-space: normal; word-break: break-word; font-weight: 500; }
+        .activity-time { font-family: 'Roboto Mono', monospace; font-size: 9px; color: #5c6e8c; flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
+        .delete-log-btn { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 11px; padding: 0 2px; transition: color 0.2s; flex-shrink: 0; display: flex; align-items: center; margin-top: 1px; }
+        .delete-log-btn:hover { color: #ff5252; }
 
         /* صندوق إضافة الحالات */
         .add-task-box { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
@@ -139,7 +165,7 @@
         .add-task-box button { background-color: #4a72b2; border: none; cursor: pointer; font-size: 14px; font-weight: 600; grid-column: span 2; margin-top: 5px; }
         .add-task-box button:hover { background-color: #365991; }
 
-        /* 🔍 شريط الفلترة والتصفية الذكية للتاسكات */
+        /* شريط الفلترة والتصفية الذكية للتاسكات */
         .filter-section { margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
         .filter-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; align-items: center; }
         .filter-title { font-size: 11px; font-weight: 700; color: #5c6e8c; text-transform: uppercase; width: 75px; }
@@ -153,19 +179,7 @@
 
         /* الكروت الشفافة والمحاذاة الرأسية للمكونات */
         .task-item {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            background: rgba(24, 31, 50, 0.6); 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin-bottom: 12px; 
-            border-left: 5px solid #ccc; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
-            border-top: 1px solid rgba(255,255,255,0.03); 
-            border-right: 1px solid rgba(255,255,255,0.03); 
-            border-bottom: 1px solid rgba(255,255,255,0.03); 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex; align-items: center; justify-content: space-between; background: rgba(24, 31, 50, 0.6); padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 5px solid #ccc; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .task-item:hover { transform: translateY(-2px); background: rgba(29, 39, 59, 0.8); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
 
@@ -188,21 +202,14 @@
         .progress-circle-container circle { cx: 22; cy: 22; r: 18; fill: none; stroke-width: 3.5; stroke-linecap: round; }
         .circle-bg { stroke: rgba(29, 39, 59, 0.8); }
         .circle-progress { stroke-dasharray: 114; stroke-dashoffset: 114; transition: all 0.5s ease; }
-
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes alertPulse { 0% { filter: drop-shadow(0 0 1px #e74c3c); } 100% { filter: drop-shadow(0 0 5px #e74c3c); } }
         
         .status-0 .circle-progress { stroke: #e74c3c; stroke-dashoffset: 105; animation: alertPulse 0.8s ease-in-out infinite alternate; }
         .status-0 .circle-icon, .status-0 .status-label-text { color: #e74c3c; }
-
         .status-50 .circle-progress { stroke: #f1c40f; stroke-dashoffset: 57; }
         .status-50 .circle-icon { color: #f1c40f; animation: spin 3s linear infinite; }
         .status-50 .status-label-text { color: #f1c40f; }
-
-        @keyframes doneGlow { 0% { filter: drop-shadow(0 0 1px #2ecc71); } 100% { filter: drop-shadow(0 0 6px #2ecc71); } }
         .status-100 .circle-progress { stroke: #2ecc71; stroke-dashoffset: 0; animation: doneGlow 1s ease-in-out infinite alternate; }
         .status-100 .circle-icon, .status-100 .status-label-text { color: #2ecc71; }
-
         .circle-icon { font-size: 12px; z-index: 2; pointer-events: none; }
         .status-label-text { font-weight: 700; font-size: 9px; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.3px; text-align: center; }
 
@@ -216,12 +223,11 @@
             background-color: rgba(24, 31, 50, 0.9); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; font-family: inherit; width: 95px; box-sizing: border-box; text-align: center;
         }
         .inline-priority-select option { background-color: #111625; color: white; }
-        
         .viewer-priority-badge {
             font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; background-color: rgba(255,255,255,0.04); color: #cbd5e1; width: 95px; box-sizing: border-box; text-align: center; display: inline-block;
         }
 
-        /* 📈 ستايل شريط نسبة الإنجاز الكلي لجدول الماتريكس (Matrix Progress Tracker) */
+        /* شريط نسبة الإنجاز الكلي لجدول الماتريكس */
         .matrix-progress-section { background: rgba(24, 31, 50, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 18px; border-radius: 12px; margin-bottom: 25px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .prog-project-box { display: flex; flex-direction: column; gap: 6px; }
         .prog-project-title { font-size: 11px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -241,10 +247,7 @@
         /* كبسولات الماتريكس المطورة بالخمس حالات الكاملة */
         .status-badge { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 0; border-radius: 20px; font-weight: 700; font-size: 11px; width: 145px; text-transform: capitalize; box-sizing: border-box; text-align: center; border: 1px solid transparent; }
         .matrix-select-wrapper { position: relative; width: 145px; display: inline-block; }
-        
-        .matrix-hidden-select {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 14px;
-        }
+        .matrix-hidden-select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 14px; }
 
         .badge-complete { background-color: rgba(46, 204, 113, 0.15); color: #2ecc71; border-color: rgba(46, 204, 113, 0.4); }
         .badge-progress { background-color: rgba(155, 89, 182, 0.2); color: #d6b4fc; border-color: rgba(155, 89, 182, 0.4); }
@@ -257,13 +260,11 @@
 </head>
 <body>
 
-    <!-- 🎬 عنصر الفيديو الخلفي الممتد بكامل الشاشة -->
     <video class="full-screen-video-bg" autoplay loop muted playsinline>
         <source src="company_video.mp4" type="video/mp4">
     </video>
     <div class="full-screen-overlay"></div>
 
-    <!-- الهيدر المدمج الشفاف -->
     <div class="user-header">
         <div class="user-info">
             <div class="user-name-glow"><i class="fa-solid fa-gears"></i> Mohamed Mokhtar</div>
@@ -279,36 +280,49 @@
         </div>
     </div>
 
-    <!-- شريط التنقل الشفاف -->
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('tasks-page', this)"><i class="fa-solid fa-list-check"></i> My Tasks</button>
         <button class="tab-btn" onclick="switchTab('status-page', this)"><i class="fa-solid fa-table-list"></i> Projects Matrix</button>
     </div>
 
-    <!-- اللوحة الزجاجية الرئيسية -->
     <div class="container">
         
-        <!-- صفحة التاسكات المطورة -->
         <div id="tasks-page">
-            
-            <!-- 📊 كروت الإحصائيات الذكية الجديدة (Counter Cards) -->
-            <div class="analytics-grid">
-                <div class="analytics-card card-glow-all">
-                    <span class="analytics-num" id="count-all">0</span>
-                    <span class="analytics-label">Total Tasks</span>
+            <div class="dashboard-stats-wrapper">
+                
+                <!-- العمود 1: الإحصائيات الأربعة -->
+                <div class="analytics-grid">
+                    <div class="analytics-card card-glow-all">
+                        <span class="analytics-num" id="count-all">0</span>
+                        <span class="analytics-label">Total</span>
+                    </div>
+                    <div class="analytics-card card-glow-done">
+                        <span class="analytics-num" id="count-done">0</span>
+                        <span class="analytics-label">Done</span>
+                    </div>
+                    <div class="analytics-card card-glow-prog">
+                        <span class="analytics-num" id="count-prog">0</span>
+                        <span class="analytics-label">Prog</span>
+                    </div>
+                    <div class="analytics-card card-glow-pend">
+                        <span class="analytics-num" id="count-pend">0</span>
+                        <span class="analytics-label">Pend</span>
+                    </div>
                 </div>
-                <div class="analytics-card card-glow-done">
-                    <span class="analytics-num" id="count-done">0</span>
-                    <span class="analytics-label">Completed</span>
+
+                <!-- العمود 2: العداد الرياضي الرقمي المتقطع -->
+                <div class="chart-container-box">
+                    <canvas id="livePieChart"></canvas>
                 </div>
-                <div class="analytics-card card-glow-prog">
-                    <span class="analytics-num" id="count-prog">0</span>
-                    <span class="analytics-label">In Progress</span>
+
+                <!-- العمود 3: لوج الحركات لايف المحمي والمخفي عن الـ Viewers -->
+                <div class="activity-log-section" id="activity-log-card-wrapper">
+                    <div class="activity-log-title"><i class="fa-solid fa-bolt"></i> Activity Log Feed</div>
+                    <ul class="activity-list" id="activity-log-container">
+                        <li class="activity-item"><span>Log is locked. Login to view.</span><span class="activity-time">--:--</span></li>
+                    </ul>
                 </div>
-                <div class="analytics-card card-glow-pend">
-                    <span class="analytics-num" id="count-pend">0</span>
-                    <span class="analytics-label">Pending</span>
-                </div>
+
             </div>
 
             <h1><i class="fa-solid fa-folder-tree"></i> Projects Task Tracker</h1>
@@ -338,7 +352,6 @@
                 <button onclick="addNewTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
             </div>
 
-            <!-- 🔍 شريط الفلترة والتصفية الذكية الجديد للتاسكات (Filter Section) -->
             <div class="filter-section">
                 <div class="filter-group">
                     <span class="filter-title">Project:</span>
@@ -360,10 +373,7 @@
             <ul class="task-list" id="task-list-container"></ul>
         </div>
 
-        <!-- صفحة الماتريكس المطورة بشاشات مؤشرات الأداء الكلية -->
         <div id="status-page" class="hidden">
-            
-            <!-- 📈 لوحة شريط نسبة الإنجاز الكلي للمشاريع (Progress Tracker) -->
             <div class="matrix-progress-section">
                 <div class="prog-project-box">
                     <div style="display:flex; justify-content:space-between;">
@@ -414,8 +424,9 @@
         let userRole = sessionStorage.getItem('bimUserRole') || 'viewer'; 
         let tasks = [];
         let matrixData = {};
+        let cachedLogKeys = []; // كاش محلي لحفظ مفاتيح الإشعارات لمنع الوميض
+        let myPieChart = null; 
 
-        // متغيرات الفلاتر النشطة
         let activeProjectFilter = 'ALL';
         let activePriorityFilter = 'ALL';
 
@@ -433,11 +444,9 @@
             document.getElementById(pageId).classList.remove('hidden');
             btnElement.classList.add('active');
             
-            // تحديث نسب الإنجاز عند فتح صفحة الماتريكس
             if (pageId === 'status-page') { calculateMatrixProgress(); }
         }
 
-        // دوال التحكم في الفلاتر الذكية
         function setProjectFilter(val, element) {
             activeProjectFilter = val;
             element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
@@ -469,6 +478,7 @@
                 managerBtn.innerText = "Logout Manager";
                 managerBtn.className = "login-btn manager-active-btn";
             }
+            fetchActivityLogs(); 
             renderAll();
         }
 
@@ -502,6 +512,7 @@
             checkPermissions();
         }
 
+        // 🛠️ 1️⃣ تحميل متوازٍ ذكي (Promise.all) لإنهاء أي بطء عند الريفريش تماماً
         async function fetchLiveCloudData() {
             if (userRole === 'admin') {
                 let savedPass = sessionStorage.getItem('bimAdminPassToken');
@@ -513,12 +524,16 @@
             }
 
             try {
-                let tResponse = await fetch(`${FIREBASE_BASE_URL}/tasks.json`);
-                let tData = await tResponse.json();
+                // إطلاق جميع الطلبات أونلاين في نفس اللحظة بالتوازي لسرعة خارقة
+                const [tResponse, mResponse] = await Promise.all([
+                    fetch(`${FIREBASE_BASE_URL}/tasks.json`),
+                    fetch(`${FIREBASE_BASE_URL}/matrix.json`)
+                ]);
+
+                const tData = await tResponse.json();
+                const mData = await mResponse.json();
+
                 tasks = tData ? Object.keys(tData).map(key => ({id: key, ...tData[key]})) : [];
-                
-                let mResponse = await fetch(`${FIREBASE_BASE_URL}/matrix.json`);
-                let mData = await mResponse.json();
                 
                 if (mData) {
                     matrixData = mData;
@@ -527,6 +542,8 @@
                         matrixData[item] = { arff: "progress", pwc: "progress", goodwill: "progress" };
                     });
                 }
+                
+                fetchActivityLogs();
                 renderAll();
             } catch (e) { console.error("Error loading live data: ", e); }
         }
@@ -538,15 +555,203 @@
             calculateMatrixProgress();
         }
 
-        // دالة حساب الإحصائيات الأربعة للمربعات العلوية
         function calculateAnalytics() {
+            let done = tasks.filter(t => t.progress === 100).length;
+            let prog = tasks.filter(t => t.progress === 50).length;
+            let pend = tasks.filter(t => t.progress === 0).length;
+
             document.getElementById('count-all').innerText = tasks.length;
-            document.getElementById('count-done').innerText = tasks.filter(t => t.progress === 100).length;
-            document.getElementById('count-prog').innerText = tasks.filter(t => t.progress === 50).length;
-            document.getElementById('count-pend').innerText = tasks.filter(t => t.progress === 0).length;
+            document.getElementById('count-done').innerText = done;
+            document.getElementById('count-prog').innerText = prog;
+            document.getElementById('count-pend').innerText = pend;
+
+            updatePieChart(done, prog, pend);
         }
 
-        // دالة حساب نسبة الإنجاز الكلي لايف لجدول الماتريكس للمشاريع التلاتة
+        function updatePieChart(done, prog, pend) {
+            const ctx = document.getElementById('livePieChart');
+            if(!ctx) return;
+
+            let total = done + prog + pend;
+            let percentDone = total > 0 ? Math.round((done / total) * 100) : 0;
+
+            if (myPieChart) {
+                myPieChart.data.datasets[0].data = [done, prog, pend];
+                myPieChart.options.plugins.centerText.text = percentDone + "%";
+                myPieChart.update();
+            } else {
+                const canvasCtx = ctx.getContext('2d');
+                
+                const gradComplete = canvasCtx.createLinearGradient(0, 0, 0, 150);
+                gradComplete.addColorStop(0, '#00ff87');
+                gradComplete.addColorStop(1, '#60efff');
+
+                const gradProgress = canvasCtx.createLinearGradient(0, 0, 0, 150);
+                gradProgress.addColorStop(0, '#ffdf00');
+                gradProgress.addColorStop(1, '#ff4b00');
+
+                const gradPending = canvasCtx.createLinearGradient(0, 0, 0, 150);
+                gradPending.addColorStop(0, '#ff2a2a');
+                gradPending.addColorStop(1, '#9e0000');
+
+                myPieChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Completed', 'In Progress', 'Pending'],
+                        datasets: [{
+                            data: [done, prog, pend],
+                            backgroundColor: [gradComplete, gradProgress, gradPending],
+                            borderWidth: 0,
+                            borderColor: 'transparent'
+                        }]
+                    },
+                    options: {
+                        plugins: { 
+                            legend: { display: false },
+                            centerText: { text: percentDone + "%" }
+                        },
+                        cutout: '75%',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true,
+                            duration: 1500,
+                            easing: 'easeOutExpo'
+                        }
+                    },
+                    plugins: [
+                        {
+                            afterUpdate: function(chart) {
+                                if (chart.data.datasets.length > 0) {
+                                    const meta = chart.getDatasetMeta(0);
+                                    meta.data.forEach((element) => {
+                                        element.options.borderDash = [5, 3]; 
+                                        element.options.borderWidth = 12; 
+                                        element.options.borderColor = element.options.backgroundColor;
+                                    });
+                                }
+                            },
+                            beforeDraw: function(chart) {
+                                const ctx = chart.ctx;
+                                ctx.save();
+                                ctx.shadowBlur = 25;
+                                ctx.shadowColor = 'rgba(96, 239, 255, 0.35)';
+                                ctx.shadowOffsetX = 0;
+                                ctx.shadowOffsetY = 0;
+                            },
+                            afterDraw: function(chart) {
+                                chart.ctx.restore();
+                            }
+                        },
+                        {
+                            id: 'centerText',
+                            afterDatasetsDraw: function(chart, args, options) {
+                                const {ctx, chartArea: {top, bottom, left, right, width, height}} = chart;
+                                ctx.save();
+                                ctx.shadowBlur = 10;
+                                ctx.shadowColor = '#60efff';
+                                ctx.font = 'bold 22px "Roboto Mono", monospace';
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textBaseline = 'middle';
+                                ctx.textAlign = 'center';
+                                const text = chart.options.plugins.centerText.text;
+                                const x = left + (width / 2);
+                                const y = top + (height / 2);
+                                ctx.fillText(text, x, y);
+                                ctx.restore();
+                            }
+                        }
+                    ]
+                });
+            }
+        }
+
+        async function logActivity(actionText) {
+            let timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            let logEntry = { action: actionText, time: timestamp };
+            
+            try {
+                let res = await fetch(`${FIREBASE_BASE_URL}/logs.json`);
+                let currentLogs = await res.json();
+                if (currentLogs) {
+                    let keys = Object.keys(currentLogs);
+                    if (keys.length >= 10) {
+                        let keysToDelete = keys.slice(0, (keys.length - 9));
+                        for(let k of keysToDelete) {
+                            await fetch(`${FIREBASE_BASE_URL}/logs/${k}.json`, { method: 'DELETE' });
+                        }
+                    }
+                }
+            } catch(e) { console.log(e); }
+
+            await fetch(`${FIREBASE_BASE_URL}/logs.json`, {
+                method: 'POST',
+                body: JSON.stringify(logEntry)
+            });
+            fetchActivityLogs();
+        }
+
+        // 🛠️ دالة السحب وعرض اللوج بنظام الـ Caching لسرعة خارقة واستقرار كامل
+        async function fetchActivityLogs() {
+            const container = document.getElementById('activity-log-container');
+            if(!container) return;
+
+            if (userRole !== 'admin' && userRole !== 'manager') {
+                container.innerHTML = `<li class="activity-item"><span>Log is locked. Login to view.</span><span class="activity-time">--:--</span></li>`;
+                return;
+            }
+
+            try {
+                let response = await fetch(`${FIREBASE_BASE_URL}/logs.json`);
+                let data = await response.json();
+                
+                // حفظ المفاتيح في الكاش لمنع إعادة ريندر المكونات لو مفيش تغيير خارجي
+                if (data) {
+                    cachedLogKeys = Object.keys(data).reverse().slice(0, 4);
+                    container.innerHTML = '';
+                    
+                    cachedLogKeys.forEach(key => {
+                        let log = data[key];
+                        let li = document.createElement('li');
+                        li.className = 'activity-item';
+                        li.id = `log-node-${key}`; // ربط الـ ID لحذفه لحظياً برمجياً
+                        
+                        let deleteBtnHtml = (userRole === 'admin') ? 
+                            `<button class="delete-log-btn" onclick="deleteLogDirect('${key}')" title="Delete Notification"><i class="fa-solid fa-xmark"></i></button>` : '';
+
+                        li.innerHTML = `
+                            <div class="activity-text-wrapper">
+                                ${deleteBtnHtml}
+                                <span>${log.action}</span>
+                            </div>
+                            <span class="activity-time">${log.time}</span>
+                        `;
+                        container.appendChild(li);
+                    });
+                } else {
+                    container.innerHTML = `<li class="activity-item"><span>No tracked actions yet.</span><span class="activity-time">--:--</span></li>`;
+                }
+            } catch (e) { console.error("Error loading logs:", e); }
+        }
+
+        // 🛠️ 2️⃣ المسح الفوري المحلي (Optimistic Delete) لحذف الإشعار من الشاشة فوراً دون أي ثقل أو تعليق
+        async function deleteLogDirect(logId) {
+            if (userRole !== 'admin') return;
+            
+            // طرد وحذف العنصر من الشاشة محلياً فوراً في نفس الفيمتو ثانية
+            const element = document.getElementById(`log-node-${logId}`);
+            if(element) {
+                element.style.transition = "all 0.3s ease";
+                element.style.opacity = "0";
+                element.style.transform = "translateX(20px)";
+                setTimeout(() => element.remove(), 250); // إزاحته وحذفه بسلاسة
+            }
+
+            // إرسال أمر الحذف للسحاب أونلاين في الخلفية دون تعطيل المستخدم
+            fetch(`${FIREBASE_BASE_URL}/logs/${logId}.json`, { method: 'DELETE' });
+        }
+
         function calculateMatrixProgress() {
             let totalItems = checkItemsList.length;
             if (totalItems === 0) return;
@@ -564,7 +769,6 @@
             let pPwc = Math.round((donePwc / totalItems) * 100);
             let pGoodwill = Math.round((doneGoodwill / totalItems) * 100);
 
-            // تحديث النصوص والشرائط لايف بحركات انسيابية
             document.getElementById('perc-arff').innerText = pArff + "%";
             document.getElementById('bar-arff').style.width = pArff + "%";
             
@@ -576,7 +780,6 @@
         }
 
         function renderTasks() {
-            // التصفية والفلترة الذكية قبل العرض بناء على الفلاتر النشطة
             let filteredTasks = tasks.filter(task => {
                 let matchProject = (activeProjectFilter === 'ALL' || task.project === activeProjectFilter);
                 let matchPriority = (activePriorityFilter === 'ALL' || task.priority === activePriorityFilter);
@@ -594,14 +797,14 @@
                 li.className = `task-item priority-${task.priority} status-${task.progress}`;
                 
                 const adminStatusAndDelHtml = (userRole === 'admin') ? `
-                    <button class="done-btn" onclick="cycleProgress('${task.id}', ${task.progress})" title="Change Status"><i class="fa-solid fa-rotate"></i></button>
-                    <button class="delete-btn" onclick="deleteTask('${task.id}')" title="Delete Task"><i class="fa-solid fa-trash-can"></i></button>
+                    <button class="done-btn" onclick="cycleProgress('${task.id}', ${task.progress}, '${task.details || task.type}')" title="Change Status"><i class="fa-solid fa-rotate"></i></button>
+                    <button class="delete-btn" onclick="deleteTask('${task.id}', '${task.details || task.type}')" title="Delete Task"><i class="fa-solid fa-trash-can"></i></button>
                 ` : '';
 
                 let priorityControlHtml = '';
                 if (userRole === 'admin' || userRole === 'manager') {
                     priorityControlHtml = `
-                        <select class="inline-priority-select" onchange="changePriorityDirect('${task.id}', this.value)" title="Change Priority">
+                        <select class="inline-priority-select" onchange="changePriorityDirect('${task.id}', this.value, '${task.details || task.type}')" title="Change Priority">
                             <option value="high" ${task.priority === 'high' ? 'selected' : ''}>🔥 High</option>
                             <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>🟡 Med</option>
                             <option value="low" ${task.priority === 'low' ? 'selected' : ''}>🟢 Low</option>
@@ -688,40 +891,65 @@
             const priority = document.getElementById('priority-input').value;
 
             let newTask = { project, type, details, priority, progress: 0 };
+            
+            tasks.push({id: "temp_id", ...newTask});
+            renderAll();
 
             await fetch(`${FIREBASE_BASE_URL}/tasks.json`, {
                 method: 'POST',
                 body: JSON.stringify(newTask)
             });
             document.getElementById('task-input').value = '';
+            
+            logActivity(`Mokhtar added task: "${details || type}"`);
             fetchLiveCloudData();
         }
 
-        async function cycleProgress(id, currentProgress) {
+        async function cycleProgress(id, currentProgress, taskName) {
             if (userRole !== 'admin') return;
-            let nextProgress = 0;
-            if (currentProgress === 0) nextProgress = 50;
-            else if (currentProgress === 50) nextProgress = 100;
+            let nextProgress = 0; let label = "Pending";
+            if (currentProgress === 0) { nextProgress = 50; label = "In Progress"; }
+            else if (currentProgress === 50) { nextProgress = 100; label = "Completed"; }
+
+            let tIdx = tasks.findIndex(t => t.id === id);
+            if(tIdx !== -1) tasks[tIdx].progress = nextProgress;
+            renderAll();
 
             await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, {
                 method: 'PATCH',
                 body: JSON.stringify({ progress: nextProgress })
             });
+            
+            logActivity(`Mokhtar moved "${taskName}" to ${label}`);
             fetchLiveCloudData();
         }
 
-        async function changePriorityDirect(id, selectedPriority) {
+        async function changePriorityDirect(id, selectedPriority, taskName) {
             if (userRole !== 'admin' && userRole !== 'manager') return;
+            
+            let tIdx = tasks.findIndex(t => t.id === id);
+            if(tIdx !== -1) tasks[tIdx].priority = selectedPriority;
+            renderAll();
+
             await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, {
                 method: 'PATCH',
                 body: JSON.stringify({ priority: selectedPriority })
             });
+            
+            let roleLabel = userRole === 'admin' ? 'Mokhtar' : 'Manager';
+            logActivity(`${roleLabel} set "${taskName}" to ${selectedPriority.toUpperCase()}`);
             fetchLiveCloudData();
         }
 
-        async function deleteTask(id) {
+        async function deleteTask(id, taskName) {
             if (userRole !== 'admin') return;
+            
+            tasks = tasks.filter(t => t.id !== id);
+            renderAll();
+
             await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, { method: 'DELETE' });
+            
+            logActivity(`Mokhtar deleted: "${taskName}"`);
             fetchLiveCloudData();
         }
 
@@ -730,12 +958,15 @@
 
             if(!matrixData[rowName]) matrixData[rowName] = {};
             matrixData[rowName][projectKey] = selectedStatus;
+            renderMatrix();
 
             await fetch(`${FIREBASE_BASE_URL}/matrix/${rowName}.json`, {
                 method: 'PATCH',
                 body: JSON.stringify({ [projectKey]: selectedStatus })
             });
-            fetchLiveCloudData(); // إعادة سحب وإعادة حساب الشريط الذكي لايف فوراً
+            
+            logActivity(`Mokhtar set [${projectKey.toUpperCase()}] "${rowName}" to ${selectedStatus.toUpperCase()}`);
+            fetchLiveCloudData(); 
         }
 
         checkPermissions();
