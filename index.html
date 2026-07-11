@@ -89,6 +89,23 @@
         }
         .tab-btn:hover, .tab-btn.active { background: #4a72b2; color: #ffffff; border-color: #4a72b2; box-shadow: 0 0 10px rgba(74, 114, 178, 0.3); }
 
+        /* 🚨 صندوق مراقبة المتصلين التابع للأدمن فقط */
+        .presence-card-section {
+            background: rgba(24, 31, 50, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 12px 18px; border-radius: 10px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px;
+        }
+        .presence-title { font-size: 11px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+        .presence-users-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2px; }
+        .presence-user-pill {
+            display: inline-flex; align-items: center; gap: 8px; background: rgba(11, 15, 25, 0.6); border: 1px solid rgba(255,255,255,0.05); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #cbd5e1;
+        }
+        .live-pulse-dot {
+            width: 7px; height: 7px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 8px #2ecc71; animation: liveDotPulse 1s ease-in-out infinite alternate;
+        }
+        @keyframes liveDotPulse { from { transform: scale(0.9); opacity: 0.6; } to { transform: scale(1.1); opacity: 1; box-shadow: 0 0 12px #2ecc71; } }
+        
+        .pill-role-admin { color: #2ecc71 !important; border-color: rgba(46, 204, 113, 0.3); text-shadow: 0 0 3px rgba(46, 204, 113, 0.3); }
+        .pill-role-manager { color: #f1c40f !important; border-color: rgba(241, 196, 15, 0.3); text-shadow: 0 0 3px rgba(241, 196, 15, 0.3); }
+
         .auth-buttons-wrapper { display: flex; gap: 8px; margin-top: 12px; }
         .login-btn {
             background: rgba(29, 39, 59, 0.6); color: #8fa0bc; border: 1px solid rgba(255, 255, 255, 0.05); padding: 5px 12px; border-radius: 4px; font-size: 11px;
@@ -175,25 +192,36 @@
         }
         .filter-chip:hover, .filter-chip.active { background: #4a72b2; color: #ffffff; box-shadow: 0 0 8px rgba(74, 114, 178, 0.3); border-color: #4a72b2; }
 
+        /* نظام الألوان الذكي المطور للكروت جدار جانبي 6px صريح المعتمد من قبل */
         .task-list { list-style: none; padding: 0; margin: 0; }
-
-        /* الكروت الشفافة والمحاذاة الرأسية للمكونات */
         .task-item {
-            display: flex; align-items: center; justify-content: space-between; background: rgba(24, 31, 50, 0.6); padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 5px solid #ccc; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex; align-items: center; justify-content: space-between; background: rgba(25, 33, 56, 0.85); padding: 16px; border-radius: 10px; margin-bottom: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .task-item:hover { transform: translateY(-2px); background: rgba(29, 39, 59, 0.8); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+        
+        .priority-high { border-left: 6px solid #e74c3c !important; box-shadow: 0 0 15px rgba(231, 76, 60, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3); }   
+        .priority-medium { border-left: 6px solid #f1c40f !important; box-shadow: 0 0 15px rgba(241, 196, 15, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3); } 
+        .priority-low { border-left: 6px solid #2ecc71 !important; box-shadow: 0 0 15px rgba(46, 204, 113, 0.12), 0 4px 10px rgba(0, 0, 0, 0.3); }    
 
-        .priority-high { border-left-color: #e74c3c; }   
-        .priority-medium { border-left-color: #f1c40f; } 
-        .priority-low { border-left-color: #2ecc71; }    
+        .task-item:hover { transform: translateY(-3px); background: rgba(32, 43, 71, 0.95); }
+        .priority-high:hover { box-shadow: 0 0 25px rgba(231, 76, 60, 0.35), 0 6px 20px rgba(0,0,0,0.4); border-color: rgba(231, 76, 60, 0.4); }
+        .priority-medium:hover { box-shadow: 0 0 25px rgba(241, 196, 15, 0.35), 0 6px 20px rgba(0,0,0,0.4); border-color: rgba(241, 196, 15, 0.4); }
+        .priority-low:hover { box-shadow: 0 0 25px rgba(46, 204, 113, 0.3), 0 6px 20px rgba(0,0,0,0.4); border-color: rgba(46, 204, 113, 0.4); }
 
         .task-content-details { flex: 1; margin-left: 10px; padding-right: 15px; min-width: 0; }
-        .project-badge { font-size: 10px; background-color: rgba(29, 39, 59, 0.8); color: #4a72b2; padding: 3px 8px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 5px; }
-        .type-badge { font-size: 10px; background-color: rgba(40, 53, 79, 0.8); color: #ecf0f1; padding: 3px 8px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 5px; margin-left: 5px; }
-        .task-text { font-size: 14px; display: block; margin-top: 2px; font-weight: 500; color: #cbd5e1; }
+        .project-badge { font-size: 10px; background-color: rgba(11, 15, 25, 0.7); color: #4a72b2; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 6px; border: 1px solid rgba(74, 114, 178, 0.3); }
+        .type-badge { font-size: 10px; background-color: rgba(11, 15, 25, 0.7); color: #ecf0f1; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 6px; margin-left: 5px; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .task-text { font-size: 14px; display: block; margin-top: 2px; font-weight: 600; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
 
-        .task-item.status-100 { background-color: rgba(15, 20, 34, 0.4); opacity: 0.5; }
-        .task-item.status-100 .task-text { text-decoration: line-through; color: #5c6e8c; }
+        /* حقول وضع التعديل (Edit Mode Styles) للأدمن */
+        .inline-edit-fields-box { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-right: 15px; }
+        .edit-select-row { display: flex; gap: 10px; }
+        .edit-select-row select, .edit-input-note {
+            background-color: rgba(11, 15, 25, 0.85); color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 6px 10px; border-radius: 5px; font-size: 12px; outline: none; font-family: inherit; width: 100%;
+        }
+        .edit-select-row select:focus, .edit-input-note:focus { border-color: #4a72b2; }
+
+        .task-item.status-100 { background-color: rgba(15, 20, 34, 0.4); opacity: 0.5; box-shadow: none !important; border-left-color: #5c6e8c !important; }
+        .task-item.status-100 .task-text { text-decoration: line-through; color: #8fa0bc; }
 
         /* الدوائر الملونة للحالات */
         .status-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100px; flex-shrink: 0; }
@@ -204,28 +232,34 @@
         .circle-progress { stroke-dasharray: 114; stroke-dashoffset: 114; transition: all 0.5s ease; }
         
         .status-0 .circle-progress { stroke: #e74c3c; stroke-dashoffset: 105; animation: alertPulse 0.8s ease-in-out infinite alternate; }
-        .status-0 .circle-icon, .status-0 .status-label-text { color: #e74c3c; }
+        .status-0 .circle-icon, .status-0 .status-label-text { color: #e74c3c; font-weight: 800; }
         .status-50 .circle-progress { stroke: #f1c40f; stroke-dashoffset: 57; }
         .status-50 .circle-icon { color: #f1c40f; animation: spin 3s linear infinite; }
-        .status-50 .status-label-text { color: #f1c40f; }
-        .status-100 .circle-progress { stroke: #2ecc71; stroke-dashoffset: 0; animation: doneGlow 1s ease-in-out infinite alternate; }
-        .status-100 .circle-icon, .status-100 .status-label-text { color: #2ecc71; }
+        .status-50 .status-label-text { color: #f1c40f; font-weight: 800; }
+        .status-100 .circle-progress { stroke: #2ecc71; stroke-dashoffset: 0; }
+        .status-100 .circle-icon, .status-100 .status-label-text { color: #2ecc71; font-weight: 800; }
         .circle-icon { font-size: 12px; z-index: 2; pointer-events: none; }
         .status-label-text { font-weight: 700; font-size: 9px; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.3px; text-align: center; }
 
-        /* منطقة الأزرار والـ Select */
-        .task-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; width: 170px; flex-shrink: 0; }
-        .task-actions button { background: none; border: none; font-size: 18px; cursor: pointer; }
+        /* منطقة الأزرار والـ Select المضيئة المتناسقة */
+        .task-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; width: 180px; flex-shrink: 0; }
+        .task-actions button { background: none; border: none; font-size: 17px; cursor: pointer; padding: 0 4px; transition: color 0.2s; }
+        .task-actions .edit-btn { color: #f1c40f; }
+        .task-actions .edit-btn:hover { color: #f39c12; }
+        .task-actions .save-btn { color: #2ecc71; font-size: 19px; }
+        .task-actions .save-btn:hover { color: #27ae60; }
         .task-actions .done-btn { color: #4a72b2; } 
         .task-actions .delete-btn { color: #e74c3c; }
 
         .inline-priority-select {
-            background-color: rgba(24, 31, 50, 0.9); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; font-family: inherit; width: 95px; box-sizing: border-box; text-align: center;
+            background-color: rgba(11, 15, 25, 0.8); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; font-family: inherit; width: 95px; box-sizing: border-box; text-align: center;
         }
         .inline-priority-select option { background-color: #111625; color: white; }
-        .viewer-priority-badge {
-            font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; background-color: rgba(255,255,255,0.04); color: #cbd5e1; width: 95px; box-sizing: border-box; text-align: center; display: inline-block;
-        }
+        
+        .viewer-priority-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; width: 95px; box-sizing: border-box; text-align: center; display: inline-block; letter-spacing: 0.5px; }
+        .badge-p-high { background-color: rgba(231, 76, 60, 0.2); color: #ff7675; border: 1px solid rgba(231, 76, 60, 0.4); text-shadow: 0 0 4px #e74c3c; }
+        .badge-p-medium { background-color: rgba(241, 196, 15, 0.2); color: #ffeaa7; border: 1px solid rgba(241, 196, 15, 0.4); text-shadow: 0 0 4px #f1c40f; }
+        .badge-p-low { background-color: rgba(46, 204, 113, 0.18); color: #55efc4; border: 1px solid rgba(46, 204, 113, 0.4); text-shadow: 0 0 4px #2ecc71; }
 
         /* شريط نسبة الإنجاز الكلي لجدول الماتريكس */
         .matrix-progress-section { background: rgba(24, 31, 50, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 18px; border-radius: 12px; margin-bottom: 25px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -236,7 +270,7 @@
         .prog-percent-txt { font-size: 12px; font-weight: 700; color: #2ecc71; font-family: 'Roboto Mono', monospace; align-self: flex-end; }
 
         /* الجداول الزجاجية الشفافة */
-        .matrix-table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.06); }
+        .matrix-table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid rgba(255, 2 255, 255, 0.06); }
         .matrix-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; background: rgba(17, 22, 37, 0.3); }
         .matrix-table th, .matrix-table td { padding: 14px 16px; border: 1px solid rgba(255, 255, 255, 0.06); vertical-align: middle; }
         .matrix-table th { background-color: rgba(22, 28, 42, 0.7); color: #94a3b8; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
@@ -244,7 +278,7 @@
         .matrix-table td.check-item-name { background-color: rgba(19, 24, 36, 0.4); color: #cbd5e1; font-weight: 500; font-size: 13px; line-height: 1.4; }
         .matrix-table td.check-item-name span { font-family: 'Roboto Mono', monospace; font-size: 12px; color: #3498db; }
 
-        /* كبسولات الماتريكس المطورة بالخمس حالات الكاملة */
+        /* كبسولات الماتريكس المطورة */
         .status-badge { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 0; border-radius: 20px; font-weight: 700; font-size: 11px; width: 145px; text-transform: capitalize; box-sizing: border-box; text-align: center; border: 1px solid transparent; }
         .matrix-select-wrapper { position: relative; width: 145px; display: inline-block; }
         .matrix-hidden-select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 14px; }
@@ -287,10 +321,17 @@
 
     <div class="container">
         
+        <!-- 🚨 صندوق مراقبة المتصلين - مضاف عليه كلاس "hidden" لحجبه تماماً افتراضياً -->
+        <div class="presence-card-section hidden" id="presence-admin-only-card">
+            <div class="presence-title"><i class="fa-solid fa-satellite-dish" style="color: #2ecc71;"></i> Live Active Coworkers (Admin Vault)</div>
+            <div class="presence-users-grid" id="live-presence-container">
+                <div class="presence-user-pill"><div class="live-pulse-dot"></div>Syncing encrypted channels...</div>
+            </div>
+        </div>
+
         <div id="tasks-page">
             <div class="dashboard-stats-wrapper">
                 
-                <!-- العمود 1: الإحصائيات الأربعة -->
                 <div class="analytics-grid">
                     <div class="analytics-card card-glow-all">
                         <span class="analytics-num" id="count-all">0</span>
@@ -310,12 +351,10 @@
                     </div>
                 </div>
 
-                <!-- العمود 2: العداد الرياضي الرقمي المتقطع -->
                 <div class="chart-container-box">
                     <canvas id="livePieChart"></canvas>
                 </div>
 
-                <!-- العمود 3: لوج الحركات لايف المحمي والمخفي عن الـ Viewers -->
                 <div class="activity-log-section" id="activity-log-card-wrapper">
                     <div class="activity-log-title"><i class="fa-solid fa-bolt"></i> Activity Log Feed</div>
                     <ul class="activity-list" id="activity-log-container">
@@ -424,11 +463,14 @@
         let userRole = sessionStorage.getItem('bimUserRole') || 'viewer'; 
         let tasks = [];
         let matrixData = {};
-        let cachedLogKeys = []; // كاش محلي لحفظ مفاتيح الإشعارات لمنع الوميض
+        let cachedLogKeys = []; 
         let myPieChart = null; 
 
         let activeProjectFilter = 'ALL';
         let activePriorityFilter = 'ALL';
+        let editingTaskId = null; 
+
+        const myPresenceSessionId = "session_" + Math.floor(Math.random() * 89999 + 10000);
 
         const checkItemsList = [
             "Pipe Insulation", "P-Trap at Drains", "Pipes in Concrete Walls",
@@ -436,6 +478,52 @@
             "Required RFIs Prepared", "Equipment Clearance &Accessibility Verification",
             "Supports, Fixation", "Modeling", "Coordination"
         ];
+
+        async function syncMyLivePresenceNode() {
+            let label = "Guest Viewer #" + myPresenceSessionId.split('_')[1];
+            let cssClass = "";
+            
+            if (userRole === 'admin') { label = "Mokhtar (Admin) 👑"; cssClass = "pill-role-admin"; }
+            else if (userRole === 'manager') { label = "Manager 💼"; cssClass = "pill-role-manager"; }
+
+            await fetch(`${FIREBASE_BASE_URL}/presence/${myPresenceSessionId}.json`, {
+                method: 'PUT',
+                body: JSON.stringify({ name: label, style: cssClass })
+            });
+        }
+
+        function registerPresenceDisconnect() {
+            navigator.sendBeacon(`${FIREBASE_BASE_URL}/presence/${myPresenceSessionId}.json`, null);
+        }
+        window.addEventListener('beforeunload', registerPresenceDisconnect);
+        window.addEventListener('unload', registerPresenceDisconnect);
+
+        function listenToLivePresenceGrid() {
+            setInterval(async () => {
+                // تجميد قراءة الطلبات والتعطيل التام لو المستخدم مش أدمن لحماية الخصوصية تماماً
+                if (userRole !== 'admin') return;
+
+                try {
+                    let res = await fetch(`${FIREBASE_BASE_URL}/presence.json`);
+                    let data = await res.json();
+                    const container = document.getElementById('live-presence-container');
+                    if(!container) return;
+
+                    if(data) {
+                        container.innerHTML = '';
+                        Object.keys(data).forEach(key => {
+                            let user = data[key];
+                            let pill = document.createElement('div');
+                            pill.className = `presence-user-pill ${user.style || ''}`;
+                            pill.innerHTML = `<div class="live-pulse-dot"></div>${user.name}`;
+                            container.appendChild(pill);
+                        });
+                    } else {
+                        container.innerHTML = `<div class="presence-user-pill"><div class="live-pulse-dot"></div>No users online</div>`;
+                    }
+                } catch(e) { console.log(e); }
+            }, 2500);
+        }
 
         function switchTab(pageId, btnElement) {
             document.getElementById('tasks-page').classList.add('hidden');
@@ -465,19 +553,23 @@
             const adminBox = document.getElementById('admin-box');
             const adminBtn = document.getElementById('admin-login-btn');
             const managerBtn = document.getElementById('manager-login-btn');
+            const presenceCard = document.getElementById('presence-admin-only-card');
             
             adminBtn.innerText = "Admin Login"; adminBtn.className = "login-btn";
             managerBtn.innerText = "Manager Login"; managerBtn.className = "login-btn";
             if(adminBox) adminBox.classList.add('hidden');
+            if(presenceCard) presenceCard.classList.add('hidden'); // إخفاء الصندوق عن الجميع افتراضياً
 
             if (userRole === 'admin') {
                 if(adminBox) adminBox.classList.remove('hidden');
+                if(presenceCard) presenceCard.classList.remove('hidden'); // إظهار الصندوق للأدمن (Mokhtar) فقط
                 adminBtn.innerText = "Logout Admin";
                 adminBtn.className = "login-btn admin-active-btn";
             } else if (userRole === 'manager') {
                 managerBtn.innerText = "Logout Manager";
                 managerBtn.className = "login-btn manager-active-btn";
             }
+            syncMyLivePresenceNode(); 
             fetchActivityLogs(); 
             renderAll();
         }
@@ -512,7 +604,6 @@
             checkPermissions();
         }
 
-        // 🛠️ 1️⃣ تحميل متوازٍ ذكي (Promise.all) لإنهاء أي بطء عند الريفريش تماماً
         async function fetchLiveCloudData() {
             if (userRole === 'admin') {
                 let savedPass = sessionStorage.getItem('bimAdminPassToken');
@@ -524,7 +615,6 @@
             }
 
             try {
-                // إطلاق جميع الطلبات أونلاين في نفس اللحظة بالتوازي لسرعة خارقة
                 const [tResponse, mResponse] = await Promise.all([
                     fetch(`${FIREBASE_BASE_URL}/tasks.json`),
                     fetch(`${FIREBASE_BASE_URL}/matrix.json`)
@@ -692,7 +782,6 @@
             fetchActivityLogs();
         }
 
-        // 🛠️ دالة السحب وعرض اللوج بنظام الـ Caching لسرعة خارقة واستقرار كامل
         async function fetchActivityLogs() {
             const container = document.getElementById('activity-log-container');
             if(!container) return;
@@ -706,7 +795,6 @@
                 let response = await fetch(`${FIREBASE_BASE_URL}/logs.json`);
                 let data = await response.json();
                 
-                // حفظ المفاتيح في الكاش لمنع إعادة ريندر المكونات لو مفيش تغيير خارجي
                 if (data) {
                     cachedLogKeys = Object.keys(data).reverse().slice(0, 4);
                     container.innerHTML = '';
@@ -715,7 +803,7 @@
                         let log = data[key];
                         let li = document.createElement('li');
                         li.className = 'activity-item';
-                        li.id = `log-node-${key}`; // ربط الـ ID لحذفه لحظياً برمجياً
+                        li.id = `log-node-${key}`; 
                         
                         let deleteBtnHtml = (userRole === 'admin') ? 
                             `<button class="delete-log-btn" onclick="deleteLogDirect('${key}')" title="Delete Notification"><i class="fa-solid fa-xmark"></i></button>` : '';
@@ -735,20 +823,17 @@
             } catch (e) { console.error("Error loading logs:", e); }
         }
 
-        // 🛠️ 2️⃣ المسح الفوري المحلي (Optimistic Delete) لحذف الإشعار من الشاشة فوراً دون أي ثقل أو تعليق
         async function deleteLogDirect(logId) {
             if (userRole !== 'admin') return;
             
-            // طرد وحذف العنصر من الشاشة محلياً فوراً في نفس الفيمتو ثانية
             const element = document.getElementById(`log-node-${logId}`);
             if(element) {
                 element.style.transition = "all 0.3s ease";
                 element.style.opacity = "0";
                 element.style.transform = "translateX(20px)";
-                setTimeout(() => element.remove(), 250); // إزاحته وحذفه بسلاسة
+                setTimeout(() => element.remove(), 250); 
             }
 
-            // إرسال أمر الحذف للسحاب أونلاين في الخلفية دون تعطيل المستخدم
             fetch(`${FIREBASE_BASE_URL}/logs/${logId}.json`, { method: 'DELETE' });
         }
 
@@ -779,6 +864,38 @@
             document.getElementById('bar-goodwill').style.width = pGoodwill + "%";
         }
 
+        function enableInlineTaskEdit(id) {
+            if (userRole !== 'admin') return;
+            editingTaskId = id;
+            renderTasks();
+        }
+
+        async function saveInlineTaskEdit(id) {
+            if (userRole !== 'admin') return;
+
+            const editProj = document.getElementById(`edit-proj-${id}`).value;
+            const editType = document.getElementById(`edit-type-${id}`).value;
+            const editNote = document.getElementById(`edit-note-${id}`).value;
+
+            let tIdx = tasks.findIndex(t => t.id === id);
+            if (tIdx !== -1) {
+                tasks[tIdx].project = editProj;
+                tasks[tIdx].type = editType;
+                tasks[tIdx].details = editNote;
+            }
+
+            editingTaskId = null; 
+            renderAll();
+
+            await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, {
+                method: 'PATCH',
+                body: JSON.stringify({ project: editProj, type: editType, details: editNote })
+            });
+
+            logActivity(`Mokhtar updated task fields for: "${editNote || editType}"`);
+            fetchLiveCloudData();
+        }
+
         function renderTasks() {
             let filteredTasks = tasks.filter(task => {
                 let matchProject = (activeProjectFilter === 'ALL' || task.project === activeProjectFilter);
@@ -796,43 +913,74 @@
                 const li = document.createElement('li');
                 li.className = `task-item priority-${task.priority} status-${task.progress}`;
                 
-                const adminStatusAndDelHtml = (userRole === 'admin') ? `
-                    <button class="done-btn" onclick="cycleProgress('${task.id}', ${task.progress}, '${task.details || task.type}')" title="Change Status"><i class="fa-solid fa-rotate"></i></button>
-                    <button class="delete-btn" onclick="deleteTask('${task.id}', '${task.details || task.type}')" title="Delete Task"><i class="fa-solid fa-trash-can"></i></button>
-                ` : '';
-
-                let priorityControlHtml = '';
-                if (userRole === 'admin' || userRole === 'manager') {
-                    priorityControlHtml = `
-                        <select class="inline-priority-select" onchange="changePriorityDirect('${task.id}', this.value, '${task.details || task.type}')" title="Change Priority">
-                            <option value="high" ${task.priority === 'high' ? 'selected' : ''}>🔥 High</option>
-                            <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>🟡 Med</option>
-                            <option value="low" ${task.priority === 'low' ? 'selected' : ''}>🟢 Low</option>
-                        </select>
+                if (userRole === 'admin' && editingTaskId === task.id) {
+                    li.innerHTML = `
+                        <div class="inline-edit-fields-box">
+                            <div class="edit-select-row">
+                                <select id="edit-proj-${task.id}">
+                                    <option value="BRENT ELEMENTARY SCHOOL" ${task.project === 'BRENT ELEMENTARY SCHOOL' ? 'selected' : ''}>🏫 Brent Elementary School</option>
+                                    <option value="GOODWILL" ${task.project === 'GOODWILL' ? 'selected' : ''}>🏢 GoodWill</option>
+                                    <option value="PWC FIRE STATION" ${task.project === 'PWC FIRE STATION' ? 'selected' : ''}>🚒 PWC Fire Station</option>
+                                    <option value="ARFF" ${task.project === 'ARFF' ? 'selected' : ''}>✈️ ARFF</option>
+                                </select>
+                                <select id="edit-type-${task.id}">
+                                    <option value="Reply to Email" ${task.type === 'Reply to Email' ? 'selected' : ''}>📧 Reply to Email</option>
+                                    <option value="Modeling" ${task.type === 'Modeling' ? 'selected' : ''}>🏗️ Modeling</option>
+                                    <option value="Coordination" ${task.type === 'Coordination' ? 'selected' : ''}>🔄 Coordination</option>
+                                    <option value="Shop Drawing" ${task.type === 'Shop Drawing' ? 'selected' : ''}>📜 Shop Drawing</option>
+                                    <option value="Sleeve Drawing" ${task.type === 'Sleeve Drawing' ? 'selected' : ''}>🕳️ Sleeve Drawing</option>
+                                    <option value="Submittal Check" ${task.type === 'Submittal Check' ? 'selected' : ''}>✅ Submittal Check</option>
+                                    <option value="RFI" ${task.type === 'RFI' ? 'selected' : ''}>❓ RFI</option>
+                                </select>
+                            </div>
+                            <input type="text" class="edit-input-note" id="edit-note-${task.id}" value="${task.details || ''}" placeholder="Edit notes / details...">
+                        </div>
+                        <div class="task-actions">
+                            <button class="save-btn" onclick="saveInlineTaskEdit('${task.id}')" title="Save Modifications"><i class="fa-solid fa-square-check"></i></button>
+                            <button class="delete-btn" onclick="editingTaskId = null; renderTasks();" title="Cancel"><i class="fa-solid fa-rectangle-xmark"></i></button>
+                        </div>
                     `;
                 } else {
-                    let pEmoji = task.priority === 'high' ? '🔥 ' : task.priority === 'medium' ? '🟡 ' : '🟢 ';
-                    priorityControlHtml = `<span class="viewer-priority-badge">${pEmoji}${task.priority}</span>`;
-                }
+                    const adminStatusAndDelHtml = (userRole === 'admin') ? `
+                        <button class="edit-btn" onclick="enableInlineTaskEdit('${task.id}')" title="Edit Task Fields"><i class="fa-solid fa-user-pen"></i></button>
+                        <button class="done-btn" onclick="cycleProgress('${task.id}', ${task.progress}, '${task.details || task.type}')" title="Change Status"><i class="fa-solid fa-rotate"></i></button>
+                        <button class="delete-btn" onclick="deleteTask('${task.id}', '${task.details || task.type}')" title="Delete Task"><i class="fa-solid fa-trash-can"></i></button>
+                    ` : '';
 
-                li.innerHTML = `
-                    <div class="task-content-details">
-                        <span class="project-badge">${task.project}</span>
-                        <span class="type-badge">${task.type}</span>
-                        <span class="task-text">${task.details ? task.details : 'No extra notes'}</span>
-                    </div>
-                    <div class="status-wrapper">
-                        <div class="progress-circle-container">
-                            <svg><circle class="circle-bg"></circle><circle class="circle-progress"></circle></svg>
-                            ${task.progress === 100 ? '<i class="fa-solid fa-check circle-icon"></i>' : task.progress === 50 ? '<i class="fa-solid fa-gear circle-icon"></i>' : '<i class="fa-regular fa-clock circle-icon"></i>'}
+                    let priorityControlHtml = '';
+                    if (userRole === 'admin' || userRole === 'manager') {
+                        priorityControlHtml = `
+                            <select class="inline-priority-select" onchange="changePriorityDirect('${task.id}', this.value, '${task.details || task.type}')" title="Change Priority">
+                                <option value="high" ${task.priority === 'high' ? 'selected' : ''}>🔥 High</option>
+                                <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>🟡 Med</option>
+                                <option value="low" ${task.priority === 'low' ? 'selected' : ''}>🟢 Low</option>
+                            </select>
+                        `;
+                    } else {
+                        let pClass = task.priority === 'high' ? 'badge-p-high' : task.priority === 'medium' ? 'badge-p-medium' : 'badge-p-low';
+                        let pEmoji = task.priority === 'high' ? '🔥 ' : task.priority === 'medium' ? '🟡 ' : '🟢 ';
+                        priorityControlHtml = `<span class="viewer-priority-badge ${pClass}">${pEmoji}${task.priority}</span>`;
+                    }
+
+                    li.innerHTML = `
+                        <div class="task-content-details">
+                            <span class="project-badge">${task.project}</span>
+                            <span class="type-badge">${task.type}</span>
+                            <span class="task-text">${task.details ? task.details : 'No extra notes'}</span>
                         </div>
-                        <div class="status-label-text">${task.progress === 100 ? 'COMPLETED' : task.progress === 50 ? 'IN PROGRESS' : 'PENDING'}</div>
-                    </div>
-                    <div class="task-actions">
-                        ${priorityControlHtml}
-                        ${adminStatusAndDelHtml}
-                    </div>
-                `;
+                        <div class="status-wrapper">
+                            <div class="progress-circle-container">
+                                <svg><circle class="circle-bg"></circle><circle class="circle-progress"></circle></svg>
+                                ${task.progress === 100 ? '<i class="fa-solid fa-check circle-icon"></i>' : task.progress === 50 ? '<i class="fa-solid fa-gear circle-icon"></i>' : '<i class="fa-regular fa-clock circle-icon"></i>'}
+                            </div>
+                            <div class="status-label-text">${task.progress === 100 ? 'COMPLETED' : task.progress === 50 ? 'IN PROGRESS' : 'PENDING'}</div>
+                        </div>
+                        <div class="task-actions">
+                            ${priorityControlHtml}
+                            ${adminStatusAndDelHtml}
+                        </div>
+                    `;
+                }
                 container.appendChild(li);
             });
         }
@@ -971,6 +1119,8 @@
 
         checkPermissions();
         fetchLiveCloudData();
+        syncMyLivePresenceNode(); 
+        listenToLivePresenceGrid(); 
     </script>
 </body>
 </html>
