@@ -140,12 +140,12 @@
         .card-glow-prog { border-bottom: 3px solid #f1c40f; }
         .card-glow-pend { border-bottom: 3px solid #e74c3c; }
 
-        /* صندوق الـ Chart الدائري الاحترافي */
+        /* 🛠️ تثبيت أبعاد صندوق الـ Canvas هندسياً لمنع تداخل ريندر الـ DOM نهائياً */
         .chart-container-box { 
             background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 10px; 
-            display: flex; align-items: center; justify-content: center; position: relative; height: 100%; box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center; position: relative; height: 160px; width: 100%; max-width: 175px; box-sizing: border-box; overflow: hidden;
         }
-        .chart-container-box canvas { max-width: 100% !important; max-height: 100% !important; z-index: 2; }
+        .chart-container-box canvas { max-width: 155px !important; max-height: 155px !important; width: 155px !important; height: 155px !important; z-index: 2; display: block; }
 
         /* صندوق سجل التحديثات في العمود الثالث بالأعلى */
         .activity-log-section { 
@@ -164,7 +164,7 @@
         .delete-log-btn { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 11px; padding: 0 2px; transition: color 0.2s; flex-shrink: 0; display: flex; align-items: center; margin-top: 1px; }
         .delete-log-btn:hover { color: #ff5252; }
 
-        /* صندوق إضافة الحالات مع إدراج حقل الـ Deadline */
+        /* صندوق إضافة الحالات */
         .add-task-box { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
         .add-task-box input, .add-task-box select, .add-task-box button {
             padding: 12px; border: 1px solid rgba(255, 255, 255, 0.08); background-color: rgba(24, 31, 50, 0.7); color: white; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box; width: 100%; font-family: inherit;
@@ -203,7 +203,6 @@
         .project-badge { font-size: 10px; background-color: rgba(11, 15, 25, 0.7); color: #4a72b2; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 6px; border: 1px solid rgba(74, 114, 178, 0.3); }
         .type-badge { font-size: 10px; background-color: rgba(11, 15, 25, 0.7); color: #ecf0f1; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 6px; margin-left: 5px; border: 1px solid rgba(255, 255, 255, 0.08); }
         
-        /* كبسولة التوقيت الزجاجية النيون للـ Deadline */
         .deadline-badge { font-size: 10px; font-family: 'Roboto Mono', monospace; background-color: rgba(231, 76, 60, 0.15); color: #ff7675; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 6px; margin-left: 5px; border: 1px solid rgba(231, 76, 60, 0.3); }
         .task-text { font-size: 14px; display: block; margin-top: 2px; font-weight: 600; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
 
@@ -248,11 +247,11 @@
         .task-actions .delete-btn { color: #e74c3c; }
 
         .inline-priority-select {
-            background-color: rgba(11, 15, 25, 0.8); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; font-family: inherit; width: 85px; box-sizing: border-box; text-align: center;
+            background-color: rgba(11, 15, 25, 0.8); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; font-family: inherit; width: 95px; box-sizing: border-box; text-align: center;
         }
         .inline-priority-select option { background-color: #111625; color: white; }
         
-        .viewer-priority-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; width: 85px; box-sizing: border-box; text-align: center; display: inline-block; letter-spacing: 0.5px; }
+        .viewer-priority-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; width: 95px; box-sizing: border-box; text-align: center; display: inline-block; letter-spacing: 0.5px; }
         .badge-p-high { background-color: rgba(231, 76, 60, 0.2); color: #ff7675; border: 1px solid rgba(231, 76, 60, 0.4); text-shadow: 0 0 4px #e74c3c; }
         .badge-p-medium { background-color: rgba(241, 196, 15, 0.2); color: #ffeaa7; border: 1px solid rgba(241, 196, 15, 0.4); text-shadow: 0 0 4px #f1c40f; }
         .badge-p-low { background-color: rgba(46, 204, 113, 0.18); color: #55efc4; border: 1px solid rgba(46, 204, 113, 0.4); text-shadow: 0 0 4px #2ecc71; }
@@ -317,7 +316,7 @@
 
     <div class="container">
         
-        <!-- 🚨 صندوق مراقبة المتصلين -->
+        <!-- 🚨 صندوق مراقبة المتصلين السرّي للأدمن -->
         <div class="presence-card-section hidden" id="presence-admin-only-card">
             <div class="presence-title"><i class="fa-solid fa-satellite-dish" style="color: #2ecc71;"></i> Live Active Coworkers (Admin Vault)</div>
             <div class="presence-users-grid" id="live-presence-container">
@@ -384,7 +383,6 @@
                     <option value="medium">🟡 Medium Priority</option>
                     <option value="low">🟢 Low Priority</option>
                 </select>
-                <!-- حقل اختيار تاريخ الديدلاين المدمج الجديد -->
                 <input type="date" id="deadline-input" title="Choose Deadline Date" required style="color-scheme: dark;">
                 <button onclick="addNewTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
             </div>
@@ -557,7 +555,7 @@
             renderTasks();
         }
 
-        async function checkPermissions() {
+        function checkPermissions() {
             const adminBox = document.getElementById('admin-box');
             const adminBtn = document.getElementById('admin-login-btn');
             const managerBtn = document.getElementById('manager-login-btn');
@@ -573,13 +571,13 @@
                 if(presenceCard) presenceCard.classList.remove('hidden'); 
                 adminBtn.innerText = "Logout Admin";
                 adminBtn.className = "login-btn admin-active-btn";
-                await scrubFirebasePresenceTrash();
+                scrubFirebasePresenceTrash();
             } else if (userRole === 'manager') {
                 managerBtn.innerText = "Logout Manager";
                 managerBtn.className = "login-btn manager-active-btn";
-                await syncMyLivePresenceNode();
+                syncMyLivePresenceNode();
             } else {
-                await syncMyLivePresenceNode();
+                syncMyLivePresenceNode();
             }
             
             fetchActivityLogs(); 
@@ -670,6 +668,7 @@
             updatePieChart(done, prog, pend);
         }
 
+        // 🛠️ 🪐 الدالة الذهبية الجديدة: رسم الشرشرة المتقطعة بانتظام هندسي ثابت وإخفاء الفريمات الخارجية نهائياً
         function updatePieChart(done, prog, pend) {
             const ctx = document.getElementById('livePieChart');
             if(!ctx) return;
@@ -677,9 +676,10 @@
             let total = done + prog + pend;
             let percentDone = total > 0 ? Math.round((done / total) * 100) : 0;
 
-            if (myPieChart) {
-                myPieChart.destroy();
-                myPieChart = null;
+            // كنس وفحص الـ DOM لمنع أي تداخل تروس مع تحديثات قاعدة البيانات
+            const existingChart = Chart.getChart(ctx);
+            if (existingChart) {
+                existingChart.destroy();
             }
 
             const canvasCtx = ctx.getContext('2d');
@@ -710,26 +710,28 @@
                 options: {
                     plugins: { 
                         legend: { display: false },
+                        tooltip: { enabled: false }, // إلغاء الفريم الخارجي للـ Tooltips
                         centerText: { text: percentDone + "%" }
                     },
                     cutout: '75%',
                     responsive: true,
                     maintainAspectRatio: false,
                     animation: {
-                        animateScale: true,
+                        animateScale: false, // قفل أنميشن السكيل لمنع أي اهتزاز
                         animateRotate: true,
-                        duration: 1200,
+                        duration: 800,
                         easing: 'easeOutExpo'
                     }
                 },
                 plugins: [
                     {
+                        // 🌟 سحر التوزيع الهندسي للشرشرة المنتظمة الصافية من غير فريمات خارجية
                         afterUpdate: function(chart) {
                             if (chart.data.datasets.length > 0) {
                                 const meta = chart.getDatasetMeta(0);
                                 meta.data.forEach((element) => {
-                                    element.options.borderDash = [5, 3]; 
-                                    element.options.borderWidth = 12; 
+                                    element.options.borderDash = [4, 4]; // مسافات متساوية بالمسطرة للشرشرة المستقبلية
+                                    element.options.borderWidth = 14;    // سمك الشرشرة النيون الثابت
                                     element.options.borderColor = element.options.backgroundColor;
                                 });
                             }
@@ -737,8 +739,8 @@
                         beforeDraw: function(chart) {
                             const ctx = chart.ctx;
                             ctx.save();
-                            ctx.shadowBlur = 25;
-                            ctx.shadowColor = 'rgba(96, 239, 255, 0.35)';
+                            ctx.shadowBlur = 20;
+                            ctx.shadowColor = 'rgba(96, 239, 255, 0.4)';
                             ctx.shadowOffsetX = 0;
                             ctx.shadowOffsetY = 0;
                         },
@@ -907,13 +909,12 @@
             fetchLiveCloudData();
         }
 
-        // 🛠️ دالة تحديث الـ Deadline من قبل المدير لايف (Manager Deadline Update Sync)
         async function updateDeadlineDirect(id, newDate, taskName) {
             if (userRole !== 'admin' && userRole !== 'manager') return;
 
             let tIdx = tasks.findIndex(t => t.id === id);
             if (tIdx !== -1) tasks[tIdx].deadline = newDate;
-            renderTasks(); // تحديث فوري للواجهة
+            renderTasks(); 
 
             await fetch(`${FIREBASE_BASE_URL}/tasks/${id}.json`, {
                 method: 'PATCH',
@@ -922,10 +923,9 @@
 
             let roleLabel = userRole === 'admin' ? 'Mokhtar' : 'Manager';
             logActivity(`${roleLabel} changed deadline for "${taskName}" to [${newDate}]`);
-            fetchLiveCloudData(); // إعادة جلب البيانات لفرز الترتيب الجديد
+            fetchLiveCloudData(); 
         }
 
-        // 🛠️ دالة الـ Render المحدثة بالكامل لفرز لستة التاسكات بناءً على الـ Priority أولاً ثم تاريخ الـ Deadline
         function renderTasks() {
             let filteredTasks = tasks.filter(task => {
                 let matchProject = (activeProjectFilter === 'ALL' || task.project === activeProjectFilter);
@@ -933,14 +933,11 @@
                 return matchProject && matchPriority;
             });
 
-            // 🪐 نظام الترتيب المزدوج (Double Sorting Algorithm)
             const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
             filteredTasks.sort((a, b) => {
-                // الفرز الأول: مصفوفة الأولوية الـ Priority
                 if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
                     return priorityOrder[a.priority] - priorityOrder[b.priority];
                 }
-                // الفرز الثاني عند التساوي: تاريخ الـ Deadline الأقرب (التاريخ الفارغ يرجع لآخر اللستة)
                 let dateA = a.deadline ? new Date(a.deadline) : new Date("2099-12-31");
                 let dateB = b.deadline ? new Date(b.deadline) : new Date("2099-12-31");
                 return dateA - dateB;
@@ -953,7 +950,6 @@
                 const li = document.createElement('li');
                 li.className = `task-item priority-${task.priority} status-${task.progress}`;
                 
-                // في وضع تعديل الأدمن للـ Fields الأساسية
                 if (userRole === 'admin' && editingTaskId === task.id) {
                     li.innerHTML = `
                         <div class="inline-edit-fields-box">
@@ -982,7 +978,6 @@
                         </div>
                     `;
                 } else {
-                    // العرض الطبيعي للتاسكات
                     const adminStatusAndDelHtml = (userRole === 'admin') ? `
                         <button class="edit-btn" onclick="enableInlineTaskEdit('${task.id}')" title="Edit Task Fields"><i class="fa-solid fa-user-pen"></i></button>
                         <button class="done-btn" onclick="cycleProgress('${task.id}', ${task.progress}, '${task.details || task.type}')" title="Change Status"><i class="fa-solid fa-rotate"></i></button>
@@ -992,7 +987,6 @@
                     let priorityControlHtml = '';
                     let deadlineControlHtml = '';
 
-                    // حيازة مشتركة للأدمن والمدير لتغيير الـ Priority والـ Deadline لايف من الكارت
                     if (userRole === 'admin' || userRole === 'manager') {
                         priorityControlHtml = `
                             <select class="inline-priority-select" onchange="changePriorityDirect('${task.id}', this.value, '${task.details || task.type}')" title="Change Priority">
@@ -1005,7 +999,6 @@
                             <input type="date" class="inline-edit-deadline-input" value="${task.deadline || ''}" onchange="updateDeadlineDirect('${task.id}', this.value, '${task.details || task.type}')" title="Modify Deadline Date">
                         `;
                     } else {
-                        // وضع عرض الـ Viewers كبسولات نيون منسقة
                         let pClass = task.priority === 'high' ? 'badge-p-high' : task.priority === 'medium' ? 'badge-p-medium' : 'badge-p-low';
                         let pEmoji = task.priority === 'high' ? '🔥 ' : task.priority === 'medium' ? '🟡 ' : '🟢 ';
                         priorityControlHtml = `<span class="viewer-priority-badge ${pClass}">${pEmoji}${task.priority}</span>`;
@@ -1091,7 +1084,7 @@
             const type = document.getElementById('type-input').value;
             const details = document.getElementById('task-input').value;
             const priority = document.getElementById('priority-input').value;
-            const deadline = document.getElementById('deadline-input').value; // قراءة الديدلاين الجديد
+            const deadline = document.getElementById('deadline-input').value; 
 
             let newTask = { project, type, details, priority, deadline, progress: 0 };
             
