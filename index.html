@@ -42,10 +42,10 @@
             z-index: -1;
         }
 
-        /* 🏢 تصميم الهيدر المدمج الشفاف */
+        /* 🏢 الهيدر المظبوط هندسياً في المنتصف فوق الـ Container بالملّي */
         .user-header {
             max-width: 850px; 
-            margin: 0 auto;
+            margin: 0 auto; 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -56,6 +56,7 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-bottom: none;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
             box-sizing: border-box;
         }
 
@@ -105,15 +106,6 @@
         
         .pill-role-admin { color: #2ecc71 !important; border-color: rgba(46, 204, 113, 0.3); text-shadow: 0 0 3px rgba(46, 204, 113, 0.3); }
         .pill-role-manager { color: #f1c40f !important; border-color: rgba(241, 196, 15, 0.3); text-shadow: 0 0 3px rgba(241, 196, 15, 0.3); }
-
-        .auth-buttons-wrapper { display: flex; gap: 8px; margin-top: 12px; }
-        .login-btn {
-            background: rgba(29, 39, 59, 0.6); color: #8fa0bc; border: 1px solid rgba(255, 255, 255, 0.05); padding: 5px 12px; border-radius: 4px; font-size: 11px;
-            cursor: pointer; font-weight: 600; transition: all 0.25s ease;
-        }
-        .login-btn:hover { background: #4a72b2; color: #fff; border-color: #4a72b2; }
-        .manager-active-btn { background-color: rgba(241, 196, 15, 0.2); color: #f1c40f; border-color: rgba(241, 196, 15, 0.4); }
-        .admin-active-btn { background-color: rgba(46, 204, 113, 0.2); color: #2ecc71; border-color: rgba(46, 204, 113, 0.4); }
 
         /* 🔮 لوحة التحكم الزجاجية الشفافة الفخمة */
         .container { 
@@ -270,7 +262,7 @@
         .prog-percent-txt { font-size: 12px; font-weight: 700; color: #2ecc71; font-family: 'Roboto Mono', monospace; align-self: flex-end; }
 
         /* الجداول الزجاجية الشفافة */
-        .matrix-table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid rgba(255, 2 255, 255, 0.06); }
+        .matrix-table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.06); }
         .matrix-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; background: rgba(17, 22, 37, 0.3); }
         .matrix-table th, .matrix-table td { padding: 14px 16px; border: 1px solid rgba(255, 255, 255, 0.06); vertical-align: middle; }
         .matrix-table th { background-color: rgba(22, 28, 42, 0.7); color: #94a3b8; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
@@ -321,7 +313,7 @@
 
     <div class="container">
         
-        <!-- 🚨 صندوق مراقبة المتصلين - مضاف عليه كلاس "hidden" لحجبه تماماً افتراضياً -->
+        <!-- 🚨 صندوق مراقبة المتصلين -->
         <div class="presence-card-section hidden" id="presence-admin-only-card">
             <div class="presence-title"><i class="fa-solid fa-satellite-dish" style="color: #2ecc71;"></i> Live Active Coworkers (Admin Vault)</div>
             <div class="presence-users-grid" id="live-presence-container">
@@ -470,7 +462,10 @@
         let activePriorityFilter = 'ALL';
         let editingTaskId = null; 
 
-        const myPresenceSessionId = "session_" + Math.floor(Math.random() * 89999 + 10000);
+        if (!sessionStorage.getItem('myPresenceIdToken')) {
+            sessionStorage.setItem('myPresenceIdToken', "session_" + Math.floor(Math.random() * 89999 + 10000));
+        }
+        const myPresenceSessionId = sessionStorage.getItem('myPresenceIdToken');
 
         const checkItemsList = [
             "Pipe Insulation", "P-Trap at Drains", "Pipes in Concrete Walls",
@@ -479,6 +474,7 @@
             "Supports, Fixation", "Modeling", "Coordination"
         ];
 
+        // 🛠️ 🪐 دالة المزامنة الصارمة بالـ Firebase
         async function syncMyLivePresenceNode() {
             let label = "Guest Viewer #" + myPresenceSessionId.split('_')[1];
             let cssClass = "";
@@ -486,10 +482,21 @@
             if (userRole === 'admin') { label = "Mokhtar (Admin) 👑"; cssClass = "pill-role-admin"; }
             else if (userRole === 'manager') { label = "Manager 💼"; cssClass = "pill-role-manager"; }
 
+            // حقن مباشر بالـ PUT لضمان تعديل نفس الخانة المخصصة لك ومستحيل يفتح خانة جديدة مكررة
             await fetch(`${FIREBASE_BASE_URL}/presence/${myPresenceSessionId}.json`, {
                 method: 'PUT',
                 body: JSON.stringify({ name: label, style: cssClass })
             });
+        }
+
+        // 🛠️ 🪐 دالة الكنس والمحو الجراحي الشامل للسيرفر لمسح العك والتكرار الميت القديم نهائياً (Server Scrubbing)
+        async function scrubFirebasePresenceTrash() {
+            try {
+                // الكود ده هيدخل كنس كامل ويمسح الفولدر المضروب القديم من جذوره في الـ Realtime database
+                await fetch(`${FIREBASE_BASE_URL}/presence.json`, { method: 'DELETE' });
+                // فور المسح، بنسجل اسمك أنت بس المظبوط تانى لايف
+                await syncMyLivePresenceNode();
+            } catch(e) { console.log(e); }
         }
 
         function registerPresenceDisconnect() {
@@ -500,7 +507,6 @@
 
         function listenToLivePresenceGrid() {
             setInterval(async () => {
-                // تجميد قراءة الطلبات والتعطيل التام لو المستخدم مش أدمن لحماية الخصوصية تماماً
                 if (userRole !== 'admin') return;
 
                 try {
@@ -509,8 +515,9 @@
                     const container = document.getElementById('live-presence-container');
                     if(!container) return;
 
+                    container.innerHTML = '';
+
                     if(data) {
-                        container.innerHTML = '';
                         Object.keys(data).forEach(key => {
                             let user = data[key];
                             let pill = document.createElement('div');
@@ -522,7 +529,7 @@
                         container.innerHTML = `<div class="presence-user-pill"><div class="live-pulse-dot"></div>No users online</div>`;
                     }
                 } catch(e) { console.log(e); }
-            }, 2500);
+            }, 2500); 
         }
 
         function switchTab(pageId, btnElement) {
@@ -549,7 +556,8 @@
             renderTasks();
         }
 
-        function checkPermissions() {
+        // 🛠️ 🪐 تطهير وفصل الأذونات عند تسجيل الدخول وتطهير الزبالة القديمة بالسيرفر
+        async function checkPermissions() {
             const adminBox = document.getElementById('admin-box');
             const adminBtn = document.getElementById('admin-login-btn');
             const managerBtn = document.getElementById('manager-login-btn');
@@ -558,20 +566,26 @@
             adminBtn.innerText = "Admin Login"; adminBtn.className = "login-btn";
             managerBtn.innerText = "Manager Login"; managerBtn.className = "login-btn";
             if(adminBox) adminBox.classList.add('hidden');
-            if(presenceCard) presenceCard.classList.add('hidden'); // إخفاء الصندوق عن الجميع افتراضياً
+            if(presenceCard) presenceCard.classList.add('hidden'); 
 
             if (userRole === 'admin') {
                 if(adminBox) adminBox.classList.remove('hidden');
-                if(presenceCard) presenceCard.classList.remove('hidden'); // إظهار الصندوق للأدمن (Mokhtar) فقط
+                if(presenceCard) presenceCard.classList.remove('hidden'); 
                 adminBtn.innerText = "Logout Admin";
                 adminBtn.className = "login-btn admin-active-btn";
+                
+                // 🚀 أول ما تدخل كأدمن، الكود بيكنس السيرفر من أي تكرار ميت من المرات اللي فاتت
+                await scrubFirebasePresenceTrash();
             } else if (userRole === 'manager') {
                 managerBtn.innerText = "Logout Manager";
                 managerBtn.className = "login-btn manager-active-btn";
+                await syncMyLivePresenceNode();
+            } else {
+                await syncMyLivePresenceNode();
             }
-            syncMyLivePresenceNode(); 
+            
             fetchActivityLogs(); 
-            renderAll();
+            renderAll(); 
         }
 
         function handleAdminLogin() {
@@ -666,95 +680,94 @@
             let percentDone = total > 0 ? Math.round((done / total) * 100) : 0;
 
             if (myPieChart) {
-                myPieChart.data.datasets[0].data = [done, prog, pend];
-                myPieChart.options.plugins.centerText.text = percentDone + "%";
-                myPieChart.update();
-            } else {
-                const canvasCtx = ctx.getContext('2d');
-                
-                const gradComplete = canvasCtx.createLinearGradient(0, 0, 0, 150);
-                gradComplete.addColorStop(0, '#00ff87');
-                gradComplete.addColorStop(1, '#60efff');
-
-                const gradProgress = canvasCtx.createLinearGradient(0, 0, 0, 150);
-                gradProgress.addColorStop(0, '#ffdf00');
-                gradProgress.addColorStop(1, '#ff4b00');
-
-                const gradPending = canvasCtx.createLinearGradient(0, 0, 0, 150);
-                gradPending.addColorStop(0, '#ff2a2a');
-                gradPending.addColorStop(1, '#9e0000');
-
-                myPieChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Completed', 'In Progress', 'Pending'],
-                        datasets: [{
-                            data: [done, prog, pend],
-                            backgroundColor: [gradComplete, gradProgress, gradPending],
-                            borderWidth: 0,
-                            borderColor: 'transparent'
-                        }]
-                    },
-                    options: {
-                        plugins: { 
-                            legend: { display: false },
-                            centerText: { text: percentDone + "%" }
-                        },
-                        cutout: '75%',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: {
-                            animateScale: true,
-                            animateRotate: true,
-                            duration: 1500,
-                            easing: 'easeOutExpo'
-                        }
-                    },
-                    plugins: [
-                        {
-                            afterUpdate: function(chart) {
-                                if (chart.data.datasets.length > 0) {
-                                    const meta = chart.getDatasetMeta(0);
-                                    meta.data.forEach((element) => {
-                                        element.options.borderDash = [5, 3]; 
-                                        element.options.borderWidth = 12; 
-                                        element.options.borderColor = element.options.backgroundColor;
-                                    });
-                                }
-                            },
-                            beforeDraw: function(chart) {
-                                const ctx = chart.ctx;
-                                ctx.save();
-                                ctx.shadowBlur = 25;
-                                ctx.shadowColor = 'rgba(96, 239, 255, 0.35)';
-                                ctx.shadowOffsetX = 0;
-                                ctx.shadowOffsetY = 0;
-                            },
-                            afterDraw: function(chart) {
-                                chart.ctx.restore();
-                            }
-                        },
-                        {
-                            id: 'centerText',
-                            afterDatasetsDraw: function(chart, args, options) {
-                                const {ctx, chartArea: {top, bottom, left, right, width, height}} = chart;
-                                ctx.save();
-                                ctx.shadowBlur = 10;
-                                ctx.shadowColor = '#60efff';
-                                ctx.font = 'bold 22px "Roboto Mono", monospace';
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textBaseline = 'middle';
-                                ctx.textAlign = 'center';
-                                const text = chart.options.plugins.centerText.text;
-                                const x = left + (width / 2);
-                                const y = top + (height / 2);
-                                ctx.fillText(text, x, y);
-                                ctx.restore();
-                            }
-                        }
-                    ]
-                });
+                myPieChart.destroy();
+                myPieChart = null;
             }
+
+            const canvasCtx = ctx.getContext('2d');
+            
+            const gradComplete = canvasCtx.createLinearGradient(0, 0, 0, 150);
+            gradComplete.addColorStop(0, '#00ff87');
+            gradComplete.addColorStop(1, '#60efff');
+
+            const gradProgress = canvasCtx.createLinearGradient(0, 0, 0, 150);
+            gradProgress.addColorStop(0, '#ffdf00');
+            gradProgress.addColorStop(1, '#ff4b00');
+
+            const gradPending = canvasCtx.createLinearGradient(0, 0, 0, 150);
+            gradPending.addColorStop(0, '#ff2a2a');
+            gradPending.addColorStop(1, '#9e0000');
+
+            myPieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'In Progress', 'Pending'],
+                    datasets: [{
+                        data: [done, prog, pend],
+                        backgroundColor: [gradComplete, gradProgress, gradPending],
+                        borderWidth: 0,
+                        borderColor: 'transparent'
+                    }]
+                },
+                options: {
+                    plugins: { 
+                        legend: { display: false },
+                        centerText: { text: percentDone + "%" }
+                    },
+                    cutout: '75%',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true,
+                        duration: 1200,
+                        easing: 'easeOutExpo'
+                    }
+                },
+                plugins: [
+                    {
+                        afterUpdate: function(chart) {
+                            if (chart.data.datasets.length > 0) {
+                                const meta = chart.getDatasetMeta(0);
+                                meta.data.forEach((element) => {
+                                    element.options.borderDash = [5, 3]; 
+                                    element.options.borderWidth = 12; 
+                                    element.options.borderColor = element.options.backgroundColor;
+                                });
+                            }
+                        },
+                        beforeDraw: function(chart) {
+                            const ctx = chart.ctx;
+                            ctx.save();
+                            ctx.shadowBlur = 25;
+                            ctx.shadowColor = 'rgba(96, 239, 255, 0.35)';
+                            ctx.shadowOffsetX = 0;
+                            ctx.shadowOffsetY = 0;
+                        },
+                        afterDraw: function(chart) {
+                            chart.ctx.restore();
+                        }
+                    },
+                    {
+                        id: 'centerText',
+                        afterDatasetsDraw: function(chart, args, options) {
+                            const {ctx, chartArea: {top, bottom, left, right, width, height}} = chart;
+                            ctx.save();
+                            ctx.shadowBlur = 10;
+                            ctx.shadowColor = '#60efff';
+                            ctx.font = 'bold 22px "Roboto Mono", monospace';
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textBaseline = 'middle';
+                            ctx.textAlign = 'center';
+                            const text = chart.options.plugins.centerText.text;
+                            const x = left + (width / 2);
+                            const y = top + (height / 2);
+                            ctx.fillText(text, x, y);
+                            ctx.restore();
+                        }
+                    }
+                ]
+            });
         }
 
         async function logActivity(actionText) {
@@ -1119,7 +1132,6 @@
 
         checkPermissions();
         fetchLiveCloudData();
-        syncMyLivePresenceNode(); 
         listenToLivePresenceGrid(); 
     </script>
 </body>
