@@ -433,6 +433,7 @@
                         <option value="GOODWILL">🏢 GoodWill</option>
                         <option value="PWC FIRE STATION">🚒 PWC Fire Station</option>
                         <option value="ARFF">✈️ ARFF</option>
+                        <option value="SEYMOUR">🏛️ Seymour</option>
                     </select>
                     <select id="type-input">
                         <option value="Reply to Email">📧 Reply to Email</option>
@@ -467,6 +468,7 @@
                         <span class="filter-chip" onclick="setProjectFilter('GOODWILL', this)">🏢 Goodwill</span>
                         <span class="filter-chip" onclick="setProjectFilter('PWC FIRE STATION', this)">🚒 PWC</span>
                         <span class="filter-chip" onclick="setProjectFilter('ARFF', this)">✈️ ARFF</span>
+                        <span class="filter-chip" onclick="setProjectFilter('SEYMOUR', this)">🏛️ Seymour</span>
                     </div>
                     <div class="filter-group">
                         <span class="filter-title">Priority:</span>
@@ -1108,6 +1110,7 @@
                                     <option value="GOODWILL" ${task.project === 'GOODWILL' ? 'selected' : ''}>🏢 GoodWill</option>
                                     <option value="PWC FIRE STATION" ${task.project === 'PWC FIRE STATION' ? 'selected' : ''}>🚒 PWC Fire</option>
                                     <option value="ARFF" ${task.project === 'ARFF' ? 'selected' : ''}>✈️ ARFF</option>
+                                    <option value="SEYMOUR" ${task.project === 'SEYMOUR' ? 'selected' : ''}>🏛️ Seymour</option>
                                 </select>
                                 <select id="edit-type-${task.id}">
                                     <option value="Reply to Email" ${task.type === 'Reply to Email' ? 'selected' : ''}>📧 Email</option>
