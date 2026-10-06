@@ -50,8 +50,6 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans
 h1 { text-align: center; color: #ffffff; margin-bottom: 35px; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
 h1 i { color: #4a72b2; margin-right: 8px; }
 .dashboard-stats-wrapper { display: grid; gap: 15px; margin-bottom: 25px; align-items: stretch; }
-.dashboard-stats-wrapper.stats-admin-layout { grid-template-columns: 1.8fr 1.2fr 1.5fr; }
-.dashboard-stats-wrapper.stats-khaled-layout { grid-template-columns: 1.8fr 1.2fr; }
 .analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .analytics-card { background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px 8px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: center; }
 .analytics-num { font-size: 22px; font-weight: 700; color: #ffffff; font-family: 'Roboto Mono', monospace; display: block; margin-bottom: 2px; }
@@ -148,8 +146,8 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 .team-role-tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; background: rgba(74,114,178,0.15); color: #6f97d6; border: 1px solid rgba(74,114,178,0.3); white-space: nowrap; }
 .team-row.role-admin .team-role-tag { background: rgba(46,204,113,0.12); color: #2ecc71; border-color: rgba(46,204,113,0.3); }
 .team-row.role-manager .team-role-tag { background: rgba(241,196,15,0.12); color: #f1c40f; border-color: rgba(241,196,15,0.3); }
-.add-task-box .team-revoke-btn { grid-column: auto; width: auto; margin: 0; flex-shrink: 0; padding: 6px 12px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; background: rgba(231, 76, 60, 0.12); border: 1px solid rgba(231, 76, 60, 0.35); color: #e74c3c; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
-.add-task-box .team-revoke-btn:hover { background: #e74c3c; color: #fff; }
+.team-revoke-btn { grid-column: auto; width: auto; margin: 0; flex-shrink: 0; padding: 6px 12px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; background: rgba(231, 76, 60, 0.12); border: 1px solid rgba(231, 76, 60, 0.35); color: #e74c3c; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+.team-revoke-btn:hover { background: #e74c3c; color: #fff; }
 .team-you-tag { font-size: 10px; color: #5c6e8c; font-weight: 600; flex-shrink: 0; }
 .hidden { display: none !important; }
 .landing-gate-wrapper { position: relative; z-index: 999; max-width: 460px; margin: 80px auto; background: rgba(17, 22, 37, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.7); text-align: center; box-sizing: border-box; }
@@ -162,21 +160,123 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 .gate-form-group input { padding: 14px; border: 1px solid rgba(255, 255, 255, 0.08); background-color: rgba(24, 31, 50, 0.75); color: white; border-radius: 8px; font-size: 14px; outline: none; width: 100%; box-sizing: border-box; }
 .gate-form-group input:focus { border-color: #4a72b2; }
 .gate-enter-btn { background: linear-gradient(135deg, #4a72b2, #294a80); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1); padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; width: 100%; box-sizing: border-box; }
+/* ---------- Header / menu button ---------- */
+.header-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.menu-btn { position: relative; flex-shrink: 0; width: 44px; height: 44px; border-radius: 10px; background: rgba(24, 31, 50, 0.75); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s ease; }
+.menu-btn:hover { border-color: #4a72b2; box-shadow: 0 0 12px rgba(74,114,178,0.45); }
+.menu-badge { position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #e74c3c; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 8px rgba(231,76,60,0.6); }
+.user-role-line { font-size: 11px; color: #8fa0bc; font-weight: 600; letter-spacing: .3px; }
+
+/* ---------- Sidebar ---------- */
+.sb-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); z-index: 9000; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 390px; max-width: 92vw; z-index: 9001; display: flex; flex-direction: column; background: rgba(13, 18, 31, 0.97); border-right: 1px solid rgba(255,255,255,0.07); box-shadow: 20px 0 50px rgba(0,0,0,0.6); transform: translateX(-105%); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+body.sb-open .sidebar { transform: none; }
+body.sb-open .sb-overlay { opacity: 1; pointer-events: auto; }
+body.sb-open { overflow: hidden; }
+.sb-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.sb-user-name { font-size: 15px; font-weight: 700; color: #fff; }
+.sb-user-role { font-size: 11px; color: #8fa0bc; font-weight: 600; margin-top: 2px; }
+.sb-close { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #cbd5e1; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 14px; flex-shrink: 0; }
+.sb-close:hover { background: rgba(231,76,60,0.6); color: #fff; }
+.sb-scroll { flex: 1; overflow-y: auto; padding: 14px 14px 24px; display: flex; flex-direction: column; gap: 8px; }
+.sb-group-label { font-size: 10px; font-weight: 700; color: #5c6e8c; text-transform: uppercase; letter-spacing: 1px; margin: 10px 4px 2px; }
+.sb-section { background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; }
+.sb-section > summary { list-style: none; cursor: pointer; padding: 12px 14px; font-size: 12px; font-weight: 700; color: #cbd5e1; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: .4px; user-select: none; }
+.sb-section > summary::-webkit-details-marker { display: none; }
+.sb-section > summary .sb-ico, .sb-action .sb-ico { width: 16px; text-align: center; color: #4a72b2; }
+.sb-section > summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; margin-left: auto; font-size: 10px; color: #5c6e8c; transition: transform .2s ease; }
+.sb-section[open] > summary::after { transform: rotate(180deg); }
+.sb-section > summary:has(.sb-pill:not(.hidden))::after { margin-left: 10px; }
+.sb-section > summary:hover { color: #fff; }
+.sb-body { padding: 2px 14px 14px; display: flex; flex-direction: column; gap: 8px; }
+.sb-action { width: 100%; text-align: left; background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 12px 14px; font-size: 12px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; letter-spacing: .4px; display: flex; align-items: center; gap: 10px; cursor: pointer; font-family: inherit; }
+.sb-action:hover { color: #fff; border-color: rgba(74,114,178,0.5); }
+.sb-action.logout { color: #e74c3c; border-color: rgba(231,76,60,0.3); }
+.sb-action.logout .sb-ico { color: #e74c3c; }
+.sb-action.logout:hover { background: rgba(231,76,60,0.15); }
+.sb-pill { margin-left: auto; min-width: 18px; height: 18px; padding: 0 6px; box-sizing: border-box; border-radius: 9px; background: #e74c3c; color: #fff; font-size: 10px; display: inline-flex; align-items: center; justify-content: center; letter-spacing: 0; }
+.sb-input, .sb-select, .sb-textarea { width: 100%; box-sizing: border-box; padding: 10px 12px; background: rgba(11, 15, 25, 0.7); border: 1px solid rgba(255,255,255,0.08); color: #fff; border-radius: 7px; font-size: 13px; font-family: inherit; outline: none; color-scheme: dark; }
+.sb-input:focus, .sb-select:focus, .sb-textarea:focus { border-color: #4a72b2; }
+.sb-textarea { min-height: 70px; resize: vertical; }
+.sb-row { display: flex; gap: 8px; }
+.sb-row > * { flex: 1; min-width: 0; }
+.sb-row .sb-emoji { flex: 0 0 64px; text-align: center; }
+.sb-btn { border: none; border-radius: 7px; padding: 10px 12px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 7px; background: #4a72b2; color: #fff; transition: all .2s ease; }
+.sb-btn:hover { background: #365991; }
+.sb-btn.ghost { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; }
+.sb-btn.ghost:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.sb-btn.danger { background: rgba(231,76,60,0.12); border: 1px solid rgba(231,76,60,0.35); color: #e74c3c; }
+.sb-btn.danger:hover { background: #e74c3c; color: #fff; }
+.sb-btn.success { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.35); color: #2ecc71; }
+.sb-btn.success:hover { background: #2ecc71; color: #0b0f19; }
+.sb-btn.small { padding: 6px 10px; font-size: 11px; }
+.sb-note { font-size: 11px; color: #8fa0bc; line-height: 1.6; margin: 0; }
+.sb-note.ok { color: #2ecc71; } .sb-note.warn { color: #f1c40f; } .sb-note.bad { color: #e74c3c; }
+.sb-sub { font-size: 10px; font-weight: 700; color: #5c6e8c; text-transform: uppercase; letter-spacing: .6px; margin-top: 6px; }
+.sb-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.sb-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(11, 15, 25, 0.45); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 8px 10px; font-size: 12px; color: #e2e8f0; }
+.sb-item .meta { font-size: 10px; color: #5c6e8c; font-family: 'Roboto Mono', monospace; }
+.sb-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.icon-btn { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 12px; padding: 2px 4px; }
+.icon-btn:hover { color: #ff7675; }
+.team-list { list-style: none; padding: 0; margin: 4px 0 0 0; display: flex; flex-direction: column; gap: 8px; }
+.team-row { padding: 9px 10px; }
+.team-row-info { gap: 6px; }
+.stat-card { background: rgba(11, 15, 25, 0.45); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; }
+.stat-card-top { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.stat-card-top span:last-child { font-family: 'Roboto Mono', monospace; color: #2ecc71; font-size: 11px; }
+.stat-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.07); overflow: hidden; margin-bottom: 7px; }
+.stat-bar > div { height: 100%; background: linear-gradient(90deg, #2ecc71, #27ae60); border-radius: 3px; }
+.stat-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.stat-chip { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #cbd5e1; }
+.stat-chip.done { color: #2ecc71; } .stat-chip.prog { color: #f1c40f; } .stat-chip.pend { color: #ff7675; }
+.stat-chip.late { background: rgba(231,76,60,0.18); color: #ff7675; border: 1px solid rgba(231,76,60,0.4); }
+
+/* ---------- Main page additions ---------- */
+.dashboard-stats-wrapper { grid-template-columns: 1.8fr 1.2fr; }
+.announce-bar { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 22px; padding: 14px 16px; border-radius: 10px; background: linear-gradient(135deg, rgba(74,114,178,0.18), rgba(74,114,178,0.06)); border: 1px solid rgba(74,114,178,0.35); }
+.announce-bar i { color: #f1c40f; font-size: 18px; margin-top: 2px; }
+.announce-text { font-size: 14px; color: #fff; font-weight: 600; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+.announce-meta { font-size: 10px; color: #8fa0bc; margin-top: 4px; font-family: 'Roboto Mono', monospace; }
+.tracker-head { display: flex; align-items: center; justify-content: center; gap: 14px; position: relative; margin-bottom: 30px; }
+.tracker-head h1 { margin: 0; }
+.new-task-btn { position: absolute; right: 0; background: linear-gradient(135deg, #4a72b2, #294a80); color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 9px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(74,114,178,0.3); font-family: inherit; }
+.new-task-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(74,114,178,0.5); }
+.overdue-chip { background: rgba(231,76,60,0.12); color: #ff7675; border-color: rgba(231,76,60,0.35); }
+.overdue-chip:hover, .overdue-chip.active { background: #e74c3c; color: #fff; border-color: #e74c3c; box-shadow: 0 0 8px rgba(231,76,60,0.4); }
+.overdue-badge { font-size: 10px; font-weight: 800; letter-spacing: .5px; background: #e74c3c; color: #fff; padding: 4px 9px; border-radius: 4px; display: inline-block; margin-bottom: 6px; margin-left: 5px; box-shadow: 0 0 10px rgba(231,76,60,0.5); }
+.task-item.is-overdue { background: linear-gradient(90deg, rgba(231,76,60,0.12), rgba(25,33,56,0.85) 40%); border-color: rgba(231,76,60,0.35); }
+.app-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box; }
+.app-modal-box { background: rgba(17, 24, 39, 0.97); border: 1px solid rgba(74,114,178,0.35); border-radius: 16px; padding: 24px; width: 100%; max-width: 620px; box-shadow: 0 25px 60px rgba(0,0,0,0.8); box-sizing: border-box; }
+.app-modal-box .history-modal-header h3 { color: #6f97d6; }
+.app-modal-box .add-task-box { margin-bottom: 0; }
+@media (max-width: 720px) {
+  .dashboard-stats-wrapper { grid-template-columns: 1fr; }
+  .tracker-head { flex-direction: column; }
+  .new-task-btn { position: static; }
+  .task-item { flex-wrap: wrap; gap: 10px; }
+  .task-actions { width: 100%; justify-content: flex-start; }
+  .add-task-box { grid-template-columns: 1fr; }
+  .add-task-box button { grid-column: auto; }
+}
 </style>
 </head>
 <body>
-<!-- ============ 6 OCTOBER CELEBRATION (shows only on Oct 6, Cairo time) ============ -->
+<!-- ================= CELEBRATION BANNER (6 October automatic + occasions set by admin) ================= -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
 .oct6-topline { position: fixed; top: 0; left: 0; right: 0; height: 5px; z-index: 10001; display: none;
   background: linear-gradient(90deg, #ce1126 0 33.33%, #ffffff 33.33% 66.66%, #111 66.66% 100%); box-shadow: 0 0 12px rgba(206,17,38,0.5); }
+.cel-noflag .oct6-topline { background: linear-gradient(90deg, #8a6d1d, #d4af37, #f7e29a, #d4af37, #8a6d1d); box-shadow: 0 0 12px rgba(212,175,55,0.5); }
 .oct6-banner { display: none; position: relative; overflow: hidden; max-width: 850px; margin: 0 auto 22px; box-sizing: border-box;
-  border-radius: 16px; padding: 22px 26px 22px 70px; font-family: 'Cairo', 'Inter', sans-serif; color: #fff;
+  border-radius: 16px; padding: 22px 26px; font-family: 'Cairo', 'Inter', sans-serif; color: #fff;
   background: radial-gradient(120% 140% at 100% 0%, rgba(206,17,38,0.35) 0%, rgba(17,22,37,0.92) 55%), rgba(17,22,37,0.9);
   border: 1px solid rgba(212,175,55,0.35); box-shadow: 0 18px 45px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.03);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); animation: oct6-in .9s cubic-bezier(.2,.8,.2,1) both; }
+.cel-noflag .oct6-banner { background: radial-gradient(120% 140% at 100% 0%, rgba(212,175,55,0.28) 0%, rgba(17,22,37,0.92) 55%), rgba(17,22,37,0.9); }
 .oct6-active .oct6-banner, .oct6-active .oct6-topline { display: block; }
 .oct6-flag { position: absolute; top: 0; bottom: 0; right: 0; width: 10px; display: flex; flex-direction: column; }
+.cel-noflag .oct6-flag { display: none; }
 .oct6-flag span { flex: 1; }
 .oct6-flag span:nth-child(1) { background: #ce1126; }
 .oct6-flag span:nth-child(2) { background: #fff; }
@@ -194,49 +294,60 @@ h1 i { color: #4a72b2; margin-right: 8px; }
   box-shadow: 0 0 25px rgba(212,175,55,0.25), inset 0 0 18px rgba(212,175,55,0.12); }
 .oct6-years b { font-size: 34px; font-weight: 900; color: #d4af37; line-height: 1; text-shadow: 0 0 12px rgba(212,175,55,0.5); }
 .oct6-years small { font-size: 11px; color: #e8d9a8; font-weight: 700; margin-top: 2px; }
-.oct6-close { position: absolute; top: 10px; left: 12px; z-index: 3; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-  color: #cbd5e1; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 15px; line-height: 1; display: flex; align-items: center; justify-content: center; }
-.oct6-close:hover { background: rgba(206,17,38,0.6); color: #fff; }
 .oct6-spark { position: absolute; bottom: -10px; width: 4px; height: 4px; border-radius: 50%; background: #d4af37; opacity: 0;
   box-shadow: 0 0 8px #d4af37; animation: oct6-rise linear infinite; z-index: 1; pointer-events: none; }
 @keyframes oct6-in { from { opacity: 0; transform: translateY(-14px) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes oct6-shine { to { background-position: 200% center; } }
 @keyframes oct6-rise { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: .9; } 100% { transform: translateY(-160px); opacity: 0; } }
 @media (max-width: 600px) {
-  .oct6-banner { padding: 18px 18px 18px 50px; }
+  .oct6-banner { padding: 18px; }
   .oct6-title { font-size: 20px; }
   .oct6-years { width: 70px; height: 70px; } .oct6-years b { font-size: 26px; }
 }
 </style>
 <div class="oct6-topline"></div>
-<div class="oct6-banner" id="oct6-banner" dir="rtl" role="note" aria-label="6 October celebration">
+<div class="oct6-banner" id="oct6-banner" dir="rtl" role="note" aria-label="Celebration">
   <div class="oct6-flag"><span></span><span></span><span></span></div>
-  <button class="oct6-close" title="إخفاء" onclick="document.documentElement.classList.remove('oct6-active'); try{sessionStorage.setItem('oct6Hidden','1')}catch(e){}">✕</button>
   <div class="oct6-inner">
     <div class="oct6-text">
-      <span class="oct6-date">٦ أكتوبر ١٩٧٣ · العاشر من رمضان</span>
-      <h2 class="oct6-title">ذكرى نصر أكتوبر المجيد</h2>
-      <div class="oct6-sub">تحية لأبطال العبور · كل عام ومصر بخير 🇪🇬 — من فريق BIM WOW</div>
+      <span class="oct6-date" id="cel-chip"></span>
+      <h2 class="oct6-title" id="cel-title"></h2>
+      <div class="oct6-sub" id="cel-sub"></div>
     </div>
-    <div class="oct6-years"><b id="oct6-years-num">٥٣</b><small>عامًا</small></div>
+    <div class="oct6-years"><b id="cel-main"></b><small id="cel-small"></small></div>
   </div>
 </div>
 <script>
 (function () {
-  // Shows only on 6 October (Cairo time), every year. Add ?celebrate=1 to the URL to preview any day.
   function cairoToday() {
     var parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
-    var o = {}; parts.forEach(function (p) { o[p.type] = p.value; }); return o;
+    var o = {}; parts.forEach(function (p) { o[p.type] = p.value; }); o.iso = o.year + '-' + o.month + '-' + o.day; return o;
   }
-  var forced = /[?&]celebrate=1/.test(location.search);
+  var PRESETS = {
+    oct6:    function (d) { return { flag: true, chip: '٦ أكتوبر ١٩٧٣ · العاشر من رمضان', title: 'ذكرى نصر أكتوبر المجيد', sub: 'تحية لأبطال العبور · كل عام ومصر بخير 🇪🇬 — من فريق BIM WOW', main: (Number(d.year) - 1973).toLocaleString('ar-EG'), small: 'عامًا' }; },
+    ramadan: function () { return { flag: false, chip: 'شهر رمضان المبارك', title: 'رمضان كريم 🌙', sub: 'أعاده الله علينا وعليكم بالخير واليُمن والبركات — من فريق BIM WOW', main: '🌙', small: 'كريم' }; },
+    eid:     function () { return { flag: false, chip: 'عيد سعيد', title: 'عيد مبارك 🎉', sub: 'كل عام وأنتم بخير — من فريق BIM WOW', main: '🎉', small: 'مبارك' }; },
+    custom:  function () { return { flag: false, chip: 'BIM WOW', title: '', sub: '', main: '✨', small: '' }; }
+  };
+  var remote = null;                                   // occasion set by the admin from the side menu
+  var forced = /[?&]celebrate=1/.test(location.search); // preview: add ?celebrate=1 to the URL
+  function set(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt || ''; }
   function check() {
-    var d = cairoToday();
-    var isDay = forced || (d.month === '10' && d.day === '06');
-    var hidden = false; try { hidden = sessionStorage.getItem('oct6Hidden') === '1'; } catch (e) {}
-    document.documentElement.classList.toggle('oct6-active', isDay && !hidden);
-    var n = document.getElementById('oct6-years-num');
-    if (n) n.textContent = (Number(d.year) - 1973).toLocaleString('ar-EG');
+    var d = cairoToday(), cfg = null;
+    if (remote && remote.preset && PRESETS[remote.preset] && (!remote.until || d.iso <= remote.until)) {
+      cfg = PRESETS[remote.preset](d);
+      if (remote.title) cfg.title = remote.title;
+      if (remote.sub) cfg.sub = remote.sub;
+    } else if (forced || (d.month === '10' && d.day === '06')) {
+      cfg = PRESETS.oct6(d);
+    }
+    var root = document.documentElement;
+    root.classList.toggle('oct6-active', !!cfg);
+    if (!cfg) return;
+    root.classList.toggle('cel-noflag', !cfg.flag);
+    set('cel-chip', cfg.chip); set('cel-title', cfg.title); set('cel-sub', cfg.sub); set('cel-main', cfg.main); set('cel-small', cfg.small);
   }
+  window.setRemoteCelebration = function (cfg) { remote = cfg || null; check(); };
   var banner = document.getElementById('oct6-banner');
   for (var i = 0; i < 18; i++) {
     var s = document.createElement('span'); s.className = 'oct6-spark';
@@ -246,10 +357,10 @@ h1 i { color: #4a72b2; margin-right: 8px; }
     banner.appendChild(s);
   }
   check();
-  setInterval(check, 60000); // hides itself automatically after midnight
+  setInterval(check, 60000); // hides itself automatically after midnight / after the end date
 })();
 </script>
-<!-- ========================== END 6 OCTOBER CELEBRATION ========================== -->
+<!-- ======================================= END CELEBRATION BANNER ======================================= -->
 <video class="full-screen-video-bg" autoplay loop muted playsinline>
 <source src="company_video.mp4" type="video/mp4">
 </video>
@@ -268,17 +379,141 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 </div>
 </div>
 
+<!-- ============================== SIDE MENU ============================== -->
+<div class="sb-overlay" onclick="closeSidebar()"></div>
+<aside class="sidebar" id="sidebar" aria-label="Menu">
+<div class="sb-head">
+<div>
+<div class="sb-user-name" id="sb-user-name">—</div>
+<div class="sb-user-role" id="sb-user-role">—</div>
+</div>
+<button class="sb-close" onclick="closeSidebar()" title="Close"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="sb-scroll">
+
+<div class="sb-group-label" data-roles="admin">Founder Controls</div>
+
+<details class="sb-section" data-roles="admin" id="sb-pw-requests">
+<summary><i class="fa-solid fa-key sb-ico"></i> Password Requests <span class="sb-pill hidden" id="pw-req-count">0</span></summary>
+<div class="sb-body">
+<ul class="sb-list" id="pw-requests-list"></ul>
+</div>
+</details>
+
+<details class="sb-section" data-roles="admin">
+<summary><i class="fa-solid fa-users-gear sb-ico"></i> Team Accounts</summary>
+<div class="sb-body">
+<input class="sb-input" type="text" id="new-member-name" placeholder="Display name (e.g. Hatem)" autocomplete="off">
+<input class="sb-input" type="text" id="new-member-username" placeholder="Username (e.g. hatem)" autocomplete="off">
+<input class="sb-input" type="password" id="new-member-pass" placeholder="Password (min 8 characters)" autocomplete="new-password">
+<select class="sb-select" id="new-member-role">
+<option value="member">🧑‍💻 Member</option>
+<option value="manager">💼 Manager</option>
+</select>
+<button class="sb-btn" onclick="createTeamAccount()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
+<ul class="team-list" id="team-members-list"></ul>
+</div>
+</details>
+
+<details class="sb-section" data-roles="admin">
+<summary><i class="fa-solid fa-folder-tree sb-ico"></i> Projects & Task Types</summary>
+<div class="sb-body">
+<div class="sb-sub">Projects</div>
+<ul class="sb-list" id="projects-admin-list"></ul>
+<div class="sb-row">
+<input class="sb-input sb-emoji" type="text" id="new-project-emoji" placeholder="🏢" maxlength="4">
+<input class="sb-input" type="text" id="new-project-name" placeholder="New project name">
+</div>
+<button class="sb-btn ghost" onclick="addListItem('projects')"><i class="fa-solid fa-plus"></i> Add Project</button>
+<div class="sb-sub">Task Types</div>
+<ul class="sb-list" id="types-admin-list"></ul>
+<div class="sb-row">
+<input class="sb-input sb-emoji" type="text" id="new-type-emoji" placeholder="📐" maxlength="4">
+<input class="sb-input" type="text" id="new-type-name" placeholder="New task type">
+</div>
+<button class="sb-btn ghost" onclick="addListItem('types')"><i class="fa-solid fa-plus"></i> Add Task Type</button>
+</div>
+</details>
+
+<details class="sb-section" data-roles="admin">
+<summary><i class="fa-solid fa-bullhorn sb-ico"></i> Team Announcement</summary>
+<div class="sb-body">
+<textarea class="sb-textarea" id="announce-input" placeholder="e.g. Coordination meeting tomorrow at 10:00 AM"></textarea>
+<div class="sb-row">
+<button class="sb-btn" onclick="publishAnnouncement()"><i class="fa-solid fa-paper-plane"></i> Publish</button>
+<button class="sb-btn danger" onclick="clearAnnouncement()"><i class="fa-solid fa-eraser"></i> Remove</button>
+</div>
+</div>
+</details>
+
+<details class="sb-section" data-roles="admin">
+<summary><i class="fa-solid fa-champagne-glasses sb-ico"></i> Occasions Banner</summary>
+<div class="sb-body">
+<p class="sb-note" id="cel-status">No occasion is active. (6 October shows automatically every year.)</p>
+<select class="sb-select" id="cel-preset">
+<option value="ramadan">🌙 Ramadan Kareem</option>
+<option value="eid">🎉 Eid Mubarak</option>
+<option value="oct6">🇪🇬 6 October</option>
+<option value="custom">✨ Custom message</option>
+</select>
+<input class="sb-input" type="text" id="cel-title" placeholder="Title (optional — leave empty for default)">
+<input class="sb-input" type="text" id="cel-sub" placeholder="Sub-text (optional)">
+<label class="sb-note">Show until (inclusive):</label>
+<input class="sb-input" type="date" id="cel-until">
+<div class="sb-row">
+<button class="sb-btn" onclick="activateCelebration()"><i class="fa-solid fa-wand-magic-sparkles"></i> Show</button>
+<button class="sb-btn danger" onclick="stopCelebration()"><i class="fa-solid fa-power-off"></i> Turn Off</button>
+</div>
+</div>
+</details>
+
+<div class="sb-group-label" data-roles="admin manager">Team Overview</div>
+
+<details class="sb-section" data-roles="admin manager">
+<summary><i class="fa-solid fa-satellite-dish sb-ico" style="color:#2ecc71;"></i> Online Now <span class="sb-pill" id="online-count" style="background:#27ae60;">0</span></summary>
+<div class="sb-body">
+<div class="presence-users-grid" id="live-presence-container"></div>
+</div>
+</details>
+
+<details class="sb-section" data-roles="admin manager">
+<summary><i class="fa-solid fa-bolt sb-ico" style="color:#f1c40f;"></i> Activity Log</summary>
+<div class="sb-body">
+<ul class="activity-list" id="activity-log-container"></ul>
+<button class="sb-btn danger small" data-roles="admin" onclick="clearAllActivityLogs()"><i class="fa-solid fa-trash-can"></i> Clear All Notifications</button>
+</div>
+</details>
+
+<details class="sb-section" data-roles="admin manager">
+<summary><i class="fa-solid fa-chart-simple sb-ico"></i> Team Stats</summary>
+<div class="sb-body" id="team-stats-body"></div>
+</details>
+
+<button class="sb-action" data-roles="admin manager" onclick="exportTasksToExcel()"><i class="fa-solid fa-file-excel sb-ico" style="color:#2ecc71;"></i> Export Tasks to Excel</button>
+<button class="sb-action" data-roles="admin" onclick="openLoginHistoryModal()"><i class="fa-solid fa-clock-rotate-left sb-ico" style="color:#3498db;"></i> Login Audit Log</button>
+
+<div class="sb-group-label">My Account</div>
+
+<details class="sb-section" id="sb-password">
+<summary><i class="fa-solid fa-lock sb-ico"></i> Change Password <span class="sb-pill hidden" id="pw-ready-dot" style="background:#2ecc71;">!</span></summary>
+<div class="sb-body" id="pw-section-body"></div>
+</details>
+
+<button class="sb-action logout" onclick="handleLogout()"><i class="fa-solid fa-door-open sb-ico"></i> Logout</button>
+</div>
+</aside>
+
+<!-- ============================== MAIN APP ============================== -->
 <div id="main-dashboard-app" class="hidden">
 <div class="user-header">
+<div class="header-left">
+<button class="menu-btn" onclick="openSidebar()" title="Menu"><i class="fa-solid fa-bars"></i><span class="menu-badge hidden" id="menu-badge">0</span></button>
 <div class="user-info">
 <div class="user-name-glow">
 <i class="fa-solid fa-user-gear"></i>
 <span id="current-user-display">Loading User...</span>
 </div>
-<div class="glow-line"></div>
-<div class="auth-buttons-wrapper">
-<button class="portal-btn" onclick="handleLogout()"><i class="fa-solid fa-door-open"></i> Logout</button>
-<button id="admin-audit-toggle-btn" class="portal-btn audit-btn-glow hidden" onclick="openLoginHistoryModal()"><i class="fa-solid fa-clock-rotate-left"></i> Audit Log</button>
+<div class="glow-line" style="margin-bottom:0;"></div>
 </div>
 </div>
 <div class="company-logo-box">
@@ -287,11 +522,9 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 </div>
 </div>
 <div class="container">
-<div class="presence-card-section hidden" id="presence-admin-only-card">
-<div class="presence-title"><i class="fa-solid fa-satellite-dish" style="color: #2ecc71;"></i> Live Active Coworkers (Admin Vault)</div>
-<div class="presence-users-grid" id="live-presence-container">
-<div class="presence-user-pill"><div class="live-pulse-dot"></div>Syncing encrypted channels...</div>
-</div>
+<div class="announce-bar hidden" id="announce-bar">
+<i class="fa-solid fa-bullhorn"></i>
+<div><div class="announce-text" id="announce-text"></div><div class="announce-meta" id="announce-meta"></div></div>
 </div>
 <div id="tasks-page">
 <div class="dashboard-stats-wrapper" id="stats-wrapper-layout">
@@ -320,64 +553,15 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 <span class="chart-center-lbl">Done</span>
 </div>
 </div>
-<div class="activity-log-section" id="activity-log-card-wrapper">
-<div class="activity-log-title"><i class="fa-solid fa-bolt"></i> Activity Log Feed</div>
-<ul class="activity-list" id="activity-log-container">
-<li class="activity-item"><span>Log is ready.</span><span class="activity-time">--:--</span></li>
-</ul>
-<button id="clear-all-logs-btn" class="clear-all-logs-btn hidden" onclick="clearAllActivityLogs()"><i class="fa-solid fa-trash-can"></i> Clear All Notifications</button>
 </div>
-</div>
-<div class="add-task-box hidden" id="team-admin-box">
-<div class="presence-title" style="grid-column: span 2;"><i class="fa-solid fa-users-gear" style="color:#4a72b2;"></i> Team Accounts (Founder Only)</div>
-<input type="text" id="new-member-name" placeholder="Display name (e.g. Hatem)" autocomplete="off">
-<input type="text" id="new-member-username" placeholder="Username (e.g. hatem)" autocomplete="off">
-<input type="password" id="new-member-pass" placeholder="Password (min 8 characters)" autocomplete="new-password">
-<select id="new-member-role">
-<option value="member">🧑‍💻 Member</option>
-<option value="manager">💼 Manager</option>
-</select>
-<button onclick="createTeamAccount()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
-<ul class="team-list" id="team-members-list"></ul>
-</div>
+<div class="tracker-head">
 <h1><i class="fa-solid fa-folder-tree"></i> Projects Task Tracker</h1>
-<div class="add-task-box hidden" id="admin-box">
-<select id="project-input">
-<option value="BRENT ELEMENTARY SCHOOL">🏫 Brent Elementary School</option>
-<option value="GOODWILL">🏢 GoodWill</option>
-<option value="PWC FIRE STATION">🚒 PWC Fire Station</option>
-<option value="ARFF">✈️ ARFF</option>
-<option value="SEYMOUR">🏛️ Seymour</option>
-</select>
-<select id="type-input">
-<option value="Reply to Email">📧 Reply to Email</option>
-<option value="Modeling">🏗️ Modeling</option>
-<option value="Coordination">🔄 Coordination</option>
-<option value="Shop Drawing">📜 Shop Drawing</option>
-<option value="Sleeve Drawing">🕳️ Sleeve Drawing</option>
-<option value="Submittal Check">✅ Submittal Check</option>
-<option value="RFI">❓ RFI</option>
-</select>
-<input type="text" id="task-input" placeholder="Notes / Task Details...">
-<select id="priority-input">
-<option value="high">🔥 High Priority</option>
-<option value="medium">🟡 Medium Priority</option>
-<option value="low">🟢 Low Priority</option>
-</select>
-<input type="date" id="deadline-input" style="color-scheme: dark;">
-<select id="assignee-input">
-</select>
-<button onclick="addNewTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
+<button class="new-task-btn" data-roles="admin" onclick="openTaskModal()"><i class="fa-solid fa-plus"></i> New Task</button>
 </div>
 <div class="filter-section">
 <div class="filter-group">
 <span class="filter-title">Project:</span>
-<span class="filter-chip active" onclick="setProjectFilter('ALL', this)">All Projects</span>
-<span class="filter-chip" onclick="setProjectFilter('BRENT ELEMENTARY SCHOOL', this)">🏫 Brent</span>
-<span class="filter-chip" onclick="setProjectFilter('GOODWILL', this)">🏢 Goodwill</span>
-<span class="filter-chip" onclick="setProjectFilter('PWC FIRE STATION', this)">🚒 PWC</span>
-<span class="filter-chip" onclick="setProjectFilter('ARFF', this)">✈️️ ARFF</span>
-<span class="filter-chip" onclick="setProjectFilter('SEYMOUR', this)">🏛 Seymour</span>
+<span id="project-filter-chips" style="display:contents;"></span>
 </div>
 <div class="filter-group">
 <span class="filter-title">Priority:</span>
@@ -386,7 +570,12 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 <span class="filter-chip" onclick="setPriorityFilter('medium', this)">🟡 Med</span>
 <span class="filter-chip" onclick="setPriorityFilter('low', this)">🟢 Low</span>
 </div>
-<div class="filter-group hidden" id="archive-filter-wrapper">
+<div class="filter-group">
+<span class="filter-title">View:</span>
+<span class="filter-chip active" onclick="setViewFilter('ALL', this)">All Tasks</span>
+<span class="filter-chip overdue-chip" onclick="setViewFilter('OVERDUE', this)">⏰ Overdue (<span id="overdue-count">0</span>)</span>
+</div>
+<div class="filter-group" data-roles="admin manager">
 <span class="filter-title">Archive:</span>
 <span class="filter-chip active" onclick="toggleArchiveView(false, this)">🟢 Active Only</span>
 <span class="filter-chip archive-filter-chip" onclick="toggleArchiveView(true, this)">📦 Show Archived</span>
@@ -397,7 +586,31 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 </div>
 </div>
 
-<div id="history-modal" class="history-modal-overlay">
+<!-- New task window -->
+<div id="task-modal" class="app-modal-overlay" onclick="if(event.target===this)closeTaskModal()">
+<div class="app-modal-box">
+<div class="history-modal-header">
+<h3><i class="fa-solid fa-square-plus"></i> New Task</h3>
+<button class="close-modal-btn" onclick="closeTaskModal()"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="add-task-box">
+<select id="project-input"></select>
+<select id="type-input"></select>
+<input type="text" id="task-input" placeholder="Notes / Task Details...">
+<select id="priority-input">
+<option value="high">🔥 High Priority</option>
+<option value="medium">🟡 Medium Priority</option>
+<option value="low">🟢 Low Priority</option>
+</select>
+<input type="date" id="deadline-input" style="color-scheme: dark;">
+<select id="assignee-input"></select>
+<button onclick="addNewTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
+</div>
+</div>
+</div>
+
+<!-- Login audit window -->
+<div id="history-modal" class="history-modal-overlay" onclick="if(event.target===this)closeLoginHistoryModal()">
 <div class="history-modal-box">
 <div class="history-modal-header">
 <h3><i class="fa-solid fa-clock-rotate-left"></i> Login History & Access Audit</h3>
@@ -419,9 +632,7 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 //  No passwords live in this file. Accounts are stored in Firebase
 //  Authentication, and each person's role lives in /users/{uid} in the
 //  database, which only the founder (admin) can change.
-//  The values below are PUBLIC identifiers for the Firebase project
-//  (they are meant to be visible) - copy them from:
-//  Firebase Console > Project settings > General > Your apps > Web app
+//  The values below are PUBLIC identifiers for the Firebase project.
 // =====================================================================
 const firebaseConfig = {
   apiKey: "AIzaSyBrdMQI-ep9cK4n5aILZgdgRq_mbz31ctw",
@@ -441,13 +652,21 @@ const auth = firebase.auth();
 const db = firebase.database();
 auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
-let me = null;               // { uid, name, username, role }
+// ----------------------------- STATE --------------------------------
+let me = null;                 // { uid, name, username, role }
 let userRole = 'viewer';
-let teamMembers = {};        // uid -> profile (admin only)
+let teamMembers = {};          // uid -> profile (admin / manager)
 let tasks = [];
+let projectsData = null;       // settings/projects (null = defaults)
+let typesData = null;          // settings/types (null = defaults)
+let pwRequests = {};           // admin: all password requests
+let myPwRequest = null;        // non-admin: my own request
+let lastPresenceData = null;
+let currentCelebration = null;
 let myPieChart = null;
 let activeProjectFilter = 'ALL';
 let activePriorityFilter = 'ALL';
+let activeViewFilter = 'ALL';
 let showArchivedTasks = false;
 let editingTaskId = null;
 let activeListeners = [];
@@ -457,7 +676,24 @@ const ROLE_META = {
   manager: { tag: 'General Manager', icon: '💼',    cls: 'pill-role-manager' },
   member:  { tag: 'Member',          icon: '🧑‍💻', cls: 'pill-role-khaled' }
 };
+const DEFAULT_PROJECTS = [
+  { value: 'BRENT ELEMENTARY SCHOOL', label: '🏫 Brent Elementary School' },
+  { value: 'GOODWILL', label: '🏢 GoodWill' },
+  { value: 'PWC FIRE STATION', label: '🚒 PWC Fire Station' },
+  { value: 'ARFF', label: '✈️ ARFF' },
+  { value: 'SEYMOUR', label: '🏛️ Seymour' }
+];
+const DEFAULT_TYPES = [
+  { value: 'Reply to Email', label: '📧 Reply to Email' },
+  { value: 'Modeling', label: '🏗️ Modeling' },
+  { value: 'Coordination', label: '🔄 Coordination' },
+  { value: 'Shop Drawing', label: '📜 Shop Drawing' },
+  { value: 'Sleeve Drawing', label: '🕳️ Sleeve Drawing' },
+  { value: 'Submittal Check', label: '✅ Submittal Check' },
+  { value: 'RFI', label: '❓ RFI' }
+];
 
+// ---------------------------- HELPERS -------------------------------
 function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
@@ -477,6 +713,31 @@ function stopAllListeners() {
   activeListeners.forEach(off => off());
   activeListeners = [];
 }
+function cairoTodayISO() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+}
+function isOverdue(t) {
+  return !!t.deadline && t.progress !== 100 && !t.archived && t.deadline < cairoTodayISO();
+}
+function fmtTime(ts) {
+  if (!ts) return '';
+  return new Date(ts).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+}
+function listFrom(data, defaults) {
+  if (!data) return defaults.map((d, i) => ({ key: 'd' + i, ...d }));
+  return Object.keys(data).map(k => ({ key: k, ...data[k] })).sort((a, b) => (a.order || 0) - (b.order || 0));
+}
+const getProjects = () => listFrom(projectsData, DEFAULT_PROJECTS);
+const getTypes = () => listFrom(typesData, DEFAULT_TYPES);
+function labelFor(list, value) {
+  const f = list.find(x => x.value === value);
+  return f ? f.label : value;
+}
+
+// ---------------------------- SIDEBAR -------------------------------
+function openSidebar() { document.body.classList.add('sb-open'); }
+function closeSidebar() { document.body.classList.remove('sb-open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSidebar(); closeTaskModal(); closeLoginHistoryModal(); } });
 
 // ---------------------------- AUTH ----------------------------------
 async function submitGateLogin() {
@@ -490,12 +751,19 @@ async function submitGateLogin() {
     alert("Authentication Failed! Invalid Username or Password.");
   }
 }
-
 document.getElementById('gate-pass-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitGateLogin(); });
+
+// The occasions banner is public (also shows on the login screen)
+db.ref('settings/celebration').on('value', snap => {
+  currentCelebration = snap.val();
+  if (window.setRemoteCelebration) window.setRemoteCelebration(currentCelebration);
+  renderCelebrationStatus();
+}, () => {});
 
 auth.onAuthStateChanged(async user => {
   stopAllListeners();
-  tasks = []; teamMembers = {};
+  tasks = []; teamMembers = {}; pwRequests = {}; myPwRequest = null; lastPresenceData = null;
+  closeSidebar();
   if (!user) {
     me = null; userRole = 'viewer';
     checkPermissions();
@@ -522,14 +790,23 @@ auth.onAuthStateChanged(async user => {
     tasks = tData ? Object.keys(tData).map(key => ({ id: key, ...tData[key] })) : [];
     renderAll();
   });
-  if (userRole === 'admin' || userRole === 'manager') {
-    listen(db.ref('logs').limitToLast(4), 'value', snap => renderActivityLogs(snap.val()));
+  listen(db.ref('settings/projects'), 'value', snap => { projectsData = snap.val(); renderListControls(); renderAll(); });
+  listen(db.ref('settings/types'), 'value', snap => { typesData = snap.val(); renderListControls(); renderAll(); });
+  listen(db.ref('settings/announcement'), 'value', snap => renderAnnouncement(snap.val()));
+
+  if (userRole !== 'admin') {
+    listen(db.ref('password_requests/' + user.uid), 'value', snap => { myPwRequest = snap.val(); renderPasswordSection(); });
   }
-  if (userRole === 'admin') {
+  if (userRole === 'admin' || userRole === 'manager') {
+    listen(db.ref('logs').limitToLast(8), 'value', snap => renderActivityLogs(snap.val()));
     listen(db.ref('users'), 'value', snap => { teamMembers = snap.val() || {}; renderTeam(); renderTasks(); renderPresence(); });
     listen(db.ref('presence'), 'value', snap => renderPresence(snap.val()));
   }
+  if (userRole === 'admin') {
+    listen(db.ref('password_requests'), 'value', snap => { pwRequests = snap.val() || {}; renderPwRequests(); });
+  }
   checkPermissions();
+  renderPasswordSection();
 });
 
 async function handleLogout() {
@@ -537,6 +814,7 @@ async function handleLogout() {
   sessionStorage.clear();
   document.getElementById('gate-user-input').value = '';
   document.getElementById('gate-pass-input').value = '';
+  closeSidebar();
   await auth.signOut();
 }
 
@@ -546,16 +824,14 @@ function startPresence() {
   ref.onDisconnect().remove();
   ref.set({ name: displayLabel(me), style: (ROLE_META[me.role] || ROLE_META.member).cls }).catch(() => {});
 }
-let lastPresenceData = null;
 function renderPresence(data) {
   if (data !== undefined) lastPresenceData = data;
   const container = document.getElementById('live-presence-container');
   if (!container) return;
   container.innerHTML = '';
-  // Only show real, active accounts (ignores leftovers from the old site and revoked users)
-  const online = Object.keys(lastPresenceData || {})
-    .filter(uid => teamMembers[uid])
-    .map(uid => lastPresenceData[uid]);
+  // Only real, active accounts (ignores leftovers from the old site and revoked users)
+  const online = Object.keys(lastPresenceData || {}).filter(uid => teamMembers[uid]).map(uid => lastPresenceData[uid]);
+  document.getElementById('online-count').textContent = online.length;
   if (!online.length) { container.innerHTML = `<div class="presence-user-pill">No one online</div>`; return; }
   online.forEach(user => {
     const pill = document.createElement('div');
@@ -575,9 +851,8 @@ function recordLoginHistory() {
     timestamp: Date.now()
   }).catch(e => console.warn(e));
 }
-function openLoginHistoryModal() { document.getElementById('history-modal').style.display = 'flex'; fetchLoginAuditHistory(); }
+function openLoginHistoryModal() { closeSidebar(); document.getElementById('history-modal').style.display = 'flex'; fetchLoginAuditHistory(); }
 function closeLoginHistoryModal() { document.getElementById('history-modal').style.display = 'none'; }
-
 async function fetchLoginAuditHistory() {
   if (userRole !== 'admin') return;
   const container = document.getElementById('login-history-container');
@@ -615,13 +890,12 @@ function renderTeam() {
   const sel = document.getElementById('assignee-input');
   if (sel) {
     const current = sel.value;
-    sel.innerHTML = Object.values(teamMembers)
-      .filter(p => p.name)
+    sel.innerHTML = Object.values(teamMembers).filter(p => p.name)
       .map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('');
     if (current) sel.value = current;
   }
   const list = document.getElementById('team-members-list');
-  if (!list) return;
+  if (!list || userRole !== 'admin') return;
   list.innerHTML = '';
   const order = { admin: 0, manager: 1, member: 2 };
   Object.keys(teamMembers)
@@ -673,23 +947,238 @@ async function revokeTeamAccount(uid) {
   if (!confirm(`Revoke access for ${p ? p.name : 'this user'}? They will no longer be able to open the portal.`)) return;
   await db.ref('users/' + uid).remove();
   await db.ref('presence/' + uid).remove().catch(() => {});
+  await db.ref('password_requests/' + uid).remove().catch(() => {});
   logActivity(`Mokhtar revoked access: ${p ? p.name : uid}`);
+}
+
+// ---------------------- PASSWORD CHANGES ----------------------------
+function pwFormHtml(btnLabel) {
+  return `
+<input class="sb-input" type="password" id="pw-current" placeholder="Current password" autocomplete="current-password">
+<input class="sb-input" type="password" id="pw-new" placeholder="New password (min 8 characters)" autocomplete="new-password">
+<input class="sb-input" type="password" id="pw-confirm" placeholder="Confirm new password" autocomplete="new-password">
+<button class="sb-btn success" onclick="changeMyPassword()"><i class="fa-solid fa-check"></i> ${btnLabel}</button>`;
+}
+function renderPasswordSection() {
+  const body = document.getElementById('pw-section-body');
+  const dot = document.getElementById('pw-ready-dot');
+  if (!body || !me) return;
+  dot.classList.add('hidden');
+  if (userRole !== 'admin') document.getElementById('menu-badge').classList.add('hidden');
+  if (userRole === 'admin') {
+    body.innerHTML = `<p class="sb-note">As the founder you can change your password directly.</p>` + pwFormHtml('Update Password');
+    return;
+  }
+  const st = myPwRequest && myPwRequest.status;
+  if (st === 'pending') {
+    body.innerHTML = `<p class="sb-note warn"><i class="fa-solid fa-hourglass-half"></i> Your request was sent ${esc(fmtTime(myPwRequest.requestedAt))}. Waiting for Mokhtar's approval.</p>
+<button class="sb-btn ghost" onclick="cancelPwRequest()"><i class="fa-solid fa-xmark"></i> Cancel Request</button>`;
+  } else if (st === 'approved') {
+    dot.classList.remove('hidden');
+    const mb = document.getElementById('menu-badge'); mb.textContent = '!'; mb.classList.remove('hidden');
+    body.innerHTML = `<p class="sb-note ok"><i class="fa-solid fa-circle-check"></i> Approved by Mokhtar — set your new password now.</p>` + pwFormHtml('Save New Password');
+  } else {
+    body.innerHTML = (st === 'rejected' ? `<p class="sb-note bad"><i class="fa-solid fa-circle-xmark"></i> Your last request was declined.</p>` : '') +
+      `<p class="sb-note">Changing your password needs approval from Mokhtar first. Send a request and you'll be able to change it once it's approved.</p>
+<button class="sb-btn" onclick="requestPwChange()"><i class="fa-solid fa-paper-plane"></i> Request Password Change</button>`;
+  }
+}
+async function requestPwChange() {
+  if (!me || userRole === 'admin') return;
+  try {
+    await db.ref('password_requests/' + me.uid).set({ status: 'pending', name: me.name, requestedAt: Date.now() });
+    logActivity(`${me.name} requested a password change`);
+  } catch (e) { alert("Could not send the request: " + e.message); }
+}
+async function cancelPwRequest() {
+  if (!me) return;
+  await db.ref('password_requests/' + me.uid).remove().catch(() => {});
+}
+async function changeMyPassword() {
+  if (!me) return;
+  if (userRole !== 'admin' && !(myPwRequest && myPwRequest.status === 'approved')) { alert("Your password change hasn't been approved yet."); return; }
+  const cur = document.getElementById('pw-current').value;
+  const nw = document.getElementById('pw-new').value;
+  const cf = document.getElementById('pw-confirm').value;
+  if (!cur) { alert("Enter your current password."); return; }
+  if (nw.length < 8) { alert("New password must be at least 8 characters."); return; }
+  if (nw !== cf) { alert("The two new passwords don't match."); return; }
+  if (nw === cur) { alert("The new password must be different from the current one."); return; }
+  try {
+    const user = auth.currentUser;
+    const cred = firebase.auth.EmailAuthProvider.credential(user.email, cur);
+    await user.reauthenticateWithCredential(cred);
+    await user.updatePassword(nw);
+    if (userRole !== 'admin') await db.ref('password_requests/' + me.uid).remove().catch(() => {});
+    logActivity(`${me.name} changed their password`);
+    alert("Password changed successfully.");
+    renderPasswordSection();
+  } catch (e) {
+    const wrong = ['auth/wrong-password', 'auth/invalid-credential', 'auth/invalid-login-credentials'].includes(e.code);
+    alert(wrong ? "Current password is incorrect." : "Could not change password: " + e.message);
+  }
+}
+function renderPwRequests() {
+  const list = document.getElementById('pw-requests-list');
+  if (!list) return;
+  const keys = Object.keys(pwRequests).sort((a, b) => (pwRequests[b].requestedAt || 0) - (pwRequests[a].requestedAt || 0));
+  const pending = keys.filter(k => pwRequests[k].status === 'pending').length;
+  ['pw-req-count', 'menu-badge'].forEach(id => {
+    const el = document.getElementById(id);
+    el.textContent = pending;
+    el.classList.toggle('hidden', pending === 0);
+  });
+  if (!keys.length) { list.innerHTML = `<li class="sb-note">No requests right now.</li>`; return; }
+  list.innerHTML = keys.map(uid => {
+    const r = pwRequests[uid];
+    const name = (teamMembers[uid] && teamMembers[uid].name) || r.name || 'Unknown';
+    let actions = '';
+    if (r.status === 'pending') {
+      actions = `<button class="sb-btn success small" onclick="setPwRequest('${esc(uid)}','approved')"><i class="fa-solid fa-check"></i> Approve</button>
+<button class="sb-btn danger small" onclick="setPwRequest('${esc(uid)}','rejected')"><i class="fa-solid fa-xmark"></i></button>`;
+    } else if (r.status === 'approved') {
+      actions = `<span class="sb-note ok" style="font-size:10px;">Approved</span><button class="icon-btn" title="Cancel approval" onclick="setPwRequest('${esc(uid)}','rejected')"><i class="fa-solid fa-ban"></i></button>`;
+    } else {
+      actions = `<span class="sb-note bad" style="font-size:10px;">Declined</span><button class="icon-btn" title="Remove" onclick="deletePwRequest('${esc(uid)}')"><i class="fa-solid fa-trash-can"></i></button>`;
+    }
+    return `<li class="sb-item"><div><div>${esc(name)}</div><div class="meta">${esc(fmtTime(r.requestedAt))}</div></div><div class="sb-item-actions">${actions}</div></li>`;
+  }).join('');
+}
+async function setPwRequest(uid, status) {
+  if (userRole !== 'admin') return;
+  const r = pwRequests[uid];
+  await db.ref('password_requests/' + uid).update({ status, decidedAt: Date.now() });
+  const name = (teamMembers[uid] && teamMembers[uid].name) || (r && r.name) || '';
+  logActivity(`Mokhtar ${status === 'approved' ? 'approved' : 'declined'} ${name}'s password change`);
+}
+async function deletePwRequest(uid) {
+  if (userRole !== 'admin') return;
+  await db.ref('password_requests/' + uid).remove();
+}
+
+// ------------------- PROJECTS & TASK TYPES --------------------------
+function renderListControls() {
+  const projects = getProjects(), types = getTypes();
+  // New-task selects
+  const pSel = document.getElementById('project-input'), tSel = document.getElementById('type-input');
+  const pCur = pSel.value, tCur = tSel.value;
+  pSel.innerHTML = projects.map(p => `<option value="${esc(p.value)}">${esc(p.label)}</option>`).join('');
+  tSel.innerHTML = types.map(t => `<option value="${esc(t.value)}">${esc(t.label)}</option>`).join('');
+  if (pCur) pSel.value = pCur; if (tCur) tSel.value = tCur;
+  // Project filter chips
+  if (activeProjectFilter !== 'ALL' && !projects.some(p => p.value === activeProjectFilter)) activeProjectFilter = 'ALL';
+  const chips = document.getElementById('project-filter-chips');
+  chips.innerHTML = `<span class="filter-chip ${activeProjectFilter === 'ALL' ? 'active' : ''}" data-val="ALL">All Projects</span>` +
+    projects.map(p => `<span class="filter-chip ${activeProjectFilter === p.value ? 'active' : ''}" data-val="${esc(p.value)}">${esc(p.label)}</span>`).join('');
+  chips.querySelectorAll('.filter-chip').forEach(ch => ch.addEventListener('click', () => setProjectFilter(ch.dataset.val, ch)));
+  // Admin lists
+  if (userRole !== 'admin') return;
+  const row = (kind, it) => `<li class="sb-item"><span>${esc(it.label)}</span><button class="icon-btn" title="Remove" onclick="removeListItem('${kind}','${esc(it.key)}')"><i class="fa-solid fa-trash-can"></i></button></li>`;
+  document.getElementById('projects-admin-list').innerHTML = projects.map(p => row('projects', p)).join('');
+  document.getElementById('types-admin-list').innerHTML = types.map(t => row('types', t)).join('');
+}
+async function seedListIfNeeded(kind) {
+  const data = kind === 'projects' ? projectsData : typesData;
+  if (data) return;
+  const defaults = kind === 'projects' ? DEFAULT_PROJECTS : DEFAULT_TYPES;
+  const obj = {};
+  defaults.forEach((d, i) => { obj['d' + i] = { value: d.value, label: d.label, order: i }; });
+  await db.ref('settings/' + kind).set(obj);
+}
+async function addListItem(kind) {
+  if (userRole !== 'admin') return;
+  const pre = kind === 'projects' ? 'new-project' : 'new-type';
+  const emoji = document.getElementById(pre + '-emoji').value.trim();
+  let name = document.getElementById(pre + '-name').value.trim();
+  if (!name) { alert("Enter a name first."); return; }
+  const value = kind === 'projects' ? name.toUpperCase() : name;
+  const list = kind === 'projects' ? getProjects() : getTypes();
+  if (list.some(x => x.value.toLowerCase() === value.toLowerCase())) { alert("That one already exists."); return; }
+  try {
+    await seedListIfNeeded(kind);
+    await db.ref('settings/' + kind).push({ value, label: (emoji ? emoji + ' ' : '') + name, order: Date.now() });
+    document.getElementById(pre + '-emoji').value = '';
+    document.getElementById(pre + '-name').value = '';
+    logActivity(`Mokhtar added ${kind === 'projects' ? 'project' : 'task type'}: ${name}`);
+  } catch (e) { alert("Could not save: " + e.message); }
+}
+async function removeListItem(kind, key) {
+  if (userRole !== 'admin') return;
+  const list = kind === 'projects' ? getProjects() : getTypes();
+  const item = list.find(x => x.key === key);
+  if (!item) return;
+  if (list.length <= 1) { alert("Keep at least one item in the list."); return; }
+  if (!confirm(`Remove "${item.label}" from the list?\nExisting tasks will keep it.`)) return;
+  try {
+    await seedListIfNeeded(kind);
+    await db.ref(`settings/${kind}/${key}`).remove();
+    logActivity(`Mokhtar removed ${kind === 'projects' ? 'project' : 'task type'}: ${item.value}`);
+  } catch (e) { alert("Could not remove: " + e.message); }
+}
+
+// -------------------------- ANNOUNCEMENT ----------------------------
+function renderAnnouncement(a) {
+  const bar = document.getElementById('announce-bar');
+  const has = a && a.text;
+  bar.classList.toggle('hidden', !has);
+  if (has) {
+    document.getElementById('announce-text').textContent = a.text;
+    document.getElementById('announce-meta').textContent = `Mokhtar · ${fmtTime(a.at)}`;
+  }
+  if (userRole === 'admin') document.getElementById('announce-input').value = has ? a.text : '';
+}
+async function publishAnnouncement() {
+  if (userRole !== 'admin') return;
+  const text = document.getElementById('announce-input').value.trim();
+  if (!text) { alert("Write the announcement first."); return; }
+  await db.ref('settings/announcement').set({ text: text.slice(0, 500), at: Date.now() });
+  logActivity('Mokhtar posted a new announcement');
+}
+async function clearAnnouncement() {
+  if (userRole !== 'admin') return;
+  await db.ref('settings/announcement').remove();
+}
+
+// --------------------------- OCCASIONS ------------------------------
+const PRESET_NAMES = { oct6: '6 October', ramadan: 'Ramadan Kareem', eid: 'Eid Mubarak', custom: 'Custom message' };
+function renderCelebrationStatus() {
+  const el = document.getElementById('cel-status');
+  if (!el) return;
+  const c = currentCelebration;
+  if (c && c.preset && (!c.until || cairoTodayISO() <= c.until)) {
+    el.className = 'sb-note ok';
+    el.textContent = `Showing now: ${PRESET_NAMES[c.preset] || c.preset}${c.until ? ' — until ' + c.until : ''}`;
+  } else {
+    el.className = 'sb-note';
+    el.textContent = 'No occasion is active. (6 October shows automatically every year.)';
+  }
+}
+async function activateCelebration() {
+  if (userRole !== 'admin') return;
+  const preset = document.getElementById('cel-preset').value;
+  const title = document.getElementById('cel-title').value.trim();
+  const sub = document.getElementById('cel-sub').value.trim();
+  const until = document.getElementById('cel-until').value;
+  if (preset === 'custom' && !title) { alert("Write a title for the custom message."); return; }
+  if (!until) { alert("Choose the last day the banner should show."); return; }
+  if (until < cairoTodayISO()) { alert("The end date is in the past."); return; }
+  await db.ref('settings/celebration').set({ preset, title: title.slice(0, 120), sub: sub.slice(0, 200), until });
+  logActivity(`Mokhtar turned on the ${PRESET_NAMES[preset]} banner`);
+}
+async function stopCelebration() {
+  if (userRole !== 'admin') return;
+  await db.ref('settings/celebration').remove();
 }
 
 // ----------------------------- UI -----------------------------------
 function setProjectFilter(val, element) { activeProjectFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
 function setPriorityFilter(val, element) { activePriorityFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
+function setViewFilter(val, element) { activeViewFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
 function toggleArchiveView(showArchived, element) { showArchivedTasks = showArchived; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
 
 function checkPermissions() {
   const landingGate = document.getElementById('landing-gate-screen');
   const mainApp = document.getElementById('main-dashboard-app');
-  const adminOnly = ['admin-box', 'team-admin-box', 'presence-admin-only-card', 'admin-audit-toggle-btn', 'clear-all-logs-btn'].map(id => document.getElementById(id));
-  const archiveFilter = document.getElementById('archive-filter-wrapper');
-  const userDisplay = document.getElementById('current-user-display');
-  const statsWrapper = document.getElementById('stats-wrapper-layout');
-  const logCardWrapper = document.getElementById('activity-log-card-wrapper');
-
   if (userRole === 'viewer') {
     landingGate.classList.remove('hidden');
     mainApp.classList.add('hidden');
@@ -697,12 +1186,15 @@ function checkPermissions() {
   }
   landingGate.classList.add('hidden');
   mainApp.classList.remove('hidden');
-  userDisplay.textContent = displayLabel(me);
-
-  adminOnly.forEach(el => el && el.classList.toggle('hidden', userRole !== 'admin'));
-  archiveFilter.classList.toggle('hidden', userRole === 'member');
-  logCardWrapper.classList.toggle('hidden', userRole === 'member');
-  statsWrapper.className = userRole === 'member' ? "dashboard-stats-wrapper stats-khaled-layout" : "dashboard-stats-wrapper stats-admin-layout";
+  document.getElementById('current-user-display').textContent = displayLabel(me);
+  document.getElementById('sb-user-name').textContent = `${me.name} ${(ROLE_META[me.role] || ROLE_META.member).icon}`;
+  document.getElementById('sb-user-role').textContent = `${(ROLE_META[me.role] || ROLE_META.member).tag} · @${me.username || ''}`;
+  document.querySelectorAll('[data-roles]').forEach(el => {
+    el.classList.toggle('hidden', !el.dataset.roles.split(' ').includes(userRole));
+  });
+  if (userRole !== 'admin') document.getElementById('menu-badge').classList.add('hidden');
+  renderListControls();
+  renderCelebrationStatus();
   renderAll();
 }
 
@@ -714,6 +1206,7 @@ function renderAll() {
   if (userRole === 'viewer') return;
   calculateAnalytics();
   renderTasks();
+  renderStats();
 }
 
 function calculateAnalytics() {
@@ -726,13 +1219,14 @@ function calculateAnalytics() {
   document.getElementById('count-done').innerText = done;
   document.getElementById('count-prog').innerText = prog;
   document.getElementById('count-pend').innerText = pend;
+  document.getElementById('overdue-count').innerText = filtered.filter(isOverdue).length;
   document.getElementById('chart-percentage-txt').innerText = (total > 0 ? Math.round((done / total) * 100) : 0) + "%";
   updatePieChart(done, prog, pend);
 }
 
 function updatePieChart(done, prog, pend) {
   const ctx = document.getElementById('livePieChart');
-  if (!ctx) return;
+  if (!ctx || typeof Chart === 'undefined') return;
   const chartData = (done + prog + pend) === 0 ? [0, 0, 1] : [done, prog, pend];
   if (myPieChart) { myPieChart.data.datasets[0].data = chartData; myPieChart.update('none'); return; }
   myPieChart = new Chart(ctx, {
@@ -740,6 +1234,53 @@ function updatePieChart(done, prog, pend) {
     data: { labels: ['Completed', 'In Progress', 'Pending'], datasets: [{ data: chartData, backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'], borderWidth: 0, hoverOffset: 4 }] },
     options: { animation: { duration: 500 }, plugins: { legend: { display: false }, tooltip: { enabled: true } }, cutout: '72%', responsive: true, maintainAspectRatio: false }
   });
+}
+
+// --------------------------- TEAM STATS -----------------------------
+function renderStats() {
+  const body = document.getElementById('team-stats-body');
+  if (!body || (userRole !== 'admin' && userRole !== 'manager')) return;
+  const active = tasks.filter(t => !t.archived);
+  const by = {};
+  active.forEach(t => {
+    const k = t.assignee || 'Unassigned';
+    by[k] = by[k] || { total: 0, done: 0, prog: 0, pend: 0, late: 0 };
+    by[k].total++;
+    if (t.progress === 100) by[k].done++; else if (t.progress === 50) by[k].prog++; else by[k].pend++;
+    if (isOverdue(t)) by[k].late++;
+  });
+  const names = Object.keys(by).sort((a, b) => by[b].total - by[a].total);
+  if (!names.length) { body.innerHTML = `<p class="sb-note">No active tasks yet.</p>`; return; }
+  body.innerHTML = names.map(n => {
+    const s = by[n], pct = Math.round((s.done / s.total) * 100);
+    return `<div class="stat-card">
+<div class="stat-card-top"><span>${esc(n)}</span><span>${pct}% done</span></div>
+<div class="stat-bar"><div style="width:${pct}%"></div></div>
+<div class="stat-chips">
+<span class="stat-chip">${s.total} total</span><span class="stat-chip done">✅ ${s.done}</span><span class="stat-chip prog">⚙️ ${s.prog}</span><span class="stat-chip pend">⏳ ${s.pend}</span>
+${s.late ? `<span class="stat-chip late">⏰ ${s.late} overdue</span>` : ''}
+</div></div>`;
+  }).join('');
+}
+
+// ----------------------------- EXPORT -------------------------------
+const stripEmoji = s => String(s || '').replace(/^[^\p{L}\p{N}]+/u, '').trim();
+function exportTasksToExcel() {
+  if (userRole !== 'admin' && userRole !== 'manager') return;
+  const projects = getProjects(), types = getTypes();
+  const statusOf = t => t.progress === 100 ? 'Completed' : t.progress === 50 ? 'In Progress' : 'Pending';
+  const header = ['Project', 'Type', 'Details', 'Assignee', 'Priority', 'Status', 'Deadline', 'Overdue', 'Archived'];
+  const rows = tasks.slice().sort((a, b) => String(a.project).localeCompare(b.project)).map(t => [
+    stripEmoji(labelFor(projects, t.project)), stripEmoji(labelFor(types, t.type)),
+    t.details || '', t.assignee || '', t.priority || '', statusOf(t), t.deadline || '', isOverdue(t) ? 'YES' : '', t.archived ? 'YES' : ''
+  ]);
+  const csv = [header, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `bimwow-tasks-${cairoTodayISO()}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
 
 // --------------------------- ACTIVITY -------------------------------
@@ -772,17 +1313,17 @@ async function clearAllActivityLogs() {
 }
 
 // ----------------------------- TASKS --------------------------------
-const PROJECTS = [
-  ['BRENT ELEMENTARY SCHOOL', '🏫 Brent School'], ['GOODWILL', '🏢 GoodWill'], ['PWC FIRE STATION', '🚒 PWC Fire'],
-  ['ARFF', '✈️ ARFF'], ['SEYMOUR', '🏛️ Seymour']
-];
-const TYPES = [
-  ['Reply to Email', '📧 Email'], ['Modeling', '🏗️ Modeling'], ['Coordination', '🔄 Coordination'], ['Shop Drawing', '📜 Shop Drawing'],
-  ['Sleeve Drawing', '🕳️ Sleeve'], ['Submittal Check', '✅ Submittal'], ['RFI', '❓ RFI']
-];
 function optionsHtml(list, selected) {
   return list.map(([v, l]) => `<option value="${esc(v)}" ${v === selected ? 'selected' : ''}>${esc(l)}</option>`).join('');
 }
+function listOptions(list, selected) {
+  const pairs = list.map(x => [x.value, x.label]);
+  if (selected && !pairs.some(p => p[0] === selected)) pairs.push([selected, selected]);
+  return optionsHtml(pairs, selected);
+}
+
+function openTaskModal() { if (userRole !== 'admin') return; document.getElementById('task-modal').style.display = 'flex'; setTimeout(() => document.getElementById('task-input').focus(), 50); }
+function closeTaskModal() { document.getElementById('task-modal').style.display = 'none'; }
 
 function enableInlineTaskEdit(id) { if (userRole !== 'admin') return; editingTaskId = id; renderTasks(); }
 function cancelInlineTaskEdit() { editingTaskId = null; renderTasks(); }
@@ -814,17 +1355,23 @@ async function setTaskArchiveStatus(id, archiveState) {
 
 function renderTasks() {
   if (userRole === 'viewer') return;
+  const projects = getProjects(), types = getTypes();
   const filteredTasks = tasks.filter(task => {
     const matchArchive = showArchivedTasks ? (task.archived === true) : (!task.archived);
     if (!matchArchive || !visibleToMe(task)) return false;
+    if (activeViewFilter === 'OVERDUE' && !isOverdue(task)) return false;
     return (activeProjectFilter === 'ALL' || task.project === activeProjectFilter) &&
            (activePriorityFilter === 'ALL' || task.priority === activePriorityFilter);
   });
   const priorityOrder = { high: 1, medium: 2, low: 3 };
-  filteredTasks.sort((a, b) => (priorityOrder[a.priority] || 9) - (priorityOrder[b.priority] || 9));
+  filteredTasks.sort((a, b) => (isOverdue(b) - isOverdue(a)) || (priorityOrder[a.priority] || 9) - (priorityOrder[b.priority] || 9));
 
   const container = document.getElementById('task-list-container');
   container.innerHTML = '';
+  if (!filteredTasks.length) {
+    container.innerHTML = `<li class="sb-note" style="text-align:center; padding:20px;">No tasks to show.</li>`;
+    return;
+  }
   const canCycle = userRole === 'admin' || userRole === 'member';
   const canPlan = userRole === 'admin' || userRole === 'manager';
 
@@ -832,8 +1379,9 @@ function renderTasks() {
     const id = esc(task.id);
     const progress = [0, 50, 100].includes(task.progress) ? task.progress : 0;
     const priority = ['high', 'medium', 'low'].includes(task.priority) ? task.priority : 'medium';
+    const late = isOverdue(task);
     const li = document.createElement('li');
-    li.className = `task-item priority-${priority} status-${progress}`;
+    li.className = `task-item priority-${priority} status-${progress}${late ? ' is-overdue' : ''}`;
 
     if (userRole === 'admin' && editingTaskId === task.id) {
       const names = teamNames();
@@ -841,8 +1389,8 @@ function renderTasks() {
       li.innerHTML = `
 <div class="inline-edit-fields-box">
 <div class="edit-select-row">
-<select id="edit-proj-${id}">${optionsHtml(PROJECTS, task.project)}</select>
-<select id="edit-type-${id}">${optionsHtml(TYPES, task.type)}</select>
+<select id="edit-proj-${id}">${listOptions(projects, task.project)}</select>
+<select id="edit-type-${id}">${listOptions(types, task.type)}</select>
 <select id="edit-assignee-${id}">${optionsHtml(names.map(n => [n, n]), task.assignee)}</select>
 </div>
 <input type="text" class="edit-input-note" id="edit-note-${id}" value="${esc(task.details)}">
@@ -876,10 +1424,11 @@ ${statusCycleBtn}${archiveActionBtn}
 
       li.innerHTML = `
 <div class="task-content-details">
-<span class="project-badge">${esc(task.project)}</span>
-<span class="type-badge">${esc(task.type)}</span>
+<span class="project-badge">${esc(labelFor(projects, task.project))}</span>
+<span class="type-badge">${esc(labelFor(types, task.type))}</span>
 ${task.assignee ? `<span class="assignee-badge">To: ${esc(task.assignee)}</span>` : ''}
 ${deadlineHtml}
+${late ? `<span class="overdue-badge"><i class="fa-solid fa-triangle-exclamation"></i> OVERDUE</span>` : ''}
 <span class="task-text">${esc(task.details || 'No notes')}</span>
 </div>
 <div class="status-wrapper">
@@ -909,9 +1458,11 @@ async function addNewTask() {
     assignee: document.getElementById('assignee-input').value,
     progress: 0, archived: false
   };
+  if (!newTask.assignee) { alert("Choose who the task is for."); return; }
   await db.ref('tasks').push(newTask);
   document.getElementById('task-input').value = '';
   document.getElementById('deadline-input').value = '';
+  closeTaskModal();
 }
 
 async function cycleProgress(id) {
