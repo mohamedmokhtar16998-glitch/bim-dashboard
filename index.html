@@ -27,4 +27,918 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans
 .user-info { display: flex; flex-direction: column; }
 .user-name-glow { color: #ffffff; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 .user-name-glow i { color: #4a72b2; font-size: 16px; filter: drop-shadow(0 0 3px #4a72b2); }
-.glow-line { width: 100%; height: 2px;
+.glow-line { width: 100%; height: 2px; background: #4a72b2; box-shadow: 0 0 8px #4a72b2; border-radius: 2px; margin-bottom: 10px; }
+.auth-buttons-wrapper { display: flex; gap: 8px; align-items: center; }
+.portal-btn { background: linear-gradient(135deg, #4a72b2, #294a80); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(74, 114, 178, 0.3); }
+.portal-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(74, 114, 178, 0.5); }
+.audit-btn-glow { background: linear-gradient(135deg, #2c3e50, #1a252f); border-color: rgba(52, 152, 219, 0.4); color: #3498db; }
+.audit-btn-glow:hover { background: linear-gradient(135deg, #34495e, #243342); box-shadow: 0 0 12px rgba(52, 152, 219, 0.4); }
+.company-logo-box { text-align: right; }
+.company-title { font-size: 28px; font-weight: 300; color: #ffffff; margin: 0; letter-spacing: 1px; line-height: 1; }
+.company-title font { font-weight: bold; }
+.company-sub-title { font-size: 10px; color: #8fa0bc; font-weight: 700; letter-spacing: 1.5px; margin: 4px 0 0 0; text-transform: uppercase; }
+.presence-card-section { background: rgba(24, 31, 50, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 12px 18px; border-radius: 10px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px; }
+.presence-title { font-size: 11px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+.presence-users-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2px; }
+.presence-user-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(11, 15, 25, 0.6); border: 1px solid rgba(255,255,255,0.05); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #cbd5e1; }
+.live-pulse-dot { width: 7px; height: 7px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 8px #2ecc71; }
+.pill-role-admin { color: #2ecc71 !important; border-color: rgba(46, 204, 113, 0.3); }
+.pill-role-manager { color: #f1c40f !important; border-color: rgba(241, 196, 15, 0.3); }
+.pill-role-khaled { color: #3498db !important; border-color: rgba(52, 152, 219, 0.3); }
+.pill-role-hatem { color: #9b59b6 !important; border-color: rgba(155, 89, 182, 0.3); }
+.container { max-width: 850px; background: rgba(17, 22, 37, 0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); margin: 0 auto; padding: 30px; border-radius: 0 0 16px 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); border: 1px solid rgba(255, 255, 255, 0.06); border-top: none; box-sizing: border-box; }
+h1 { text-align: center; color: #ffffff; margin-bottom: 35px; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
+h1 i { color: #4a72b2; margin-right: 8px; }
+.dashboard-stats-wrapper { display: grid; gap: 15px; margin-bottom: 25px; align-items: stretch; }
+.dashboard-stats-wrapper.stats-admin-layout { grid-template-columns: 1.8fr 1.2fr 1.5fr; }
+.dashboard-stats-wrapper.stats-khaled-layout { grid-template-columns: 1.8fr 1.2fr; }
+.analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.analytics-card { background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px 8px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: center; }
+.analytics-num { font-size: 22px; font-weight: 700; color: #ffffff; font-family: 'Roboto Mono', monospace; display: block; margin-bottom: 2px; }
+.analytics-label { font-size: 10px; color: #8fa0bc; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.card-glow-all { border-bottom: 3px solid #4a72b2; }
+.card-glow-done { border-bottom: 3px solid #2ecc71; }
+.card-glow-prog { border-bottom: 3px solid #f1c40f; }
+.card-glow-pend { border-bottom: 3px solid #e74c3c; }
+.chart-container-box { background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 10px; display: flex; align-items: center; justify-content: center; height: 160px; width: 100%; box-sizing: border-box; position: relative; }
+.chart-container-box canvas { max-width: 145px !important; max-height: 145px !important; position: relative; z-index: 1; }
+.chart-center-percentage { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; pointer-events: none; }
+.chart-center-val { font-size: 21px; font-weight: 700; font-family: 'Roboto Mono', monospace; color: #ffffff; line-height: 1; }
+.chart-center-lbl { font-size: 9px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
+.activity-log-section { background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; justify-content: flex-start; }
+.activity-log-title { font-size: 10px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.activity-log-title i { color: #f1c40f; }
+.activity-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; flex: 1; justify-content: flex-start; overflow-y: auto; }
+.activity-item { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #cbd5e1; padding: 5px 8px; background: rgba(11, 15, 25, 0.3); border-radius: 5px; border-left: 2px solid #4a72b2; gap: 6px; line-height: 1.3; }
+.activity-text-wrapper { display: flex; align-items: flex-start; gap: 6px; flex: 1; min-width: 0; }
+.activity-text-wrapper span { white-space: normal; word-break: break-word; font-weight: 500; }
+.activity-time { font-family: 'Roboto Mono', monospace; font-size: 9px; color: #5c6e8c; flex-shrink: 0; margin-top: 2px; }
+.delete-log-btn { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 11px; padding: 0 2px; }
+.clear-all-logs-btn { margin-top: 8px; background: rgba(231, 76, 60, 0.12); border: 1px solid rgba(231, 76, 60, 0.35); color: #e74c3c; font-size: 11px; font-weight: 700; padding: 7px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease; }
+.clear-all-logs-btn:hover { background: #e74c3c; color: #fff; box-shadow: 0 0 10px rgba(231, 76, 60, 0.4); }
+.add-task-box { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+.add-task-box input, .add-task-box select, .add-task-box button { padding: 12px; border: 1px solid rgba(255, 255, 255, 0.08); background-color: rgba(24, 31, 50, 0.7); color: white; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box; width: 100%; font-family: inherit; }
+.add-task-box input:focus, .add-task-box select:focus { border-color: #4a72b2; background-color: #1d273b; }
+.add-task-box button { background-color: #4a72b2; border: none; cursor: pointer; font-size: 14px; font-weight: 600; grid-column: span 2; margin-top: 5px; }
+.add-task-box button:hover { background-color: #365991; }
+.filter-section { margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+.filter-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; align-items: center; }
+.filter-title { font-size: 11px; font-weight: 700; color: #5c6e8c; text-transform: uppercase; width: 75px; }
+.filter-chip { background: rgba(24, 31, 50, 0.6); color: #8fa0bc; border: 1px solid rgba(255, 255, 255, 0.04); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+.filter-chip:hover, .filter-chip.active { background: #4a72b2; color: #ffffff; border-color: #4a72b2; box-shadow: 0 0 8px rgba(74, 114, 178, 0.3); }
+.archive-filter-chip { background: rgba(230, 126, 34, 0.15); color: #e67e22; border: 1px solid rgba(230, 126, 34, 0.3); }
+.archive-filter-chip:hover, .archive-filter-chip.active { background: #e67e22; color: #fff; border-color: #e67e22; box-shadow: 0 0 8px rgba(230, 126, 34, 0.4); }
+.task-list { list-style: none; padding: 0; margin: 0; }
+.task-item { display: flex; align-items: center; justify-content: space-between; background: rgba(25, 33, 56, 0.85); padding: 16px; border-radius: 10px; margin-bottom: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); }
+.priority-high { border-left: 6px solid #e74c3c !important; }
+.priority-medium { border-left: 6px solid #f1c40f !important; }
+.priority-low { border-left: 6px solid #2ecc71 !important; }
+.task-content-details { flex: 1; margin-left: 10px; padding-right: 15px; min-width: 0; }
+.project-badge { font-size: 10px; background-color: rgba(11, 15, 25, 0.7); color: #4a72b2; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 6px; border: 1px solid rgba(74, 114, 178, 0.3); }
+.type-badge { font-size: 10px; background-color: rgba(11, 15, 25, 0.7); color: #ecf0f1; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 6px; margin-left: 5px; border: 1px solid rgba(255, 255, 255, 0.08); }
+.deadline-badge { font-size: 10px; font-family: 'Roboto Mono', monospace; background-color: rgba(231, 76, 60, 0.15); color: #ff7675; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 6px; margin-left: 5px; border: 1px solid rgba(231, 76, 60, 0.3); }
+.assignee-badge { font-size: 10px; background-color: rgba(52, 152, 219, 0.15); color: #3498db; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 6px; margin-left: 5px; border: 1px solid rgba(52, 152, 219, 0.3); }
+.task-text { font-size: 14px; display: block; margin-top: 2px; font-weight: 600; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+.inline-edit-fields-box { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-right: 15px; }
+.edit-select-row { display: flex; gap: 10px; }
+.edit-select-row select, .edit-input-note { background-color: rgba(11, 15, 25, 0.85); color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 6px 10px; border-radius: 5px; font-size: 12px; outline: none; width: 100%; }
+.inline-edit-deadline-input { background-color: rgba(11, 15, 25, 0.85); color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 5px 8px; border-radius: 4px; font-size: 12px; outline: none; width: 115px; color-scheme: dark; }
+.task-item.status-100 { background-color: rgba(15, 20, 34, 0.4); opacity: 0.5; border-left-color: #5c6e8c !important; }
+.task-item.status-100 .task-text { text-decoration: line-through; color: #8fa0bc; }
+.status-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; flex-shrink: 0; }
+.progress-circle-container { position: relative; width: 32px; height: 35px; display: flex; align-items: center; justify-content: center; }
+.progress-circle-container svg { width: 32px; height: 32px; transform: rotate(-90deg); position: absolute; }
+.progress-circle-container circle { cx: 16; cy: 16; r: 13; fill: none; stroke-width: 3; stroke-linecap: round; }
+.circle-bg { stroke: rgba(29, 39, 59, 0.8); }
+.circle-progress { stroke-dasharray: 82; stroke-dashoffset: 82; }
+.status-0 .circle-progress { stroke: #e74c3c; stroke-dashoffset: 75; }
+.status-0 .circle-icon, .status-0 .status-label-text { color: #e74c3c; font-weight: 800; }
+.status-50 .circle-progress { stroke: #f1c40f; stroke-dashoffset: 41; }
+.status-50 .circle-icon, .status-50 .status-label-text { color: #f1c40f; font-weight: 800; }
+.status-100 .circle-progress { stroke: #2ecc71; stroke-dashoffset: 0; }
+.status-100 .circle-icon, .status-100 .status-label-text { color: #2ecc71; font-weight: 800; }
+.circle-icon { font-size: 10px; z-index: 2; pointer-events: none; }
+.status-label-text { font-weight: 700; font-size: 8px; margin-top: 3px; text-transform: uppercase; text-align: center; }
+.task-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; width: 220px; flex-shrink: 0; }
+.task-actions button { background: none; border: none; font-size: 17px; cursor: pointer; padding: 0 4px; }
+.task-actions .edit-btn { color: #f1c40f; }
+.task-actions .save-btn { color: #2ecc71; font-size: 19px; }
+.task-actions .done-btn { color: #4a72b2; }
+.task-actions .archive-btn { color: #e67e22; }
+.task-actions .unarchive-btn { color: #1abc9c; }
+.task-actions .delete-btn { color: #e74c3c; }
+.inline-priority-select { background-color: rgba(11, 15, 25, 0.8); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; width: 95px; text-align: center; }
+.viewer-priority-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; width: 95px; text-align: center; display: inline-block; }
+.badge-p-high { background-color: rgba(231, 76, 60, 0.2); color: #ff7675; border: 1px solid rgba(231, 76, 60, 0.4); }
+.badge-p-medium { background-color: rgba(241, 196, 15, 0.2); color: #ffeaa7; border: 1px solid rgba(241, 196, 15, 0.4); }
+.badge-p-low { background-color: rgba(46, 204, 113, 0.18); color: #55efc4; border: 1px solid rgba(46, 204, 113, 0.4); }
+.history-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 10000; display: none; align-items: center; justify-content: center; }
+.history-modal-box { background: rgba(17, 24, 39, 0.95); border: 1px solid rgba(52, 152, 219, 0.3); border-radius: 16px; padding: 25px; width: 90%; max-width: 520px; box-shadow: 0 25px 60px rgba(0,0,0,0.8); box-sizing: border-box; }
+.history-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; }
+.history-modal-header h3 { margin: 0; font-size: 16px; color: #3498db; display: flex; align-items: center; gap: 8px; }
+.close-modal-btn { background: none; border: none; color: #cbd5e1; font-size: 18px; cursor: pointer; }
+.close-modal-btn:hover { color: #e74c3c; }
+.team-list { grid-column: span 2; list-style: none; padding: 0; margin: 4px 0 0 0; display: flex; flex-direction: column; gap: 8px; }
+.team-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(11, 15, 25, 0.45); border: 1px solid rgba(255,255,255,0.05); border-left: 3px solid #4a72b2; border-radius: 8px; padding: 10px 14px; }
+.team-row.role-admin { border-left-color: #2ecc71; }
+.team-row.role-manager { border-left-color: #f1c40f; }
+.team-row-info { display: flex; align-items: center; gap: 10px; min-width: 0; flex-wrap: wrap; }
+.team-row-name { font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; }
+.team-row-user { font-family: 'Roboto Mono', monospace; font-size: 11px; color: #5c6e8c; white-space: nowrap; }
+.team-role-tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; background: rgba(74,114,178,0.15); color: #6f97d6; border: 1px solid rgba(74,114,178,0.3); white-space: nowrap; }
+.team-row.role-admin .team-role-tag { background: rgba(46,204,113,0.12); color: #2ecc71; border-color: rgba(46,204,113,0.3); }
+.team-row.role-manager .team-role-tag { background: rgba(241,196,15,0.12); color: #f1c40f; border-color: rgba(241,196,15,0.3); }
+.add-task-box .team-revoke-btn { grid-column: auto; width: auto; margin: 0; flex-shrink: 0; padding: 6px 12px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; background: rgba(231, 76, 60, 0.12); border: 1px solid rgba(231, 76, 60, 0.35); color: #e74c3c; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+.add-task-box .team-revoke-btn:hover { background: #e74c3c; color: #fff; }
+.team-you-tag { font-size: 10px; color: #5c6e8c; font-weight: 600; flex-shrink: 0; }
+.hidden { display: none !important; }
+.landing-gate-wrapper { position: relative; z-index: 999; max-width: 460px; margin: 80px auto; background: rgba(17, 22, 37, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.7); text-align: center; box-sizing: border-box; }
+.gate-logo-neon { font-size: 44px; font-weight: 300; color: #fff; margin: 0 0 10px 0; letter-spacing: 2px; text-shadow: 0 0 20px rgba(74, 114, 178, 0.6); }
+.gate-logo-neon font { font-weight: 900; color: #4a72b2; }
+.gate-status-monitor { font-family: 'Roboto Mono', monospace; font-size: 11px; color: #2ecc71; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 8px; background: rgba(46, 204, 113, 0.1); padding: 4px 15px; border-radius: 20px; border: 1px solid rgba(46, 204, 113, 0.2); }
+.gate-welcome-text { font-size: 13px; color: #8fa0bc; line-height: 1.6; margin-bottom: 30px; }
+.gate-form-group { display: flex; flex-direction: column; gap: 16px; text-align: left; }
+.gate-form-group label { font-size: 11px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: 0.5px; }
+.gate-form-group input { padding: 14px; border: 1px solid rgba(255, 255, 255, 0.08); background-color: rgba(24, 31, 50, 0.75); color: white; border-radius: 8px; font-size: 14px; outline: none; width: 100%; box-sizing: border-box; }
+.gate-form-group input:focus { border-color: #4a72b2; }
+.gate-enter-btn { background: linear-gradient(135deg, #4a72b2, #294a80); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1); padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; width: 100%; box-sizing: border-box; }
+</style>
+</head>
+<body>
+<!-- ============ 6 OCTOBER CELEBRATION (shows only on Oct 6, Cairo time) ============ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+.oct6-topline { position: fixed; top: 0; left: 0; right: 0; height: 5px; z-index: 10001; display: none;
+  background: linear-gradient(90deg, #ce1126 0 33.33%, #ffffff 33.33% 66.66%, #111 66.66% 100%); box-shadow: 0 0 12px rgba(206,17,38,0.5); }
+.oct6-banner { display: none; position: relative; overflow: hidden; max-width: 850px; margin: 0 auto 22px; box-sizing: border-box;
+  border-radius: 16px; padding: 22px 26px 22px 70px; font-family: 'Cairo', 'Inter', sans-serif; color: #fff;
+  background: radial-gradient(120% 140% at 100% 0%, rgba(206,17,38,0.35) 0%, rgba(17,22,37,0.92) 55%), rgba(17,22,37,0.9);
+  border: 1px solid rgba(212,175,55,0.35); box-shadow: 0 18px 45px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.03);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); animation: oct6-in .9s cubic-bezier(.2,.8,.2,1) both; }
+.oct6-active .oct6-banner, .oct6-active .oct6-topline { display: block; }
+.oct6-flag { position: absolute; top: 0; bottom: 0; right: 0; width: 10px; display: flex; flex-direction: column; }
+.oct6-flag span { flex: 1; }
+.oct6-flag span:nth-child(1) { background: #ce1126; }
+.oct6-flag span:nth-child(2) { background: #fff; }
+.oct6-flag span:nth-child(3) { background: #111; }
+.oct6-inner { display: flex; align-items: center; justify-content: space-between; gap: 22px; position: relative; z-index: 2; }
+.oct6-text { text-align: right; flex: 1; min-width: 0; }
+.oct6-date { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #d4af37;
+  border: 1px solid rgba(212,175,55,0.4); background: rgba(212,175,55,0.08); padding: 3px 12px; border-radius: 20px; margin-bottom: 8px; }
+.oct6-title { font-size: 26px; font-weight: 900; line-height: 1.35; margin: 0;
+  background: linear-gradient(90deg, #fff 0%, #f7e29a 35%, #d4af37 50%, #f7e29a 65%, #fff 100%); background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent; animation: oct6-shine 4s linear infinite; }
+.oct6-sub { font-size: 13px; color: #cbd5e1; margin-top: 4px; font-weight: 400; }
+.oct6-years { flex-shrink: 0; width: 92px; height: 92px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(circle, rgba(212,175,55,0.18) 0%, rgba(212,175,55,0.04) 70%); border: 2px solid rgba(212,175,55,0.55);
+  box-shadow: 0 0 25px rgba(212,175,55,0.25), inset 0 0 18px rgba(212,175,55,0.12); }
+.oct6-years b { font-size: 34px; font-weight: 900; color: #d4af37; line-height: 1; text-shadow: 0 0 12px rgba(212,175,55,0.5); }
+.oct6-years small { font-size: 11px; color: #e8d9a8; font-weight: 700; margin-top: 2px; }
+.oct6-close { position: absolute; top: 10px; left: 12px; z-index: 3; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  color: #cbd5e1; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 15px; line-height: 1; display: flex; align-items: center; justify-content: center; }
+.oct6-close:hover { background: rgba(206,17,38,0.6); color: #fff; }
+.oct6-spark { position: absolute; bottom: -10px; width: 4px; height: 4px; border-radius: 50%; background: #d4af37; opacity: 0;
+  box-shadow: 0 0 8px #d4af37; animation: oct6-rise linear infinite; z-index: 1; pointer-events: none; }
+@keyframes oct6-in { from { opacity: 0; transform: translateY(-14px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes oct6-shine { to { background-position: 200% center; } }
+@keyframes oct6-rise { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: .9; } 100% { transform: translateY(-160px); opacity: 0; } }
+@media (max-width: 600px) {
+  .oct6-banner { padding: 18px 18px 18px 50px; }
+  .oct6-title { font-size: 20px; }
+  .oct6-years { width: 70px; height: 70px; } .oct6-years b { font-size: 26px; }
+}
+</style>
+<div class="oct6-topline"></div>
+<div class="oct6-banner" id="oct6-banner" dir="rtl" role="note" aria-label="6 October celebration">
+  <div class="oct6-flag"><span></span><span></span><span></span></div>
+  <button class="oct6-close" title="إخفاء" onclick="document.documentElement.classList.remove('oct6-active'); try{sessionStorage.setItem('oct6Hidden','1')}catch(e){}">✕</button>
+  <div class="oct6-inner">
+    <div class="oct6-text">
+      <span class="oct6-date">٦ أكتوبر ١٩٧٣ · العاشر من رمضان</span>
+      <h2 class="oct6-title">ذكرى نصر أكتوبر المجيد</h2>
+      <div class="oct6-sub">تحية لأبطال العبور · كل عام ومصر بخير 🇪🇬 — من فريق BIM WOW</div>
+    </div>
+    <div class="oct6-years"><b id="oct6-years-num">٥٣</b><small>عامًا</small></div>
+  </div>
+</div>
+<script>
+(function () {
+  // Shows only on 6 October (Cairo time), every year. Add ?celebrate=1 to the URL to preview any day.
+  function cairoToday() {
+    var parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
+    var o = {}; parts.forEach(function (p) { o[p.type] = p.value; }); return o;
+  }
+  var forced = /[?&]celebrate=1/.test(location.search);
+  function check() {
+    var d = cairoToday();
+    var isDay = forced || (d.month === '10' && d.day === '06');
+    var hidden = false; try { hidden = sessionStorage.getItem('oct6Hidden') === '1'; } catch (e) {}
+    document.documentElement.classList.toggle('oct6-active', isDay && !hidden);
+    var n = document.getElementById('oct6-years-num');
+    if (n) n.textContent = (Number(d.year) - 1973).toLocaleString('ar-EG');
+  }
+  var banner = document.getElementById('oct6-banner');
+  for (var i = 0; i < 18; i++) {
+    var s = document.createElement('span'); s.className = 'oct6-spark';
+    s.style.left = (Math.random() * 100) + '%';
+    s.style.animationDuration = (3 + Math.random() * 4) + 's';
+    s.style.animationDelay = (Math.random() * 5) + 's';
+    banner.appendChild(s);
+  }
+  check();
+  setInterval(check, 60000); // hides itself automatically after midnight
+})();
+</script>
+<!-- ========================== END 6 OCTOBER CELEBRATION ========================== -->
+<video class="full-screen-video-bg" autoplay loop muted playsinline>
+<source src="company_video.mp4" type="video/mp4">
+</video>
+<div class="full-screen-overlay"></div>
+
+<div id="landing-gate-screen" class="landing-gate-wrapper">
+<h2 class="gate-logo-neon">BIM<font>WOW</font></h2>
+<div class="gate-status-monitor"><div class="live-pulse-dot"></div> System Secure & Online</div>
+<p class="gate-welcome-text">Design. Build. Operate.<br>Secure channel authentication. Enter workspace identity keys.</p>
+<div class="gate-form-group">
+<label>Secure Username</label>
+<input type="text" id="gate-user-input" placeholder="Enter username..." autocomplete="off">
+<label>Security Password</label>
+<input type="password" id="gate-pass-input" placeholder="••••••••">
+<button class="gate-enter-btn" onclick="submitGateLogin()"><i class="fa-solid fa-user-shield"></i> Secure Login</button>
+</div>
+</div>
+
+<div id="main-dashboard-app" class="hidden">
+<div class="user-header">
+<div class="user-info">
+<div class="user-name-glow">
+<i class="fa-solid fa-user-gear"></i>
+<span id="current-user-display">Loading User...</span>
+</div>
+<div class="glow-line"></div>
+<div class="auth-buttons-wrapper">
+<button class="portal-btn" onclick="handleLogout()"><i class="fa-solid fa-door-open"></i> Logout</button>
+<button id="admin-audit-toggle-btn" class="portal-btn audit-btn-glow hidden" onclick="openLoginHistoryModal()"><i class="fa-solid fa-clock-rotate-left"></i> Audit Log</button>
+</div>
+</div>
+<div class="company-logo-box">
+<h2 class="company-title">BIM<font>WOW</font></h2>
+<div class="company-sub-title">Design.Build.Operate</div>
+</div>
+</div>
+<div class="container">
+<div class="presence-card-section hidden" id="presence-admin-only-card">
+<div class="presence-title"><i class="fa-solid fa-satellite-dish" style="color: #2ecc71;"></i> Live Active Coworkers (Admin Vault)</div>
+<div class="presence-users-grid" id="live-presence-container">
+<div class="presence-user-pill"><div class="live-pulse-dot"></div>Syncing encrypted channels...</div>
+</div>
+</div>
+<div id="tasks-page">
+<div class="dashboard-stats-wrapper" id="stats-wrapper-layout">
+<div class="analytics-grid">
+<div class="analytics-card card-glow-all">
+<span class="analytics-num" id="count-all">0</span>
+<span class="analytics-label">Total</span>
+</div>
+<div class="analytics-card card-glow-done">
+<span class="analytics-num" id="count-done">0</span>
+<span class="analytics-label">Done</span>
+</div>
+<div class="analytics-card card-glow-prog">
+<span class="analytics-num" id="count-prog">0</span>
+<span class="analytics-label">Prog</span>
+</div>
+<div class="analytics-card card-glow-pend">
+<span class="analytics-num" id="count-pend">0</span>
+<span class="analytics-label">Pend</span>
+</div>
+</div>
+<div class="chart-container-box">
+<canvas id="livePieChart"></canvas>
+<div class="chart-center-percentage">
+<span class="chart-center-val" id="chart-percentage-txt">0%</span>
+<span class="chart-center-lbl">Done</span>
+</div>
+</div>
+<div class="activity-log-section" id="activity-log-card-wrapper">
+<div class="activity-log-title"><i class="fa-solid fa-bolt"></i> Activity Log Feed</div>
+<ul class="activity-list" id="activity-log-container">
+<li class="activity-item"><span>Log is ready.</span><span class="activity-time">--:--</span></li>
+</ul>
+<button id="clear-all-logs-btn" class="clear-all-logs-btn hidden" onclick="clearAllActivityLogs()"><i class="fa-solid fa-trash-can"></i> Clear All Notifications</button>
+</div>
+</div>
+<div class="add-task-box hidden" id="team-admin-box">
+<div class="presence-title" style="grid-column: span 2;"><i class="fa-solid fa-users-gear" style="color:#4a72b2;"></i> Team Accounts (Founder Only)</div>
+<input type="text" id="new-member-name" placeholder="Display name (e.g. Hatem)" autocomplete="off">
+<input type="text" id="new-member-username" placeholder="Username (e.g. hatem)" autocomplete="off">
+<input type="password" id="new-member-pass" placeholder="Password (min 8 characters)" autocomplete="new-password">
+<select id="new-member-role">
+<option value="member">🧑‍💻 Member</option>
+<option value="manager">💼 Manager</option>
+</select>
+<button onclick="createTeamAccount()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
+<ul class="team-list" id="team-members-list"></ul>
+</div>
+<h1><i class="fa-solid fa-folder-tree"></i> Projects Task Tracker</h1>
+<div class="add-task-box hidden" id="admin-box">
+<select id="project-input">
+<option value="BRENT ELEMENTARY SCHOOL">🏫 Brent Elementary School</option>
+<option value="GOODWILL">🏢 GoodWill</option>
+<option value="PWC FIRE STATION">🚒 PWC Fire Station</option>
+<option value="ARFF">✈️ ARFF</option>
+<option value="SEYMOUR">🏛️ Seymour</option>
+</select>
+<select id="type-input">
+<option value="Reply to Email">📧 Reply to Email</option>
+<option value="Modeling">🏗️ Modeling</option>
+<option value="Coordination">🔄 Coordination</option>
+<option value="Shop Drawing">📜 Shop Drawing</option>
+<option value="Sleeve Drawing">🕳️ Sleeve Drawing</option>
+<option value="Submittal Check">✅ Submittal Check</option>
+<option value="RFI">❓ RFI</option>
+</select>
+<input type="text" id="task-input" placeholder="Notes / Task Details...">
+<select id="priority-input">
+<option value="high">🔥 High Priority</option>
+<option value="medium">🟡 Medium Priority</option>
+<option value="low">🟢 Low Priority</option>
+</select>
+<input type="date" id="deadline-input" style="color-scheme: dark;">
+<select id="assignee-input">
+</select>
+<button onclick="addNewTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
+</div>
+<div class="filter-section">
+<div class="filter-group">
+<span class="filter-title">Project:</span>
+<span class="filter-chip active" onclick="setProjectFilter('ALL', this)">All Projects</span>
+<span class="filter-chip" onclick="setProjectFilter('BRENT ELEMENTARY SCHOOL', this)">🏫 Brent</span>
+<span class="filter-chip" onclick="setProjectFilter('GOODWILL', this)">🏢 Goodwill</span>
+<span class="filter-chip" onclick="setProjectFilter('PWC FIRE STATION', this)">🚒 PWC</span>
+<span class="filter-chip" onclick="setProjectFilter('ARFF', this)">✈️️ ARFF</span>
+<span class="filter-chip" onclick="setProjectFilter('SEYMOUR', this)">🏛 Seymour</span>
+</div>
+<div class="filter-group">
+<span class="filter-title">Priority:</span>
+<span class="filter-chip active" onclick="setPriorityFilter('ALL', this)">All Levels</span>
+<span class="filter-chip" onclick="setPriorityFilter('high', this)">🔥 High</span>
+<span class="filter-chip" onclick="setPriorityFilter('medium', this)">🟡 Med</span>
+<span class="filter-chip" onclick="setPriorityFilter('low', this)">🟢 Low</span>
+</div>
+<div class="filter-group hidden" id="archive-filter-wrapper">
+<span class="filter-title">Archive:</span>
+<span class="filter-chip active" onclick="toggleArchiveView(false, this)">🟢 Active Only</span>
+<span class="filter-chip archive-filter-chip" onclick="toggleArchiveView(true, this)">📦 Show Archived</span>
+</div>
+</div>
+<ul class="task-list" id="task-list-container"></ul>
+</div>
+</div>
+</div>
+
+<div id="history-modal" class="history-modal-overlay">
+<div class="history-modal-box">
+<div class="history-modal-header">
+<h3><i class="fa-solid fa-clock-rotate-left"></i> Login History & Access Audit</h3>
+<button class="close-modal-btn" onclick="closeLoginHistoryModal()"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+<span style="font-size: 11px; color: #8fa0bc;">Recorded logins through channels</span>
+<button onclick="clearLoginHistory()" style="background:none; border:none; color:#e74c3c; font-size:11px; cursor:pointer; font-weight:600;"><i class="fa-solid fa-trash-can"></i> Clear History</button>
+</div>
+<ul class="activity-list" id="login-history-container" style="max-height: 250px;">
+<li class="activity-item"><span>Loading records...</span></li>
+</ul>
+</div>
+</div>
+
+<script>
+// =====================================================================
+//  BIM WOW - Secure Portal
+//  No passwords live in this file. Accounts are stored in Firebase
+//  Authentication, and each person's role lives in /users/{uid} in the
+//  database, which only the founder (admin) can change.
+//  The values below are PUBLIC identifiers for the Firebase project
+//  (they are meant to be visible) - copy them from:
+//  Firebase Console > Project settings > General > Your apps > Web app
+// =====================================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyBrdMQI-ep9cK4n5aILZgdgRq_mbz31ctw",
+  authDomain: "bimwowdashboard.firebaseapp.com",
+  databaseURL: "https://bimwowdashboard-default-rtdb.firebaseio.com",
+  projectId: "bimwowdashboard",
+  appId: "1:737399415941:web:45fb5b4d6b617cdadff5ec"
+};
+const EMAIL_DOMAIN = "@bimwow.app"; // username "hatem" -> hatem@bimwow.app
+
+if (typeof firebase === 'undefined') {
+  document.getElementById('landing-gate-screen').innerHTML = '<h2 class="gate-logo-neon">BIM<font>WOW</font></h2><p class="gate-welcome-text" style="color:#e74c3c;">Could not load the login system. Check your internet connection or open the site from its real address (not a file preview).</p>';
+  throw new Error('Firebase SDK failed to load');
+}
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+
+let me = null;               // { uid, name, username, role }
+let userRole = 'viewer';
+let teamMembers = {};        // uid -> profile (admin only)
+let tasks = [];
+let myPieChart = null;
+let activeProjectFilter = 'ALL';
+let activePriorityFilter = 'ALL';
+let showArchivedTasks = false;
+let editingTaskId = null;
+let activeListeners = [];
+
+const ROLE_META = {
+  admin:   { tag: 'Admin',           icon: '👑',    cls: 'pill-role-admin' },
+  manager: { tag: 'General Manager', icon: '💼',    cls: 'pill-role-manager' },
+  member:  { tag: 'Member',          icon: '🧑‍💻', cls: 'pill-role-khaled' }
+};
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function displayLabel(p) {
+  const m = ROLE_META[p.role] || ROLE_META.member;
+  return p.role === 'member' ? `${p.name} ${m.icon}` : `${p.name} (${m.tag}) ${m.icon}`;
+}
+function taskNameById(id) {
+  const t = tasks.find(x => x.id === id);
+  return t ? (t.details || t.type) : '';
+}
+function listen(ref, event, cb) {
+  ref.on(event, cb, err => console.warn(err));
+  activeListeners.push(() => ref.off(event, cb));
+}
+function stopAllListeners() {
+  activeListeners.forEach(off => off());
+  activeListeners = [];
+}
+
+// ---------------------------- AUTH ----------------------------------
+async function submitGateLogin() {
+  const u = document.getElementById('gate-user-input').value.trim().toLowerCase();
+  const p = document.getElementById('gate-pass-input').value;
+  if (!u || !p) { alert("Please enter your username and password."); return; }
+  const email = u.includes('@') ? u : u + EMAIL_DOMAIN;
+  try {
+    await auth.signInWithEmailAndPassword(email, p);
+  } catch (e) {
+    alert("Authentication Failed! Invalid Username or Password.");
+  }
+}
+
+document.getElementById('gate-pass-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitGateLogin(); });
+
+auth.onAuthStateChanged(async user => {
+  stopAllListeners();
+  tasks = []; teamMembers = {};
+  if (!user) {
+    me = null; userRole = 'viewer';
+    checkPermissions();
+    return;
+  }
+  let prof = null;
+  try { prof = (await db.ref('users/' + user.uid).once('value')).val(); } catch (e) {}
+  if (!prof || !ROLE_META[prof.role]) {
+    alert("This account has no access. Contact the administrator.");
+    await auth.signOut();
+    return;
+  }
+  me = { uid: user.uid, ...prof };
+  userRole = prof.role;
+
+  if (sessionStorage.getItem('bimLoginRecorded') !== user.uid) {
+    recordLoginHistory();
+    sessionStorage.setItem('bimLoginRecorded', user.uid);
+  }
+
+  startPresence();
+  listen(db.ref('tasks'), 'value', snap => {
+    const tData = snap.val();
+    tasks = tData ? Object.keys(tData).map(key => ({ id: key, ...tData[key] })) : [];
+    renderAll();
+  });
+  if (userRole === 'admin' || userRole === 'manager') {
+    listen(db.ref('logs').limitToLast(4), 'value', snap => renderActivityLogs(snap.val()));
+  }
+  if (userRole === 'admin') {
+    listen(db.ref('users'), 'value', snap => { teamMembers = snap.val() || {}; renderTeam(); renderTasks(); renderPresence(); });
+    listen(db.ref('presence'), 'value', snap => renderPresence(snap.val()));
+  }
+  checkPermissions();
+});
+
+async function handleLogout() {
+  if (me) { try { await db.ref('presence/' + me.uid).remove(); } catch (e) {} }
+  sessionStorage.clear();
+  document.getElementById('gate-user-input').value = '';
+  document.getElementById('gate-pass-input').value = '';
+  await auth.signOut();
+}
+
+// --------------------------- PRESENCE -------------------------------
+function startPresence() {
+  const ref = db.ref('presence/' + me.uid);
+  ref.onDisconnect().remove();
+  ref.set({ name: displayLabel(me), style: (ROLE_META[me.role] || ROLE_META.member).cls }).catch(() => {});
+}
+let lastPresenceData = null;
+function renderPresence(data) {
+  if (data !== undefined) lastPresenceData = data;
+  const container = document.getElementById('live-presence-container');
+  if (!container) return;
+  container.innerHTML = '';
+  // Only show real, active accounts (ignores leftovers from the old site and revoked users)
+  const online = Object.keys(lastPresenceData || {})
+    .filter(uid => teamMembers[uid])
+    .map(uid => lastPresenceData[uid]);
+  if (!online.length) { container.innerHTML = `<div class="presence-user-pill">No one online</div>`; return; }
+  online.forEach(user => {
+    const pill = document.createElement('div');
+    pill.className = `presence-user-pill ${esc(user.style)}`;
+    pill.innerHTML = `<div class="live-pulse-dot"></div>${esc(user.name)}`;
+    container.appendChild(pill);
+  });
+}
+
+// ------------------------ LOGIN HISTORY -----------------------------
+function recordLoginHistory() {
+  const now = new Date();
+  db.ref('login_history').push({
+    uid: me.uid, user: me.name, role: (ROLE_META[me.role] || ROLE_META.member).tag,
+    date: now.toLocaleDateString('en-GB'),
+    time: now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+    timestamp: Date.now()
+  }).catch(e => console.warn(e));
+}
+function openLoginHistoryModal() { document.getElementById('history-modal').style.display = 'flex'; fetchLoginAuditHistory(); }
+function closeLoginHistoryModal() { document.getElementById('history-modal').style.display = 'none'; }
+
+async function fetchLoginAuditHistory() {
+  if (userRole !== 'admin') return;
+  const container = document.getElementById('login-history-container');
+  try {
+    const data = (await db.ref('login_history').limitToLast(20).once('value')).val();
+    container.innerHTML = '';
+    if (!data) { container.innerHTML = `<li class="activity-item"><span>No login events recorded yet.</span></li>`; return; }
+    Object.keys(data).reverse().forEach(key => {
+      const item = data[key];
+      const li = document.createElement('li');
+      li.className = 'activity-item';
+      li.style.borderLeftColor = "#3498db";
+      li.innerHTML = `
+<div class="activity-text-wrapper">
+<i class="fa-solid fa-right-to-bracket" style="color: #3498db; margin-top:2px;"></i>
+<span><strong style="color:#3498db;">${esc(item.user)}</strong> logged in (${esc(item.role)})</span>
+</div>
+<span class="activity-time">${esc(item.date)} ${esc(item.time)}</span>`;
+      container.appendChild(li);
+    });
+  } catch (e) {}
+}
+async function clearLoginHistory() {
+  if (userRole !== 'admin') return;
+  if (!confirm("Are you sure you want to clear all login history logs?")) return;
+  await db.ref('login_history').remove();
+  fetchLoginAuditHistory();
+}
+
+// ------------------------ TEAM (FOUNDER) ----------------------------
+function teamNames() {
+  return [...new Set(Object.values(teamMembers).map(p => p.name).filter(Boolean))];
+}
+function renderTeam() {
+  const sel = document.getElementById('assignee-input');
+  if (sel) {
+    const current = sel.value;
+    sel.innerHTML = Object.values(teamMembers)
+      .filter(p => p.name)
+      .map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('');
+    if (current) sel.value = current;
+  }
+  const list = document.getElementById('team-members-list');
+  if (!list) return;
+  list.innerHTML = '';
+  const order = { admin: 0, manager: 1, member: 2 };
+  Object.keys(teamMembers)
+    .sort((a, b) => (order[teamMembers[a].role] ?? 9) - (order[teamMembers[b].role] ?? 9) || String(teamMembers[a].name).localeCompare(teamMembers[b].name))
+    .forEach(uid => {
+      const p = teamMembers[uid];
+      const meta = ROLE_META[p.role] || ROLE_META.member;
+      const li = document.createElement('li');
+      li.className = `team-row role-${esc(p.role)}`;
+      const action = uid === me.uid
+        ? `<span class="team-you-tag">You</span>`
+        : `<button class="team-revoke-btn" title="Revoke access" onclick="revokeTeamAccount('${esc(uid)}')"><i class="fa-solid fa-user-slash"></i> Revoke</button>`;
+      li.innerHTML = `
+<div class="team-row-info">
+<span class="team-row-name">${esc(p.name)} ${meta.icon}</span>
+<span class="team-role-tag">${esc(meta.tag)}</span>
+<span class="team-row-user">@${esc(p.username || '')}</span>
+</div>
+${action}`;
+      list.appendChild(li);
+    });
+}
+async function createTeamAccount() {
+  if (userRole !== 'admin') return;
+  const name = document.getElementById('new-member-name').value.trim();
+  const username = document.getElementById('new-member-username').value.trim().toLowerCase();
+  const pass = document.getElementById('new-member-pass').value;
+  const role = document.getElementById('new-member-role').value;
+  if (!name || !/^[a-z0-9._-]{3,30}$/.test(username)) { alert("Enter a display name and a username (letters/numbers only, 3+ characters)."); return; }
+  if (pass.length < 8) { alert("Password must be at least 8 characters."); return; }
+  if (role !== 'member' && role !== 'manager') return;
+  const secondary = firebase.apps.find(a => a.name === 'secondary') || firebase.initializeApp(firebaseConfig, 'secondary');
+  try {
+    const cred = await secondary.auth().createUserWithEmailAndPassword(username + EMAIL_DOMAIN, pass);
+    await db.ref('users/' + cred.user.uid).set({ name, username, role });
+    await secondary.auth().signOut();
+    document.getElementById('new-member-name').value = '';
+    document.getElementById('new-member-username').value = '';
+    document.getElementById('new-member-pass').value = '';
+    logActivity(`Mokhtar added team member: ${name}`);
+    alert(`Account created.\nUsername: ${username}`);
+  } catch (e) {
+    alert(e.code === 'auth/email-already-in-use' ? "That username is already taken." : "Could not create account: " + e.message);
+  }
+}
+async function revokeTeamAccount(uid) {
+  if (userRole !== 'admin' || uid === me.uid) return;
+  const p = teamMembers[uid];
+  if (!confirm(`Revoke access for ${p ? p.name : 'this user'}? They will no longer be able to open the portal.`)) return;
+  await db.ref('users/' + uid).remove();
+  await db.ref('presence/' + uid).remove().catch(() => {});
+  logActivity(`Mokhtar revoked access: ${p ? p.name : uid}`);
+}
+
+// ----------------------------- UI -----------------------------------
+function setProjectFilter(val, element) { activeProjectFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
+function setPriorityFilter(val, element) { activePriorityFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
+function toggleArchiveView(showArchived, element) { showArchivedTasks = showArchived; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
+
+function checkPermissions() {
+  const landingGate = document.getElementById('landing-gate-screen');
+  const mainApp = document.getElementById('main-dashboard-app');
+  const adminOnly = ['admin-box', 'team-admin-box', 'presence-admin-only-card', 'admin-audit-toggle-btn', 'clear-all-logs-btn'].map(id => document.getElementById(id));
+  const archiveFilter = document.getElementById('archive-filter-wrapper');
+  const userDisplay = document.getElementById('current-user-display');
+  const statsWrapper = document.getElementById('stats-wrapper-layout');
+  const logCardWrapper = document.getElementById('activity-log-card-wrapper');
+
+  if (userRole === 'viewer') {
+    landingGate.classList.remove('hidden');
+    mainApp.classList.add('hidden');
+    return;
+  }
+  landingGate.classList.add('hidden');
+  mainApp.classList.remove('hidden');
+  userDisplay.textContent = displayLabel(me);
+
+  adminOnly.forEach(el => el && el.classList.toggle('hidden', userRole !== 'admin'));
+  archiveFilter.classList.toggle('hidden', userRole === 'member');
+  logCardWrapper.classList.toggle('hidden', userRole === 'member');
+  statsWrapper.className = userRole === 'member' ? "dashboard-stats-wrapper stats-khaled-layout" : "dashboard-stats-wrapper stats-admin-layout";
+  renderAll();
+}
+
+function visibleToMe(t) {
+  return userRole !== 'member' || t.assignee === me.name;
+}
+
+function renderAll() {
+  if (userRole === 'viewer') return;
+  calculateAnalytics();
+  renderTasks();
+}
+
+function calculateAnalytics() {
+  const filtered = tasks.filter(t => !t.archived && visibleToMe(t));
+  const total = filtered.length;
+  const done = filtered.filter(t => t.progress === 100).length;
+  const prog = filtered.filter(t => t.progress === 50).length;
+  const pend = filtered.filter(t => t.progress === 0 || !t.progress).length;
+  document.getElementById('count-all').innerText = total;
+  document.getElementById('count-done').innerText = done;
+  document.getElementById('count-prog').innerText = prog;
+  document.getElementById('count-pend').innerText = pend;
+  document.getElementById('chart-percentage-txt').innerText = (total > 0 ? Math.round((done / total) * 100) : 0) + "%";
+  updatePieChart(done, prog, pend);
+}
+
+function updatePieChart(done, prog, pend) {
+  const ctx = document.getElementById('livePieChart');
+  if (!ctx) return;
+  const chartData = (done + prog + pend) === 0 ? [0, 0, 1] : [done, prog, pend];
+  if (myPieChart) { myPieChart.data.datasets[0].data = chartData; myPieChart.update('none'); return; }
+  myPieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels: ['Completed', 'In Progress', 'Pending'], datasets: [{ data: chartData, backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'], borderWidth: 0, hoverOffset: 4 }] },
+    options: { animation: { duration: 500 }, plugins: { legend: { display: false }, tooltip: { enabled: true } }, cutout: '72%', responsive: true, maintainAspectRatio: false }
+  });
+}
+
+// --------------------------- ACTIVITY -------------------------------
+function logActivity(actionText) {
+  const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  db.ref('logs').push({ action: String(actionText).slice(0, 280), time }).catch(e => console.warn(e));
+}
+function renderActivityLogs(data) {
+  const container = document.getElementById('activity-log-container');
+  if (!container) return;
+  if (!data) { container.innerHTML = `<li class="activity-item"><span>No actions yet.</span><span class="activity-time">--:--</span></li>`; return; }
+  container.innerHTML = '';
+  Object.keys(data).reverse().forEach(key => {
+    const log = data[key];
+    const li = document.createElement('li');
+    li.className = 'activity-item';
+    const del = userRole === 'admin' ? `<button class="delete-log-btn" onclick="deleteLogDirect('${esc(key)}')"><i class="fa-solid fa-xmark"></i></button>` : '';
+    li.innerHTML = `<div class="activity-text-wrapper">${del}<span>${esc(log.action)}</span></div><span class="activity-time">${esc(log.time)}</span>`;
+    container.appendChild(li);
+  });
+}
+async function deleteLogDirect(logId) {
+  if (userRole !== 'admin') return;
+  await db.ref('logs/' + logId).remove();
+}
+async function clearAllActivityLogs() {
+  if (userRole !== 'admin') return;
+  if (!confirm("Are you sure you want to clear ALL notifications? This cannot be undone.")) return;
+  await db.ref('logs').remove();
+}
+
+// ----------------------------- TASKS --------------------------------
+const PROJECTS = [
+  ['BRENT ELEMENTARY SCHOOL', '🏫 Brent School'], ['GOODWILL', '🏢 GoodWill'], ['PWC FIRE STATION', '🚒 PWC Fire'],
+  ['ARFF', '✈️ ARFF'], ['SEYMOUR', '🏛️ Seymour']
+];
+const TYPES = [
+  ['Reply to Email', '📧 Email'], ['Modeling', '🏗️ Modeling'], ['Coordination', '🔄 Coordination'], ['Shop Drawing', '📜 Shop Drawing'],
+  ['Sleeve Drawing', '🕳️ Sleeve'], ['Submittal Check', '✅ Submittal'], ['RFI', '❓ RFI']
+];
+function optionsHtml(list, selected) {
+  return list.map(([v, l]) => `<option value="${esc(v)}" ${v === selected ? 'selected' : ''}>${esc(l)}</option>`).join('');
+}
+
+function enableInlineTaskEdit(id) { if (userRole !== 'admin') return; editingTaskId = id; renderTasks(); }
+function cancelInlineTaskEdit() { editingTaskId = null; renderTasks(); }
+
+async function saveInlineTaskEdit(id) {
+  if (userRole !== 'admin') return;
+  const upd = {
+    project: document.getElementById(`edit-proj-${id}`).value,
+    type: document.getElementById(`edit-type-${id}`).value,
+    details: document.getElementById(`edit-note-${id}`).value,
+    assignee: document.getElementById(`edit-assignee-${id}`).value
+  };
+  editingTaskId = null;
+  await db.ref('tasks/' + id).update(upd);
+  logActivity(`Mokhtar updated task: "${upd.details || upd.type}"`);
+}
+
+async function updateDeadlineDirect(id, newDate) {
+  if (userRole !== 'admin' && userRole !== 'manager') return;
+  await db.ref(`tasks/${id}/deadline`).set(newDate);
+  logActivity(`Deadline updated for "${taskNameById(id)}" to [${newDate}]`);
+}
+
+async function setTaskArchiveStatus(id, archiveState) {
+  if (userRole !== 'admin') return;
+  await db.ref(`tasks/${id}/archived`).set(archiveState);
+  logActivity(`Mokhtar ${archiveState ? 'Archived' : 'Unarchived'}: "${taskNameById(id)}"`);
+}
+
+function renderTasks() {
+  if (userRole === 'viewer') return;
+  const filteredTasks = tasks.filter(task => {
+    const matchArchive = showArchivedTasks ? (task.archived === true) : (!task.archived);
+    if (!matchArchive || !visibleToMe(task)) return false;
+    return (activeProjectFilter === 'ALL' || task.project === activeProjectFilter) &&
+           (activePriorityFilter === 'ALL' || task.priority === activePriorityFilter);
+  });
+  const priorityOrder = { high: 1, medium: 2, low: 3 };
+  filteredTasks.sort((a, b) => (priorityOrder[a.priority] || 9) - (priorityOrder[b.priority] || 9));
+
+  const container = document.getElementById('task-list-container');
+  container.innerHTML = '';
+  const canCycle = userRole === 'admin' || userRole === 'member';
+  const canPlan = userRole === 'admin' || userRole === 'manager';
+
+  filteredTasks.forEach(task => {
+    const id = esc(task.id);
+    const progress = [0, 50, 100].includes(task.progress) ? task.progress : 0;
+    const priority = ['high', 'medium', 'low'].includes(task.priority) ? task.priority : 'medium';
+    const li = document.createElement('li');
+    li.className = `task-item priority-${priority} status-${progress}`;
+
+    if (userRole === 'admin' && editingTaskId === task.id) {
+      const names = teamNames();
+      if (task.assignee && !names.includes(task.assignee)) names.push(task.assignee);
+      li.innerHTML = `
+<div class="inline-edit-fields-box">
+<div class="edit-select-row">
+<select id="edit-proj-${id}">${optionsHtml(PROJECTS, task.project)}</select>
+<select id="edit-type-${id}">${optionsHtml(TYPES, task.type)}</select>
+<select id="edit-assignee-${id}">${optionsHtml(names.map(n => [n, n]), task.assignee)}</select>
+</div>
+<input type="text" class="edit-input-note" id="edit-note-${id}" value="${esc(task.details)}">
+</div>
+<div class="task-actions">
+<button class="save-btn" onclick="saveInlineTaskEdit('${id}')"><i class="fa-solid fa-square-check"></i></button>
+<button class="delete-btn" onclick="cancelInlineTaskEdit()"><i class="fa-solid fa-rectangle-xmark"></i></button>
+</div>`;
+    } else {
+      const statusCycleBtn = canCycle ? `<button class="done-btn" onclick="cycleProgress('${id}')"><i class="fa-solid fa-rotate"></i></button>` : '';
+      let archiveActionBtn = '';
+      if (userRole === 'admin') {
+        if (task.archived) archiveActionBtn = `<button class="unarchive-btn" onclick="setTaskArchiveStatus('${id}', false)"><i class="fa-solid fa-box-open"></i></button>`;
+        else if (progress === 100) archiveActionBtn = `<button class="archive-btn" onclick="setTaskArchiveStatus('${id}', true)"><i class="fa-solid fa-box-archive"></i></button>`;
+      }
+      const actions = userRole === 'admin' ? `
+<button class="edit-btn" onclick="enableInlineTaskEdit('${id}')"><i class="fa-solid fa-user-pen"></i></button>
+${statusCycleBtn}${archiveActionBtn}
+<button class="delete-btn" onclick="deleteTask('${id}')"><i class="fa-solid fa-trash-can"></i></button>` : statusCycleBtn;
+
+      const priorityHtml = canPlan ? `
+<select class="inline-priority-select" onchange="changePriorityDirect('${id}', this.value)">
+<option value="high" ${priority === 'high' ? 'selected' : ''}>🔥 High</option>
+<option value="medium" ${priority === 'medium' ? 'selected' : ''}>🟡 Med</option>
+<option value="low" ${priority === 'low' ? 'selected' : ''}>🟢 Low</option>
+</select>` : `<span class="viewer-priority-badge badge-p-${priority}">${priority}</span>`;
+
+      const deadlineHtml = canPlan
+        ? `<input type="date" class="inline-edit-deadline-input" value="${esc(task.deadline)}" onchange="updateDeadlineDirect('${id}', this.value)">`
+        : (task.deadline ? `<span class="deadline-badge"><i class="fa-regular fa-calendar-check"></i> Due: ${esc(task.deadline)}</span>` : '');
+
+      li.innerHTML = `
+<div class="task-content-details">
+<span class="project-badge">${esc(task.project)}</span>
+<span class="type-badge">${esc(task.type)}</span>
+${task.assignee ? `<span class="assignee-badge">To: ${esc(task.assignee)}</span>` : ''}
+${deadlineHtml}
+<span class="task-text">${esc(task.details || 'No notes')}</span>
+</div>
+<div class="status-wrapper">
+<div class="progress-circle-container">
+<svg><circle class="circle-bg"></circle><circle class="circle-progress"></circle></svg>
+${progress === 100 ? '<i class="fa-solid fa-check circle-icon"></i>' : progress === 50 ? '<i class="fa-solid fa-gear circle-icon"></i>' : '<i class="fa-regular fa-clock circle-icon"></i>'}
+</div>
+<div class="status-label-text">${progress === 100 ? 'COMPLETED' : progress === 50 ? 'IN PROGRESS' : 'PENDING'}</div>
+</div>
+<div class="task-actions">
+${priorityHtml}
+${actions}
+</div>`;
+    }
+    container.appendChild(li);
+  });
+}
+
+async function addNewTask() {
+  if (userRole !== 'admin') return;
+  const newTask = {
+    project: document.getElementById('project-input').value,
+    type: document.getElementById('type-input').value,
+    details: document.getElementById('task-input').value,
+    priority: document.getElementById('priority-input').value,
+    deadline: document.getElementById('deadline-input').value,
+    assignee: document.getElementById('assignee-input').value,
+    progress: 0, archived: false
+  };
+  await db.ref('tasks').push(newTask);
+  document.getElementById('task-input').value = '';
+  document.getElementById('deadline-input').value = '';
+}
+
+async function cycleProgress(id) {
+  if (userRole !== 'admin' && userRole !== 'member') return;
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+  const cur = t.progress || 0;
+  const next = cur === 0 ? 50 : (cur === 50 ? 100 : 0);
+  try {
+    await db.ref(`tasks/${id}/progress`).set(next);
+    logActivity(`${me.name} updated status: "${taskNameById(id)}"`);
+  } catch (e) { alert("You don't have permission to change this task."); }
+}
+
+async function changePriorityDirect(id, selectedPriority) {
+  if (userRole !== 'admin' && userRole !== 'manager') return;
+  await db.ref(`tasks/${id}/priority`).set(selectedPriority);
+  logActivity(`Priority changed for "${taskNameById(id)}"`);
+}
+
+async function deleteTask(id) {
+  if (userRole !== 'admin') return;
+  const name = taskNameById(id);
+  if (!confirm(`Delete task "${name}"?`)) return;
+  await db.ref('tasks/' + id).remove();
+  logActivity(`Mokhtar deleted: "${name}"`);
+}
+</script>
+</body>
+</html>
