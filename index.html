@@ -259,7 +259,205 @@ body.sb-open { overflow: hidden; }
   .add-task-box { grid-template-columns: 1fr; }
   .add-task-box button { grid-column: auto; }
 }
+/* ---------- Page tabs ---------- */
+.page-tabs { display: flex; gap: 6px; margin-bottom: 24px; padding: 5px; background: rgba(11, 15, 25, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; overflow-x: auto; }
+.page-tab { flex: 1; white-space: nowrap; background: none; border: none; color: #8fa0bc; font-family: inherit; font-size: 13px; font-weight: 700; padding: 10px 14px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all .2s ease; }
+.page-tab:hover { color: #fff; background: rgba(255,255,255,0.04); }
+.page-tab.active { background: linear-gradient(135deg, #4a72b2, #294a80); color: #fff; box-shadow: 0 4px 12px rgba(74,114,178,0.3); }
+.tab-count { background: #e74c3c; color: #fff; font-size: 10px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; }
+
+/* ---------- Registers ---------- */
+.reg-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+.reg-stat { background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 12px; text-align: center; }
+.reg-stat b { display: block; font-family: 'Roboto Mono', monospace; font-size: 22px; color: #fff; }
+.reg-stat span { font-size: 10px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: .5px; }
+.reg-stat.bad b { color: #ff7675; } .reg-stat.good b { color: #2ecc71; } .reg-stat.warn b { color: #f1c40f; }
+.reg-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; align-items: center; }
+.reg-select, .reg-search { background: rgba(24, 31, 50, 0.7); border: 1px solid rgba(255,255,255,0.08); color: #fff; border-radius: 7px; padding: 9px 10px; font-size: 12px; font-family: inherit; outline: none; color-scheme: dark; }
+.reg-search { flex: 1; min-width: 160px; }
+.reg-select:focus, .reg-search:focus { border-color: #4a72b2; }
+.reg-btn { background: #4a72b2; color: #fff; border: none; border-radius: 7px; padding: 9px 14px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 7px; }
+.reg-btn:hover { background: #365991; }
+.reg-btn.ghost { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.35); color: #2ecc71; }
+.reg-btn.ghost:hover { background: #2ecc71; color: #0b0f19; }
+.reg-list { display: flex; flex-direction: column; gap: 10px; }
+.reg-empty { text-align: center; color: #8fa0bc; font-size: 13px; padding: 30px 10px; }
+.reg-row { background: rgba(25, 33, 56, 0.85); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid #4a72b2; border-radius: 10px; padding: 14px 16px; display: flex; gap: 14px; align-items: center; }
+.reg-row.clickable { cursor: pointer; transition: border-color .2s ease, transform .2s ease; }
+.reg-row.clickable:hover { border-color: rgba(74,114,178,0.6); transform: translateY(-1px); }
+.reg-row.st-Draft { border-left-color: #8fa0bc; }
+.reg-row.st-Sent, .reg-row.st-For-Review { border-left-color: #f1c40f; }
+.reg-row.st-Answered, .reg-row.st-Issued { border-left-color: #2ecc71; }
+.reg-row.st-Closed, .reg-row.st-Superseded { border-left-color: #5c6e8c; opacity: .75; }
+.reg-row.st-WIP { border-left-color: #3498db; }
+.reg-row.is-late { border-left-color: #e74c3c; background: linear-gradient(90deg, rgba(231,76,60,0.12), rgba(25,33,56,0.85) 40%); }
+.reg-main { flex: 1; min-width: 0; }
+.reg-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; align-items: center; }
+.reg-num { font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 700; color: #fff; background: rgba(11,15,25,0.7); border: 1px solid rgba(255,255,255,0.12); padding: 3px 9px; border-radius: 4px; }
+.reg-kind { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: .4px; }
+.reg-kind.RFI { background: rgba(155,89,182,0.18); color: #c39bd3; border: 1px solid rgba(155,89,182,0.4); }
+.reg-kind.Submittal { background: rgba(26,188,156,0.15); color: #48c9b0; border: 1px solid rgba(26,188,156,0.4); }
+.reg-title { font-size: 14px; font-weight: 600; color: #fff; word-break: break-word; }
+.reg-meta { font-size: 11px; color: #8fa0bc; margin-top: 5px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.reg-meta .late { color: #ff7675; font-weight: 700; }
+.reg-meta .good { color: #2ecc71; font-weight: 700; }
+.status-pill { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; padding: 5px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+.status-pill.Draft { background: rgba(143,160,188,0.15); color: #cbd5e1; }
+.status-pill.Sent, .status-pill.For-Review { background: rgba(241,196,15,0.15); color: #f1c40f; }
+.status-pill.Answered, .status-pill.Issued { background: rgba(46,204,113,0.15); color: #2ecc71; }
+.status-pill.Closed, .status-pill.Superseded { background: rgba(92,110,140,0.2); color: #8fa0bc; }
+.status-pill.WIP { background: rgba(52,152,219,0.15); color: #5dade2; }
+.reg-rev { font-family: 'Roboto Mono', monospace; font-size: 18px; font-weight: 700; color: #f1c40f; text-align: center; min-width: 48px; flex-shrink: 0; }
+.reg-rev small { display: block; font-size: 9px; color: #8fa0bc; letter-spacing: .5px; }
+.reg-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.reg-form label { display: flex; flex-direction: column; gap: 5px; font-size: 10px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: .5px; }
+.reg-form label.full { grid-column: span 2; }
+.reg-form input, .reg-form select, .reg-form textarea { padding: 10px 12px; background: rgba(24, 31, 50, 0.7); border: 1px solid rgba(255,255,255,0.08); color: #fff; border-radius: 6px; font-size: 13px; font-family: inherit; outline: none; text-transform: none; letter-spacing: 0; font-weight: 400; color-scheme: dark; }
+.reg-form textarea { min-height: 70px; resize: vertical; }
+.reg-form input:focus, .reg-form select:focus, .reg-form textarea:focus { border-color: #4a72b2; }
+.reg-form-actions { grid-column: span 2; display: flex; gap: 10px; margin-top: 4px; }
+.reg-form-actions .reg-btn { flex: 1; justify-content: center; padding: 12px; font-size: 13px; }
+.reg-btn.danger { background: rgba(231,76,60,0.12); border: 1px solid rgba(231,76,60,0.35); color: #e74c3c; flex: 0 0 auto !important; }
+.reg-btn.danger:hover { background: #e74c3c; color: #fff; }
+.reg-history { grid-column: span 2; font-size: 11px; color: #8fa0bc; background: rgba(11,15,25,0.45); border-radius: 6px; padding: 8px 10px; }
+.reg-history b { color: #cbd5e1; }
+.report-card { background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 22px; }
+.report-card h3 { margin: 0 0 6px; font-size: 16px; color: #fff; }
+.report-card p { margin: 0 0 18px; font-size: 12px; color: #8fa0bc; line-height: 1.6; }
+.report-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.report-grid label { display: flex; flex-direction: column; gap: 5px; font-size: 10px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: .5px; }
+.report-grid .reg-select { padding: 11px 12px; font-size: 13px; }
+@media (max-width: 720px) {
+  .reg-summary { grid-template-columns: repeat(2, 1fr); }
+  .reg-row { flex-wrap: wrap; }
+  .reg-form, .report-grid { grid-template-columns: 1fr; }
+  .reg-form label.full, .reg-form-actions, .reg-history { grid-column: auto; }
+}
+/* =================== MOTION & INTERACTION =================== */
+@keyframes fxUp { from { opacity: 0; transform: translateY(14px); } }
+@keyframes fxFade { from { opacity: 0; transform: translateY(8px); } }
+@keyframes fxGrow { from { width: 0; } }
+@keyframes fxFlash { 0% { box-shadow: 0 0 0 2px rgba(241,196,15,0.95), 0 0 26px rgba(241,196,15,0.55); } 100% { box-shadow: 0 4px 15px rgba(0,0,0,0.3); } }
+@keyframes fxRipple { to { transform: scale(1); opacity: 0; } }
+@keyframes fxShimmer { 100% { background-position: -200% 0; } }
+@keyframes fxToastIn { from { opacity: 0; transform: translateY(16px) scale(.96); } }
+@keyframes fxToastOut { to { opacity: 0; transform: translateX(30px); } }
+@keyframes fxFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* staggered entrance */
+.anim-in { animation: fxUp .55s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(var(--i, 0) * 45ms); }
+.flash { animation: fxFlash 1.8s ease-out; }
+.page-enter { animation: fxFade .35s ease backwards; }
+.analytics-card, .chart-container-box, .announce-bar, .page-tabs { animation: fxUp .6s cubic-bezier(.2,.8,.2,1) backwards; }
+.analytics-card:nth-child(2) { animation-delay: .06s; } .analytics-card:nth-child(3) { animation-delay: .12s; } .analytics-card:nth-child(4) { animation-delay: .18s; }
+.chart-container-box { animation-delay: .22s; }
+
+/* hover lift */
+.task-item, .analytics-card, .reg-stat, .chart-container-box, .stat-card { position: relative; transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, border-color .25s ease; }
+.reg-row { position: relative; }
+.task-item:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(0,0,0,0.42); border-color: rgba(111,151,214,0.28); }
+.analytics-card:hover, .reg-stat:hover, .chart-container-box:hover, .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,0.35); border-color: rgba(111,151,214,0.25); }
+
+/* light that follows the mouse */
+.task-item::after, .analytics-card::after, .reg-row::after, .reg-stat::after, .chart-container-box::after, .stat-card::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s ease;
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(111,151,214,0.15), transparent 60%); }
+.task-item:hover::after, .analytics-card:hover::after, .reg-row:hover::after, .reg-stat:hover::after, .chart-container-box:hover::after, .stat-card:hover::after { opacity: 1; }
+
+/* ripple on buttons */
+.portal-btn, .sb-btn, .reg-btn, .new-task-btn, .page-tab, .gate-enter-btn, .add-task-box button, .sb-action, .filter-chip, .theme-btn { position: relative; overflow: hidden; }
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.35); transform: scale(0); opacity: .9; pointer-events: none; animation: fxRipple .6s ease-out forwards; }
+
+/* task progress bar */
+.task-progress { height: 4px; border-radius: 3px; background: rgba(255,255,255,0.07); margin-top: 10px; overflow: hidden; max-width: 360px; }
+.task-progress > div { height: 100%; border-radius: 3px; transition: width .6s cubic-bezier(.2,.8,.2,1); }
+.task-progress .p-0 { width: 0; } .task-progress .p-50 { background: linear-gradient(90deg, #f39c12, #f1c40f); } .task-progress .p-100 { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+.anim-in .task-progress > div, .flash .task-progress > div { animation: fxGrow .9s cubic-bezier(.2,.8,.2,1) .15s backwards; }
+
+/* skeleton while loading */
+.skeleton { list-style: none; height: 86px; border-radius: 10px; margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(90deg, rgba(25,33,56,0.7) 25%, rgba(45,58,92,0.7) 50%, rgba(25,33,56,0.7) 75%); background-size: 200% 100%; animation: fxShimmer 1.4s linear infinite; }
+
+/* empty state */
+.empty-state { list-style: none; text-align: center; padding: 34px 16px; color: #8fa0bc; }
+.empty-state svg { width: 76px; height: 76px; margin-bottom: 10px; animation: fxFloat 3.5s ease-in-out infinite; }
+.empty-state h4 { margin: 0 0 4px; font-size: 15px; color: #e2e8f0; }
+.empty-state p { margin: 0; font-size: 12px; }
+
+/* greeting */
+.greeting { font-size: 12px; font-weight: 600; color: #8fa0bc; margin-bottom: 4px; letter-spacing: .2px; animation: fxFade .6s ease backwards; }
+.greeting b { color: #cbd5e1; }
+
+/* toasts */
+.toast-stack { position: fixed; right: 18px; bottom: 18px; z-index: 20000; display: flex; flex-direction: column; gap: 10px; max-width: min(380px, calc(100vw - 36px)); }
+.toast { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 10px; background: rgba(17, 24, 39, 0.97); color: #e2e8f0; font-size: 13px; line-height: 1.45; white-space: pre-line;
+  border: 1px solid rgba(255,255,255,0.08); border-left: 4px solid #4a72b2; box-shadow: 0 14px 34px rgba(0,0,0,0.5); cursor: pointer; animation: fxToastIn .35s cubic-bezier(.2,.8,.2,1); backdrop-filter: blur(10px); }
+.toast.out { animation: fxToastOut .3s ease forwards; }
+.toast i { margin-top: 2px; }
+.toast.success { border-left-color: #2ecc71; } .toast.success i { color: #2ecc71; }
+.toast.error { border-left-color: #e74c3c; } .toast.error i { color: #e74c3c; }
+.toast.warn { border-left-color: #f1c40f; } .toast.warn i { color: #f1c40f; }
+.toast.info i { color: #6f97d6; }
+
+/* theme button */
+.theme-btn { flex-shrink: 0; width: 44px; height: 44px; border-radius: 10px; background: rgba(24, 31, 50, 0.75); border: 1px solid rgba(255,255,255,0.08); color: #f1c40f; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s ease; }
+.theme-btn:hover { border-color: #f1c40f; box-shadow: 0 0 12px rgba(241,196,15,0.35); }
+.theme-btn i { transition: transform .4s ease; }
+.theme-btn:hover i { transform: rotate(25deg); }
+body, .user-header, .container, .task-item, .analytics-card, .sidebar, .sb-section, .reg-row, .page-tabs { transition: background-color .35s ease, color .35s ease, border-color .35s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* =================== LIGHT THEME =================== */
+html.light body { background-color: #eef2f8; color: #1d2433; }
+html.light .full-screen-overlay { background: radial-gradient(circle at center, rgba(238,242,248,0.88) 0%, rgba(226,232,242,0.96) 100%); }
+html.light .user-header, html.light .container { background: rgba(255,255,255,0.82); border-color: rgba(29,36,51,0.08); box-shadow: 0 20px 50px rgba(29,36,51,0.12); }
+html.light .user-name-glow, html.light .company-title, html.light h1, html.light .task-text, html.light .reg-title, html.light .sb-user-name, html.light .team-row-name,
+html.light .stat-card-top, html.light .announce-text, html.light .empty-state h4, html.light .analytics-num, html.light .chart-center-val, html.light .reg-stat b, html.light .history-modal-header h3 { color: #1d2433; text-shadow: none; }
+html.light .greeting b { color: #1d2433; }
+html.light .analytics-card, html.light .chart-container-box, html.light .reg-stat, html.light .report-card, html.light .sb-section, html.light .sb-action, html.light .stat-card, html.light .page-tabs { background: #ffffff; border-color: rgba(29,36,51,0.08); box-shadow: 0 4px 14px rgba(29,36,51,0.06); }
+html.light .task-item, html.light .reg-row { background: #ffffff; border-color: rgba(29,36,51,0.08); box-shadow: 0 4px 14px rgba(29,36,51,0.07); }
+html.light .task-item:hover { box-shadow: 0 14px 30px rgba(29,36,51,0.14); }
+html.light .task-item.status-100 { background: #f4f6fa; }
+html.light .task-item.is-overdue, html.light .reg-row.is-late { background: linear-gradient(90deg, rgba(231,76,60,0.10), #ffffff 40%); }
+html.light .project-badge, html.light .type-badge, html.light .reg-num { background: #f1f4f9; border-color: rgba(29,36,51,0.1); }
+html.light .type-badge, html.light .reg-num { color: #1d2433; }
+html.light .filter-chip { background: #ffffff; color: #4a5568; border-color: rgba(29,36,51,0.1); }
+html.light .filter-chip.active, html.light .filter-chip:hover { background: #4a72b2; color: #fff; }
+html.light .page-tab { color: #4a5568; }
+html.light .page-tab.active { color: #fff; }
+html.light .add-task-box input, html.light .add-task-box select, html.light .reg-form input, html.light .reg-form select, html.light .reg-form textarea,
+html.light .reg-select, html.light .reg-search, html.light .sb-input, html.light .sb-select, html.light .sb-textarea, html.light .gate-form-group input,
+html.light .inline-priority-select, html.light .inline-edit-deadline-input, html.light .edit-select-row select, html.light .edit-input-note { background: #f7f9fc; color: #1d2433; border-color: rgba(29,36,51,0.14); color-scheme: light; }
+html.light .add-task-box button { background-color: #4a72b2; color: #fff; }
+html.light .sidebar { background: rgba(250,251,253,0.98); border-color: rgba(29,36,51,0.08); }
+html.light .sb-head { border-color: rgba(29,36,51,0.08); }
+html.light .sb-section > summary, html.light .sb-action { color: #2d3748; }
+html.light .sb-item, html.light .team-row, html.light .activity-item, html.light .presence-user-pill { background: #f4f6fa; color: #2d3748; border-color: rgba(29,36,51,0.08); }
+html.light .app-modal-box, html.light .history-modal-box, html.light .toast { background: #ffffff; color: #1d2433; border-color: rgba(29,36,51,0.1); }
+html.light .landing-gate-wrapper { background: rgba(255,255,255,0.92); border-color: rgba(29,36,51,0.08); }
+html.light .gate-logo-neon { color: #1d2433; text-shadow: none; }
+html.light .menu-btn, html.light .theme-btn, html.light .sb-close { background: #ffffff; border-color: rgba(29,36,51,0.12); color: #1d2433; }
+html.light .theme-btn { color: #4a72b2; }
+html.light .announce-bar { background: linear-gradient(135deg, rgba(74,114,178,0.12), rgba(74,114,178,0.04)); }
+html.light .skeleton { background: linear-gradient(90deg, #e9edf4 25%, #f6f8fb 50%, #e9edf4 75%); background-size: 200% 100%; border-color: transparent; }
+html.light .task-progress, html.light .stat-bar { background: rgba(29,36,51,0.08); }
+html.light .circle-bg { stroke: #e3e8f0; }
+html.light .filter-section { border-color: rgba(29,36,51,0.08); }
+html.light .reg-history { background: #f4f6fa; color: #4a5568; }
+html.light .card-glow-all { border-bottom-color: #4a72b2; } html.light .card-glow-done { border-bottom-color: #2ecc71; }
+html.light .card-glow-prog { border-bottom-color: #f1c40f; } html.light .card-glow-pend { border-bottom-color: #e74c3c; }
+html.light .archive-filter-chip { background: rgba(230,126,34,0.1); color: #d35400; border-color: rgba(230,126,34,0.35); }
+html.light .overdue-chip { background: rgba(231,76,60,0.08); color: #c0392b; border-color: rgba(231,76,60,0.35); }
+html.light .archive-filter-chip.active, html.light .archive-filter-chip:hover { background: #e67e22; color: #fff; }
+html.light .overdue-chip.active, html.light .overdue-chip:hover { background: #e74c3c; color: #fff; }
+html.light .sb-action.logout { color: #e74c3c; border-color: rgba(231,76,60,0.3); }
+.sidebar { box-shadow: none; }
+body.sb-open .sidebar { box-shadow: 20px 0 50px rgba(0,0,0,0.6); }
 </style>
+<script>try{if(localStorage.getItem('bimTheme')==='light')document.documentElement.classList.add('light')}catch(e){}</script>
 </head>
 <body>
 <!-- ================= CELEBRATION BANNER (6 October automatic + occasions set by admin) ================= -->
@@ -508,7 +706,9 @@ body.sb-open { overflow: hidden; }
 <div class="user-header">
 <div class="header-left">
 <button class="menu-btn" onclick="openSidebar()" title="Menu"><i class="fa-solid fa-bars"></i><span class="menu-badge hidden" id="menu-badge">0</span></button>
+<button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Light / Dark mode"><i class="fa-solid fa-sun"></i></button>
 <div class="user-info">
+<div class="greeting" id="greeting-line"></div>
 <div class="user-name-glow">
 <i class="fa-solid fa-user-gear"></i>
 <span id="current-user-display">Loading User...</span>
@@ -525,6 +725,12 @@ body.sb-open { overflow: hidden; }
 <div class="announce-bar hidden" id="announce-bar">
 <i class="fa-solid fa-bullhorn"></i>
 <div><div class="announce-text" id="announce-text"></div><div class="announce-meta" id="announce-meta"></div></div>
+</div>
+<div class="page-tabs">
+<button class="page-tab active" data-page="tasks" onclick="showPage('tasks')"><i class="fa-solid fa-list-check"></i> Tasks</button>
+<button class="page-tab" data-page="rfis" data-roles="admin manager" onclick="showPage('rfis')"><i class="fa-solid fa-circle-question"></i> RFIs &amp; Submittals <span class="tab-count hidden" id="rfi-open-count"></span></button>
+<button class="page-tab" data-page="sheets" data-roles="admin manager" onclick="showPage('sheets')"><i class="fa-solid fa-layer-group"></i> Sheet Register</button>
+<button class="page-tab" data-page="reports" data-roles="admin manager" onclick="showPage('reports')"><i class="fa-solid fa-file-pdf"></i> Weekly Report</button>
 </div>
 <div id="tasks-page">
 <div class="dashboard-stats-wrapper" id="stats-wrapper-layout">
@@ -583,6 +789,64 @@ body.sb-open { overflow: hidden; }
 </div>
 <ul class="task-list" id="task-list-container"></ul>
 </div>
+<!-- ===================== RFIs & SUBMITTALS ===================== -->
+<div id="rfis-page" class="hidden">
+<div class="reg-summary" id="rfi-summary"></div>
+<div class="reg-toolbar">
+<select id="rfi-f-kind" class="reg-select" onchange="renderRfis()">
+<option value="ALL">RFIs + Submittals</option>
+<option value="RFI">RFIs only</option>
+<option value="Submittal">Submittals only</option>
+</select>
+<select id="rfi-f-project" class="reg-select reg-project-filter" onchange="renderRfis()"></select>
+<select id="rfi-f-status" class="reg-select" onchange="renderRfis()">
+<option value="OPEN">Open (Draft + Sent)</option>
+<option value="ALL">All statuses</option>
+<option value="Draft">Draft</option>
+<option value="Sent">Sent</option>
+<option value="Answered">Answered</option>
+<option value="Closed">Closed</option>
+</select>
+<input id="rfi-f-search" class="reg-search" placeholder="Search number, subject or recipient..." oninput="renderRfis()">
+<button class="reg-btn ghost" title="Export to Excel" onclick="exportRfis()"><i class="fa-solid fa-file-excel"></i> Export</button>
+<button class="reg-btn" data-roles="admin" onclick="openRfiModal()"><i class="fa-solid fa-plus"></i> New</button>
+</div>
+<div class="reg-list" id="rfi-list"></div>
+</div>
+
+<!-- ===================== SHEET REGISTER ===================== -->
+<div id="sheets-page" class="hidden">
+<div class="reg-summary" id="sheet-summary"></div>
+<div class="reg-toolbar">
+<select id="sheet-f-project" class="reg-select reg-project-filter" onchange="renderSheets()"></select>
+<select id="sheet-f-disc" class="reg-select" onchange="renderSheets()"></select>
+<select id="sheet-f-status" class="reg-select" onchange="renderSheets()">
+<option value="ALL">All statuses</option>
+<option value="WIP">WIP</option>
+<option value="For Review">For Review</option>
+<option value="Issued">Issued</option>
+<option value="Superseded">Superseded</option>
+</select>
+<input id="sheet-f-search" class="reg-search" placeholder="Search sheet number or title..." oninput="renderSheets()">
+<button class="reg-btn ghost" title="Export to Excel" onclick="exportSheets()"><i class="fa-solid fa-file-excel"></i> Export</button>
+<button class="reg-btn" data-roles="admin" onclick="openSheetModal()"><i class="fa-solid fa-plus"></i> New</button>
+</div>
+<div class="reg-list" id="sheet-list"></div>
+</div>
+
+<!-- ===================== WEEKLY REPORT ===================== -->
+<div id="reports-page" class="hidden">
+<div class="report-card">
+<h3><i class="fa-solid fa-file-pdf" style="color:#e74c3c;"></i> Weekly Progress Report</h3>
+<p>Builds a clean, client-ready report: task progress, overdue items, RFIs &amp; submittals, and sheets issued in the period. It opens in a new window — choose <b>Save as PDF</b> in the print dialog.</p>
+<div class="report-grid">
+<label>Project<select id="rep-project" class="reg-select reg-project-filter"></select></label>
+<label>From<input type="date" id="rep-from" class="reg-select"></label>
+<label>To<input type="date" id="rep-to" class="reg-select"></label>
+</div>
+<button class="reg-btn" style="width:100%; justify-content:center; padding:13px; font-size:14px;" onclick="generateReport()"><i class="fa-solid fa-file-arrow-down"></i> Generate Report</button>
+</div>
+</div>
 </div>
 </div>
 
@@ -605,6 +869,59 @@ body.sb-open { overflow: hidden; }
 <input type="date" id="deadline-input" style="color-scheme: dark;">
 <select id="assignee-input"></select>
 <button onclick="addNewTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
+</div>
+</div>
+</div>
+
+<!-- RFI / Submittal window -->
+<div id="rfi-modal" class="app-modal-overlay" onclick="if(event.target===this)closeRegModal('rfi-modal')">
+<div class="app-modal-box">
+<div class="history-modal-header">
+<h3 id="rfi-modal-title"><i class="fa-solid fa-circle-question"></i> New RFI / Submittal</h3>
+<button class="close-modal-btn" onclick="closeRegModal('rfi-modal')"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="reg-form">
+<label>Type<select id="rfi-kind" onchange="suggestRfiNumber()"><option value="RFI">RFI</option><option value="Submittal">Submittal</option></select></label>
+<label>Number<input type="text" id="rfi-number" placeholder="RFI-001"></label>
+<label class="full">Project<select id="rfi-project" onchange="suggestRfiNumber()"></select></label>
+<label class="full">Subject<input type="text" id="rfi-subject" placeholder="e.g. Duct clash with beam at grid C-4, Level 2"></label>
+<label>Sent to<input type="text" id="rfi-to" placeholder="e.g. GC / Architect / Engineer"></label>
+<label>Status<select id="rfi-status"><option>Draft</option><option>Sent</option><option>Answered</option><option>Closed</option></select></label>
+<label>Date sent<input type="date" id="rfi-sent"></label>
+<label>Reply due<input type="date" id="rfi-due"></label>
+<label>Date answered<input type="date" id="rfi-answered"></label>
+<label>&nbsp;<span></span></label>
+<label class="full">Notes<textarea id="rfi-notes" placeholder="Answer summary, references, attachments location..."></textarea></label>
+<div class="reg-form-actions">
+<button class="reg-btn danger hidden" id="rfi-delete-btn" onclick="deleteRfi()"><i class="fa-solid fa-trash-can"></i></button>
+<button class="reg-btn" onclick="saveRfi()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Sheet window -->
+<div id="sheet-modal" class="app-modal-overlay" onclick="if(event.target===this)closeRegModal('sheet-modal')">
+<div class="app-modal-box">
+<div class="history-modal-header">
+<h3 id="sheet-modal-title"><i class="fa-solid fa-layer-group"></i> New Sheet</h3>
+<button class="close-modal-btn" onclick="closeRegModal('sheet-modal')"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="reg-form">
+<label class="full">Project<select id="sheet-project"></select></label>
+<label>Sheet number<input type="text" id="sheet-number" placeholder="e.g. M-101"></label>
+<label>Discipline<select id="sheet-disc"></select></label>
+<label class="full">Sheet title<input type="text" id="sheet-title" placeholder="e.g. Level 1 Mechanical Ductwork Plan"></label>
+<label>Revision<input type="text" id="sheet-rev" placeholder="e.g. 0, A, 1"></label>
+<label>Status<select id="sheet-status"><option>WIP</option><option>For Review</option><option>Issued</option><option>Superseded</option></select></label>
+<label>Date (issued / updated)<input type="date" id="sheet-date"></label>
+<label>&nbsp;<span></span></label>
+<label class="full">Notes<textarea id="sheet-notes" placeholder="Transmittal number, comments..."></textarea></label>
+<div class="reg-history hidden" id="sheet-history"></div>
+<div class="reg-form-actions">
+<button class="reg-btn danger hidden" id="sheet-delete-btn" onclick="deleteSheet()"><i class="fa-solid fa-trash-can"></i></button>
+<button class="reg-btn" onclick="saveSheet()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+</div>
 </div>
 </div>
 </div>
@@ -670,6 +987,136 @@ let activeViewFilter = 'ALL';
 let showArchivedTasks = false;
 let editingTaskId = null;
 let activeListeners = [];
+
+// =====================================================================
+//  MOTION, FEEDBACK & THEME
+// =====================================================================
+const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+const animateNextList = { tasks: true, rfis: true, sheets: true };
+const flashSets = { tasks: new Set(), rfis: new Set(), sheets: new Set() };
+const prevSigs = { tasks: null, rfis: null, sheets: null };
+let tasksLoaded = false;
+
+// remember each item's content; anything that changes later gets a short highlight
+function trackChanges(kind, obj) {
+  const sig = {};
+  Object.keys(obj || {}).forEach(k => { sig[k] = JSON.stringify(obj[k]); });
+  const prev = prevSigs[kind];
+  if (prev) Object.keys(sig).forEach(k => { if (prev[k] !== sig[k]) flashSets[kind].add(k); });
+  prevSigs[kind] = sig;
+}
+function fxClasses(kind, id, idx) {
+  let c = '';
+  if (animateNextList[kind] && !reduceMotion) c += ' anim-in';
+  if (flashSets[kind].has(id)) c += ' flash';
+  return { cls: c, style: `--i:${Math.min(idx, 14)}` };
+}
+function fxDone(kind) { animateNextList[kind] = false; flashSets[kind].clear(); }
+
+// numbers that count up
+function animateCount(el, to, suffix) {
+  if (!el) return;
+  suffix = suffix || '';
+  to = Number(to) || 0;
+  const from = Number(el.dataset.val || 0);
+  el.dataset.val = to;
+  if (reduceMotion || from === to) { el.textContent = to + suffix; return; }
+  cancelAnimationFrame(el._raf);
+  const start = performance.now(), dur = 750;
+  const step = now => {
+    const p = Math.min(1, (now - start) / dur), e = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * e) + suffix;
+    if (p < 1) el._raf = requestAnimationFrame(step);
+  };
+  el._raf = requestAnimationFrame(step);
+}
+function animateCountsIn(container) {
+  container.querySelectorAll('[data-count]').forEach(el => {
+    const key = el.dataset.key;
+    const prev = animateCountsIn.cache[key];
+    el.dataset.val = prev === undefined ? 0 : prev;
+    animateCountsIn.cache[key] = Number(el.dataset.count);
+    animateCount(el, el.dataset.count, el.dataset.suffix || '');
+  });
+}
+animateCountsIn.cache = {};
+
+// friendly empty state
+function emptyStateHtml(title, sub, tag) {
+  tag = tag || 'div';
+  return `<${tag} class="empty-state">
+<svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><rect x="16" y="12" width="48" height="58" rx="8" stroke="#4a72b2" stroke-width="3" fill="rgba(74,114,178,0.08)"/><rect x="30" y="7" width="20" height="10" rx="4" fill="#4a72b2"/><path d="M28 42l8 8 16-17" stroke="#2ecc71" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<h4>${esc(title)}</h4><p>${esc(sub)}</p></${tag}>`;
+}
+
+// toasts instead of browser pop-ups
+function toast(msg, type) {
+  let stack = document.getElementById('toast-stack');
+  if (!stack) { stack = document.createElement('div'); stack.id = 'toast-stack'; stack.className = 'toast-stack'; document.body.appendChild(stack); }
+  const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', warn: 'fa-triangle-exclamation', info: 'fa-circle-info' };
+  type = icons[type] ? type : 'info';
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<i class="fa-solid ${icons[type]}"></i><div>${esc(msg)}</div>`;
+  const close = () => { t.classList.add('out'); setTimeout(() => t.remove(), 300); };
+  t.addEventListener('click', close);
+  stack.appendChild(t);
+  setTimeout(close, type === 'error' ? 5500 : 3800);
+}
+window.alert = function (msg) {
+  const m = String(msg);
+  const type = /success|created/i.test(m) ? 'success'
+    : /fail|could not|incorrect|invalid|denied|permission|blocked|already|past|don't|isn't|hasn't|no access/i.test(m) ? 'error' : 'warn';
+  toast(m, type);
+};
+
+// ripple on click
+document.addEventListener('pointerdown', e => {
+  if (reduceMotion) return;
+  const b = e.target.closest('.portal-btn, .sb-btn, .reg-btn, .new-task-btn, .page-tab, .gate-enter-btn, .add-task-box button, .sb-action, .filter-chip, .theme-btn');
+  if (!b) return;
+  const r = b.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2;
+  const s = document.createElement('span');
+  s.className = 'ripple';
+  s.style.width = s.style.height = d + 'px';
+  s.style.left = (e.clientX - r.left - d / 2) + 'px';
+  s.style.top = (e.clientY - r.top - d / 2) + 'px';
+  b.appendChild(s);
+  setTimeout(() => s.remove(), 650);
+});
+
+// light that follows the mouse on cards
+document.addEventListener('pointermove', e => {
+  const c = e.target.closest && e.target.closest('.task-item, .analytics-card, .reg-row, .reg-stat, .chart-container-box, .stat-card');
+  if (!c) return;
+  const r = c.getBoundingClientRect();
+  c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+  c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+}, { passive: true });
+
+// greeting by time of day (Cairo time)
+function updateGreeting() {
+  const el = document.getElementById('greeting-line');
+  if (!el || !me) return;
+  const h = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Cairo', hour: '2-digit', hourCycle: 'h23' }).format(new Date()));
+  const g = h >= 5 && h < 12 ? ['Good morning', '☀️'] : h >= 12 && h < 17 ? ['Good afternoon', '🌤️'] : ['Good evening', '🌙'];
+  el.innerHTML = `${g[0]}, <b>${esc(String(me.name).split(' ')[0])}</b> ${g[1]}`;
+}
+setInterval(updateGreeting, 5 * 60 * 1000);
+
+// light / dark theme (remembered on this device)
+function applyThemeIcon() {
+  const light = document.documentElement.classList.contains('light');
+  const i = document.querySelector('#theme-btn i');
+  if (i) i.className = light ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+}
+function toggleTheme() {
+  const light = document.documentElement.classList.toggle('light');
+  try { localStorage.setItem('bimTheme', light ? 'light' : 'dark'); } catch (e) {}
+  applyThemeIcon();
+  if (myPieChart) myPieChart.update();
+}
+applyThemeIcon();
 
 const ROLE_META = {
   admin:   { tag: 'Admin',           icon: '👑',    cls: 'pill-role-admin' },
@@ -737,7 +1184,7 @@ function labelFor(list, value) {
 // ---------------------------- SIDEBAR -------------------------------
 function openSidebar() { document.body.classList.add('sb-open'); }
 function closeSidebar() { document.body.classList.remove('sb-open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSidebar(); closeTaskModal(); closeLoginHistoryModal(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSidebar(); closeTaskModal(); closeLoginHistoryModal(); closeRegModal('rfi-modal'); closeRegModal('sheet-modal'); } });
 
 // ---------------------------- AUTH ----------------------------------
 async function submitGateLogin() {
@@ -762,7 +1209,9 @@ db.ref('settings/celebration').on('value', snap => {
 
 auth.onAuthStateChanged(async user => {
   stopAllListeners();
-  tasks = []; teamMembers = {}; pwRequests = {}; myPwRequest = null; lastPresenceData = null;
+  tasks = []; teamMembers = {}; pwRequests = {}; myPwRequest = null; lastPresenceData = null; rfis = {}; sheets = {};
+  tasksLoaded = false; prevSigs.tasks = prevSigs.rfis = prevSigs.sheets = null; animateNextList.tasks = animateNextList.rfis = animateNextList.sheets = true; animateCountsIn.cache = {};
+  showPage('tasks');
   closeSidebar();
   if (!user) {
     me = null; userRole = 'viewer';
@@ -787,12 +1236,19 @@ auth.onAuthStateChanged(async user => {
   startPresence();
   listen(db.ref('tasks'), 'value', snap => {
     const tData = snap.val();
+    trackChanges('tasks', tData);
+    if (!tasksLoaded) animateNextList.tasks = true;
+    tasksLoaded = true;
     tasks = tData ? Object.keys(tData).map(key => ({ id: key, ...tData[key] })) : [];
     renderAll();
   });
   listen(db.ref('settings/projects'), 'value', snap => { projectsData = snap.val(); renderListControls(); renderAll(); });
   listen(db.ref('settings/types'), 'value', snap => { typesData = snap.val(); renderListControls(); renderAll(); });
   listen(db.ref('settings/announcement'), 'value', snap => renderAnnouncement(snap.val()));
+  if (userRole === 'admin' || userRole === 'manager') {
+    listen(db.ref('registers/rfis'), 'value', snap => { rfis = snap.val() || {}; trackChanges('rfis', rfis); renderRfis(); });
+    listen(db.ref('registers/sheets'), 'value', snap => { sheets = snap.val() || {}; trackChanges('sheets', sheets); renderSheets(); });
+  }
 
   if (userRole !== 'admin') {
     listen(db.ref('password_requests/' + user.uid), 'value', snap => { myPwRequest = snap.val(); renderPasswordSection(); });
@@ -988,6 +1444,7 @@ async function requestPwChange() {
   try {
     await db.ref('password_requests/' + me.uid).set({ status: 'pending', name: me.name, requestedAt: Date.now() });
     logActivity(`${me.name} requested a password change`);
+    toast('Request sent to Mokhtar', 'success');
   } catch (e) { alert("Could not send the request: " + e.message); }
 }
 async function cancelPwRequest() {
@@ -1048,6 +1505,7 @@ async function setPwRequest(uid, status) {
   if (userRole !== 'admin') return;
   const r = pwRequests[uid];
   await db.ref('password_requests/' + uid).update({ status, decidedAt: Date.now() });
+  toast(status === 'approved' ? 'Request approved' : 'Request declined', status === 'approved' ? 'success' : 'info');
   const name = (teamMembers[uid] && teamMembers[uid].name) || (r && r.name) || '';
   logActivity(`Mokhtar ${status === 'approved' ? 'approved' : 'declined'} ${name}'s password change`);
 }
@@ -1071,6 +1529,7 @@ function renderListControls() {
   chips.innerHTML = `<span class="filter-chip ${activeProjectFilter === 'ALL' ? 'active' : ''}" data-val="ALL">All Projects</span>` +
     projects.map(p => `<span class="filter-chip ${activeProjectFilter === p.value ? 'active' : ''}" data-val="${esc(p.value)}">${esc(p.label)}</span>`).join('');
   chips.querySelectorAll('.filter-chip').forEach(ch => ch.addEventListener('click', () => setProjectFilter(ch.dataset.val, ch)));
+  renderRegisterControls(); renderRfis(); renderSheets();
   // Admin lists
   if (userRole !== 'admin') return;
   const row = (kind, it) => `<li class="sb-item"><span>${esc(it.label)}</span><button class="icon-btn" title="Remove" onclick="removeListItem('${kind}','${esc(it.key)}')"><i class="fa-solid fa-trash-can"></i></button></li>`;
@@ -1100,6 +1559,7 @@ async function addListItem(kind) {
     document.getElementById(pre + '-emoji').value = '';
     document.getElementById(pre + '-name').value = '';
     logActivity(`Mokhtar added ${kind === 'projects' ? 'project' : 'task type'}: ${name}`);
+    toast(`${name} added`, 'success');
   } catch (e) { alert("Could not save: " + e.message); }
 }
 async function removeListItem(kind, key) {
@@ -1132,11 +1592,13 @@ async function publishAnnouncement() {
   const text = document.getElementById('announce-input').value.trim();
   if (!text) { alert("Write the announcement first."); return; }
   await db.ref('settings/announcement').set({ text: text.slice(0, 500), at: Date.now() });
+  toast('Announcement published to the team', 'success');
   logActivity('Mokhtar posted a new announcement');
 }
 async function clearAnnouncement() {
   if (userRole !== 'admin') return;
   await db.ref('settings/announcement').remove();
+  toast('Announcement removed', 'info');
 }
 
 // --------------------------- OCCASIONS ------------------------------
@@ -1163,18 +1625,20 @@ async function activateCelebration() {
   if (!until) { alert("Choose the last day the banner should show."); return; }
   if (until < cairoTodayISO()) { alert("The end date is in the past."); return; }
   await db.ref('settings/celebration').set({ preset, title: title.slice(0, 120), sub: sub.slice(0, 200), until });
+  toast('Banner is live until ' + until, 'success');
   logActivity(`Mokhtar turned on the ${PRESET_NAMES[preset]} banner`);
 }
 async function stopCelebration() {
   if (userRole !== 'admin') return;
   await db.ref('settings/celebration').remove();
+  toast('Banner turned off', 'info');
 }
 
 // ----------------------------- UI -----------------------------------
-function setProjectFilter(val, element) { activeProjectFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
-function setPriorityFilter(val, element) { activePriorityFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
-function setViewFilter(val, element) { activeViewFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
-function toggleArchiveView(showArchived, element) { showArchivedTasks = showArchived; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
+function setProjectFilter(val, element) { animateNextList.tasks = true; activeProjectFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
+function setPriorityFilter(val, element) { animateNextList.tasks = true; activePriorityFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
+function setViewFilter(val, element) { animateNextList.tasks = true; activeViewFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
+function toggleArchiveView(showArchived, element) { animateNextList.tasks = true; showArchivedTasks = showArchived; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
 
 function checkPermissions() {
   const landingGate = document.getElementById('landing-gate-screen');
@@ -1187,6 +1651,7 @@ function checkPermissions() {
   landingGate.classList.add('hidden');
   mainApp.classList.remove('hidden');
   document.getElementById('current-user-display').textContent = displayLabel(me);
+  updateGreeting(); applyThemeIcon();
   document.getElementById('sb-user-name').textContent = `${me.name} ${(ROLE_META[me.role] || ROLE_META.member).icon}`;
   document.getElementById('sb-user-role').textContent = `${(ROLE_META[me.role] || ROLE_META.member).tag} · @${me.username || ''}`;
   document.querySelectorAll('[data-roles]').forEach(el => {
@@ -1215,12 +1680,13 @@ function calculateAnalytics() {
   const done = filtered.filter(t => t.progress === 100).length;
   const prog = filtered.filter(t => t.progress === 50).length;
   const pend = filtered.filter(t => t.progress === 0 || !t.progress).length;
-  document.getElementById('count-all').innerText = total;
-  document.getElementById('count-done').innerText = done;
-  document.getElementById('count-prog').innerText = prog;
-  document.getElementById('count-pend').innerText = pend;
-  document.getElementById('overdue-count').innerText = filtered.filter(isOverdue).length;
-  document.getElementById('chart-percentage-txt').innerText = (total > 0 ? Math.round((done / total) * 100) : 0) + "%";
+  if (!tasksLoaded) return;
+  animateCount(document.getElementById('count-all'), total);
+  animateCount(document.getElementById('count-done'), done);
+  animateCount(document.getElementById('count-prog'), prog);
+  animateCount(document.getElementById('count-pend'), pend);
+  animateCount(document.getElementById('overdue-count'), filtered.filter(isOverdue).length);
+  animateCount(document.getElementById('chart-percentage-txt'), total > 0 ? Math.round((done / total) * 100) : 0, '%');
   updatePieChart(done, prog, pend);
 }
 
@@ -1228,11 +1694,11 @@ function updatePieChart(done, prog, pend) {
   const ctx = document.getElementById('livePieChart');
   if (!ctx || typeof Chart === 'undefined') return;
   const chartData = (done + prog + pend) === 0 ? [0, 0, 1] : [done, prog, pend];
-  if (myPieChart) { myPieChart.data.datasets[0].data = chartData; myPieChart.update('none'); return; }
+  if (myPieChart) { myPieChart.data.datasets[0].data = chartData; myPieChart.update(); return; }
   myPieChart = new Chart(ctx, {
     type: 'doughnut',
     data: { labels: ['Completed', 'In Progress', 'Pending'], datasets: [{ data: chartData, backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'], borderWidth: 0, hoverOffset: 4 }] },
-    options: { animation: { duration: 500 }, plugins: { legend: { display: false }, tooltip: { enabled: true } }, cutout: '72%', responsive: true, maintainAspectRatio: false }
+    options: { animation: { duration: reduceMotion ? 0 : 1300, easing: 'easeOutQuart', animateRotate: true, animateScale: true }, plugins: { legend: { display: false }, tooltip: { enabled: true } }, cutout: '72%', responsive: true, maintainAspectRatio: false }
   });
 }
 
@@ -1338,6 +1804,7 @@ async function saveInlineTaskEdit(id) {
   };
   editingTaskId = null;
   await db.ref('tasks/' + id).update(upd);
+  toast('Task updated', 'success');
   logActivity(`Mokhtar updated task: "${upd.details || upd.type}"`);
 }
 
@@ -1368,20 +1835,26 @@ function renderTasks() {
 
   const container = document.getElementById('task-list-container');
   container.innerHTML = '';
+  if (!tasksLoaded) { container.innerHTML = '<li class="skeleton"></li><li class="skeleton"></li><li class="skeleton"></li>'; return; }
   if (!filteredTasks.length) {
-    container.innerHTML = `<li class="sb-note" style="text-align:center; padding:20px;">No tasks to show.</li>`;
+    const filtered = activeProjectFilter !== 'ALL' || activePriorityFilter !== 'ALL' || activeViewFilter !== 'ALL' || showArchivedTasks;
+    container.innerHTML = filtered ? emptyStateHtml('Nothing here', 'No tasks match these filters — try another one.', 'li')
+      : emptyStateHtml('All clear!', userRole === 'member' ? 'You have no tasks right now. Enjoy the calm ☕' : 'No tasks yet. Add one with “New Task”.', 'li');
+    fxDone('tasks');
     return;
   }
   const canCycle = userRole === 'admin' || userRole === 'member';
   const canPlan = userRole === 'admin' || userRole === 'manager';
 
-  filteredTasks.forEach(task => {
+  filteredTasks.forEach((task, idx) => {
     const id = esc(task.id);
+    const fx = fxClasses('tasks', task.id, idx);
     const progress = [0, 50, 100].includes(task.progress) ? task.progress : 0;
     const priority = ['high', 'medium', 'low'].includes(task.priority) ? task.priority : 'medium';
     const late = isOverdue(task);
     const li = document.createElement('li');
-    li.className = `task-item priority-${priority} status-${progress}${late ? ' is-overdue' : ''}`;
+    li.className = `task-item priority-${priority} status-${progress}${late ? ' is-overdue' : ''}${fx.cls}`;
+    li.setAttribute('style', fx.style);
 
     if (userRole === 'admin' && editingTaskId === task.id) {
       const names = teamNames();
@@ -1430,6 +1903,7 @@ ${task.assignee ? `<span class="assignee-badge">To: ${esc(task.assignee)}</span>
 ${deadlineHtml}
 ${late ? `<span class="overdue-badge"><i class="fa-solid fa-triangle-exclamation"></i> OVERDUE</span>` : ''}
 <span class="task-text">${esc(task.details || 'No notes')}</span>
+<div class="task-progress"><div class="p-${progress}" style="width:${progress}%"></div></div>
 </div>
 <div class="status-wrapper">
 <div class="progress-circle-container">
@@ -1445,6 +1919,7 @@ ${actions}
     }
     container.appendChild(li);
   });
+  fxDone('tasks');
 }
 
 async function addNewTask() {
@@ -1460,6 +1935,7 @@ async function addNewTask() {
   };
   if (!newTask.assignee) { alert("Choose who the task is for."); return; }
   await db.ref('tasks').push(newTask);
+  toast('Task added and assigned to ' + newTask.assignee, 'success');
   document.getElementById('task-input').value = '';
   document.getElementById('deadline-input').value = '';
   closeTaskModal();
@@ -1472,7 +1948,7 @@ async function cycleProgress(id) {
   const cur = t.progress || 0;
   const next = cur === 0 ? 50 : (cur === 50 ? 100 : 0);
   try {
-    await db.ref(`tasks/${id}/progress`).set(next);
+    await db.ref('tasks/' + id).update({ progress: next, completedAt: next === 100 ? Date.now() : null });
     logActivity(`${me.name} updated status: "${taskNameById(id)}"`);
   } catch (e) { alert("You don't have permission to change this task."); }
 }
@@ -1488,7 +1964,380 @@ async function deleteTask(id) {
   const name = taskNameById(id);
   if (!confirm(`Delete task "${name}"?`)) return;
   await db.ref('tasks/' + id).remove();
+  toast('Task deleted', 'info');
   logActivity(`Mokhtar deleted: "${name}"`);
+}
+
+// =====================================================================
+//  PAGES (Tasks / RFIs & Submittals / Sheet Register / Weekly Report)
+//  Everyone can view. Only the founder (admin) can add, edit or delete.
+// =====================================================================
+let rfis = {};
+let sheets = {};
+let currentPage = 'tasks';
+let editingRfiId = null;
+let editingSheetId = null;
+const PAGE_IDS = { tasks: 'tasks-page', rfis: 'rfis-page', sheets: 'sheets-page', reports: 'reports-page' };
+const DISCIPLINES = ['Mechanical', 'Plumbing', 'Electrical', 'Fire Protection', 'Coordination', 'Architectural', 'Structural', 'Other'];
+
+function showPage(page) {
+  if (page !== 'tasks' && userRole !== 'admin' && userRole !== 'manager') page = 'tasks'; // members only see their tasks
+  currentPage = page;
+  Object.keys(PAGE_IDS).forEach(p => document.getElementById(PAGE_IDS[p]).classList.toggle('hidden', p !== page));
+  const pg = document.getElementById(PAGE_IDS[page]);
+  pg.classList.remove('page-enter'); void pg.offsetWidth; if (!reduceMotion) pg.classList.add('page-enter');
+  if (page === 'rfis') { animateNextList.rfis = true; renderRfis(); }
+  if (page === 'sheets') { animateNextList.sheets = true; renderSheets(); }
+  if (page === 'tasks') { animateNextList.tasks = true; renderTasks(); }
+  document.querySelectorAll('.page-tab').forEach(t => t.classList.toggle('active', t.dataset.page === page));
+  if (page === 'reports') initReportDates();
+}
+const statusCls = s => String(s || '').replace(/\s+/g, '-');
+function addDaysISO(iso, n) {
+  const d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+}
+function daysBetween(a, b) {
+  return Math.round((new Date(b + 'T00:00:00Z') - new Date(a + 'T00:00:00Z')) / 86400000);
+}
+function toCsvAndDownload(filename, header, rows) {
+  const csv = [header, ...rows].map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+function closeRegModal(id) { document.getElementById(id).style.display = 'none'; }
+function fillProjectSelect(sel, withAll) {
+  if (!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = (withAll ? `<option value="ALL">All projects</option>` : '') +
+    getProjects().map(p => `<option value="${esc(p.value)}">${esc(p.label)}</option>`).join('');
+  if (cur && [...sel.options].some(o => o.value === cur)) sel.value = cur;
+}
+function renderRegisterControls() {
+  document.querySelectorAll('.reg-project-filter').forEach(s => fillProjectSelect(s, true));
+  fillProjectSelect(document.getElementById('rfi-project'), false);
+  fillProjectSelect(document.getElementById('sheet-project'), false);
+  const df = document.getElementById('sheet-f-disc'), cur = df.value;
+  df.innerHTML = `<option value="ALL">All disciplines</option>` + DISCIPLINES.map(d => `<option>${d}</option>`).join('');
+  if (cur) df.value = cur;
+  document.getElementById('sheet-disc').innerHTML = DISCIPLINES.map(d => `<option>${d}</option>`).join('');
+}
+
+// ------------------------- RFIs & SUBMITTALS ------------------------
+function rfiIsLate(r) {
+  return r.status === 'Sent' && r.dueDate && r.dueDate < cairoTodayISO();
+}
+function rfiList() {
+  return Object.keys(rfis).map(k => ({ id: k, ...rfis[k] }));
+}
+function renderRfis() {
+  if (userRole !== 'admin' && userRole !== 'manager') return;
+  const all = rfiList();
+  const open = all.filter(r => r.status === 'Draft' || r.status === 'Sent');
+  const answered = all.filter(r => r.sentDate && r.answerDate);
+  const avg = answered.length ? Math.round(answered.reduce((s, r) => s + Math.max(0, daysBetween(r.sentDate, r.answerDate)), 0) / answered.length) : null;
+  const late = all.filter(rfiIsLate).length;
+  document.getElementById('rfi-summary').innerHTML = `
+<div class="reg-stat warn"><b data-count="${open.filter(r => r.kind === 'RFI').length}" data-key="rfi-open">0</b><span>Open RFIs</span></div>
+<div class="reg-stat warn"><b data-count="${open.filter(r => r.kind === 'Submittal').length}" data-key="sub-open">0</b><span>Open Submittals</span></div>
+<div class="reg-stat ${late ? 'bad' : 'good'}"><b data-count="${late}" data-key="rfi-late">0</b><span>Reply Overdue</span></div>
+<div class="reg-stat">${avg === null ? '<b>—</b>' : `<b data-count="${avg}" data-key="rfi-avg" data-suffix="d">0</b>`}<span>Avg Response</span></div>`;
+  animateCountsIn(document.getElementById('rfi-summary'));
+  const badge = document.getElementById('rfi-open-count');
+  badge.textContent = late; badge.classList.toggle('hidden', !late);
+
+  const fk = document.getElementById('rfi-f-kind').value;
+  const fp = document.getElementById('rfi-f-project').value || 'ALL';
+  const fs = document.getElementById('rfi-f-status').value;
+  const q = document.getElementById('rfi-f-search').value.trim().toLowerCase();
+  const list = all.filter(r =>
+    (fk === 'ALL' || r.kind === fk) &&
+    (fp === 'ALL' || r.project === fp) &&
+    (fs === 'ALL' || (fs === 'OPEN' ? (r.status === 'Draft' || r.status === 'Sent') : r.status === fs)) &&
+    (!q || [r.number, r.subject, r.sentTo].some(v => String(v || '').toLowerCase().includes(q)))
+  ).sort((a, b) => (rfiIsLate(b) - rfiIsLate(a)) || String(b.sentDate || '9999').localeCompare(String(a.sentDate || '9999')) || String(b.number).localeCompare(String(a.number)));
+
+  const box = document.getElementById('rfi-list');
+  if (!list.length) { box.innerHTML = all.length ? emptyStateHtml('Nothing here', 'No items match these filters — try "All statuses".') : emptyStateHtml('No RFIs or submittals yet', userRole === 'admin' ? 'Log your first one with the “New” button.' : 'Nothing has been logged yet.'); fxDone('rfis'); return; }
+  const projects = getProjects();
+  const canEdit = userRole === 'admin';
+  box.innerHTML = list.map((r, idx) => {
+    const late = rfiIsLate(r);
+    const fx = fxClasses('rfis', r.id, idx);
+    let timing = '';
+    if (late) timing = `<span class="late">⏰ Reply overdue by ${daysBetween(r.dueDate, cairoTodayISO())} day(s)</span>`;
+    else if (r.status === 'Sent' && r.dueDate) timing = `<span>Reply due in ${daysBetween(cairoTodayISO(), r.dueDate)} day(s)</span>`;
+    else if (r.sentDate && r.answerDate) timing = `<span class="good">Answered in ${Math.max(0, daysBetween(r.sentDate, r.answerDate))} day(s)</span>`;
+    return `<div class="reg-row st-${statusCls(r.status)}${late ? ' is-late' : ''}${canEdit ? ' clickable' : ''}${fx.cls}" style="${fx.style}" ${canEdit ? `onclick="openRfiModal('${esc(r.id)}')"` : ''}>
+<div class="reg-main">
+<div class="reg-badges"><span class="reg-num">${esc(r.number || '—')}</span><span class="reg-kind ${esc(r.kind)}">${esc(r.kind)}</span><span class="project-badge" style="margin:0;">${esc(labelFor(projects, r.project))}</span></div>
+<div class="reg-title">${esc(r.subject || 'No subject')}</div>
+<div class="reg-meta">
+${r.sentTo ? `<span>To: ${esc(r.sentTo)}</span>` : ''}
+${r.sentDate ? `<span>Sent: ${esc(r.sentDate)}</span>` : ''}
+${r.dueDate ? `<span>Due: ${esc(r.dueDate)}</span>` : ''}
+${r.answerDate ? `<span>Answered: ${esc(r.answerDate)}</span>` : ''}
+${timing}
+</div>
+</div>
+<span class="status-pill ${statusCls(r.status)}">${esc(r.status)}</span>
+</div>`;
+  }).join('');
+  fxDone('rfis');
+}
+function suggestRfiNumber() {
+  if (editingRfiId) return;
+  const kind = document.getElementById('rfi-kind').value;
+  const project = document.getElementById('rfi-project').value;
+  const prefix = kind === 'RFI' ? 'RFI' : 'SUB';
+  const n = rfiList().filter(r => r.kind === kind && r.project === project).length + 1;
+  document.getElementById('rfi-number').value = `${prefix}-${String(n).padStart(3, '0')}`;
+}
+function openRfiModal(id) {
+  if (userRole !== 'admin') return;
+  editingRfiId = id || null;
+  const r = id ? rfis[id] : null;
+  document.getElementById('rfi-modal-title').innerHTML = `<i class="fa-solid fa-circle-question"></i> ${r ? 'Edit ' + esc(r.kind) : 'New RFI / Submittal'}`;
+  document.getElementById('rfi-kind').value = r ? r.kind : 'RFI';
+  const fp = document.getElementById('rfi-f-project').value;
+  document.getElementById('rfi-project').value = r ? r.project : (fp && fp !== 'ALL' ? fp : getProjects()[0].value);
+  document.getElementById('rfi-subject').value = r ? (r.subject || '') : '';
+  document.getElementById('rfi-to').value = r ? (r.sentTo || '') : '';
+  document.getElementById('rfi-status').value = r ? r.status : 'Draft';
+  document.getElementById('rfi-sent').value = r ? (r.sentDate || '') : '';
+  document.getElementById('rfi-due').value = r ? (r.dueDate || '') : '';
+  document.getElementById('rfi-answered').value = r ? (r.answerDate || '') : '';
+  document.getElementById('rfi-notes').value = r ? (r.notes || '') : '';
+  document.getElementById('rfi-delete-btn').classList.toggle('hidden', !r);
+  if (r) document.getElementById('rfi-number').value = r.number || ''; else suggestRfiNumber();
+  document.getElementById('rfi-modal').style.display = 'flex';
+}
+async function saveRfi() {
+  if (userRole !== 'admin') return;
+  const v = id => document.getElementById(id).value.trim();
+  const data = {
+    kind: v('rfi-kind'), number: v('rfi-number'), project: v('rfi-project'), subject: v('rfi-subject'),
+    sentTo: v('rfi-to'), status: v('rfi-status'), sentDate: v('rfi-sent'), dueDate: v('rfi-due'),
+    answerDate: v('rfi-answered'), notes: v('rfi-notes'), updatedAt: Date.now()
+  };
+  if (!data.number || !data.subject) { alert("Number and subject are required."); return; }
+  if (data.status !== 'Draft' && !data.sentDate) data.sentDate = cairoTodayISO();
+  if ((data.status === 'Answered' || data.status === 'Closed') && !data.answerDate) data.answerDate = cairoTodayISO();
+  if (data.dueDate && data.sentDate && data.dueDate < data.sentDate) { alert("The reply due date is before the sent date."); return; }
+  try {
+    if (editingRfiId) await db.ref('registers/rfis/' + editingRfiId).update(data);
+    else { data.createdAt = Date.now(); await db.ref('registers/rfis').push(data); }
+    logActivity(`Mokhtar ${editingRfiId ? 'updated' : 'added'} ${data.kind} ${data.number} (${data.status})`);
+    toast(`${data.kind} ${data.number} saved`, 'success');
+    closeRegModal('rfi-modal');
+  } catch (e) { alert("Could not save: " + e.message); }
+}
+async function deleteRfi() {
+  if (userRole !== 'admin' || !editingRfiId) return;
+  const r = rfis[editingRfiId];
+  if (!confirm(`Delete ${r.kind} ${r.number}? This cannot be undone.`)) return;
+  await db.ref('registers/rfis/' + editingRfiId).remove();
+  logActivity(`Mokhtar deleted ${r.kind} ${r.number}`);
+  closeRegModal('rfi-modal');
+}
+function exportRfis() {
+  if (userRole !== 'admin' && userRole !== 'manager') return;
+  const projects = getProjects();
+  const rows = rfiList().sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number)).map(r => [
+    r.kind, r.number, stripEmoji(labelFor(projects, r.project)), r.subject, r.sentTo, r.status, r.sentDate, r.dueDate, r.answerDate,
+    r.sentDate && r.answerDate ? Math.max(0, daysBetween(r.sentDate, r.answerDate)) : '', rfiIsLate(r) ? 'YES' : '', r.notes
+  ]);
+  toCsvAndDownload(`bimwow-rfis-submittals-${cairoTodayISO()}.csv`,
+    ['Type', 'Number', 'Project', 'Subject', 'Sent To', 'Status', 'Date Sent', 'Reply Due', 'Date Answered', 'Response Days', 'Overdue', 'Notes'], rows);
+}
+
+// --------------------------- SHEET REGISTER -------------------------
+function sheetList() {
+  return Object.keys(sheets).map(k => ({ id: k, ...sheets[k] }));
+}
+function renderSheets() {
+  if (userRole !== 'admin' && userRole !== 'manager') return;
+  const all = sheetList();
+  const count = s => all.filter(x => x.status === s).length;
+  document.getElementById('sheet-summary').innerHTML = `
+<div class="reg-stat"><b data-count="${all.filter(x => x.status !== 'Superseded').length}" data-key="sh-active">0</b><span>Active Sheets</span></div>
+<div class="reg-stat good"><b data-count="${count('Issued')}" data-key="sh-issued">0</b><span>Issued</span></div>
+<div class="reg-stat warn"><b data-count="${count('For Review')}" data-key="sh-review">0</b><span>For Review</span></div>
+<div class="reg-stat"><b data-count="${count('WIP')}" data-key="sh-wip">0</b><span>WIP</span></div>`;
+  animateCountsIn(document.getElementById('sheet-summary'));
+  const fp = document.getElementById('sheet-f-project').value || 'ALL';
+  const fd = document.getElementById('sheet-f-disc').value || 'ALL';
+  const fs = document.getElementById('sheet-f-status').value;
+  const q = document.getElementById('sheet-f-search').value.trim().toLowerCase();
+  const list = all.filter(s =>
+    (fp === 'ALL' || s.project === fp) && (fd === 'ALL' || s.discipline === fd) && (fs === 'ALL' || s.status === fs) &&
+    (!q || [s.number, s.title].some(v => String(v || '').toLowerCase().includes(q)))
+  ).sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number, undefined, { numeric: true }));
+  const box = document.getElementById('sheet-list');
+  if (!list.length) { box.innerHTML = all.length ? emptyStateHtml('Nothing here', 'No sheets match these filters.') : emptyStateHtml('Sheet register is empty', userRole === 'admin' ? 'Add your first sheet with the “New” button.' : 'No sheets have been logged yet.'); fxDone('sheets'); return; }
+  const projects = getProjects();
+  const canEdit = userRole === 'admin';
+  box.innerHTML = list.map((s, idx) => { const fx = fxClasses('sheets', s.id, idx); return `
+<div class="reg-row st-${statusCls(s.status)}${canEdit ? ' clickable' : ''}${fx.cls}" style="${fx.style}" ${canEdit ? `onclick="openSheetModal('${esc(s.id)}')"` : ''}>
+<div class="reg-rev">${esc(s.revision || '—')}<small>REV</small></div>
+<div class="reg-main">
+<div class="reg-badges"><span class="reg-num">${esc(s.number)}</span><span class="type-badge" style="margin:0;">${esc(s.discipline || '')}</span><span class="project-badge" style="margin:0;">${esc(labelFor(projects, s.project))}</span></div>
+<div class="reg-title">${esc(s.title || 'Untitled sheet')}</div>
+<div class="reg-meta">${s.date ? `<span>${s.status === 'Issued' ? 'Issued' : 'Updated'}: ${esc(s.date)}</span>` : ''}${s.notes ? `<span>${esc(s.notes)}</span>` : ''}</div>
+</div>
+<span class="status-pill ${statusCls(s.status)}">${esc(s.status)}</span>
+</div>`; }).join('');
+  fxDone('sheets');
+}
+function openSheetModal(id) {
+  if (userRole !== 'admin') return;
+  editingSheetId = id || null;
+  const s = id ? sheets[id] : null;
+  document.getElementById('sheet-modal-title').innerHTML = `<i class="fa-solid fa-layer-group"></i> ${s ? 'Edit Sheet ' + esc(s.number) : 'New Sheet'}`;
+  const fp = document.getElementById('sheet-f-project').value;
+  document.getElementById('sheet-project').value = s ? s.project : (fp && fp !== 'ALL' ? fp : getProjects()[0].value);
+  document.getElementById('sheet-number').value = s ? s.number : '';
+  document.getElementById('sheet-title').value = s ? (s.title || '') : '';
+  document.getElementById('sheet-disc').value = s ? (s.discipline || 'Mechanical') : 'Mechanical';
+  document.getElementById('sheet-rev').value = s ? (s.revision || '') : '0';
+  document.getElementById('sheet-status').value = s ? s.status : 'WIP';
+  document.getElementById('sheet-date').value = s ? (s.date || '') : cairoTodayISO();
+  document.getElementById('sheet-notes').value = s ? (s.notes || '') : '';
+  document.getElementById('sheet-delete-btn').classList.toggle('hidden', !s);
+  const hist = document.getElementById('sheet-history');
+  const h = s && s.history ? Object.values(s.history).sort((a, b) => (b.at || 0) - (a.at || 0)) : [];
+  hist.classList.toggle('hidden', !h.length);
+  hist.innerHTML = h.length ? '<b>Revision history:</b> ' + h.map(x => `Rev ${esc(x.revision)} (${esc(x.status)}${x.date ? ', ' + esc(x.date) : ''})`).join(' · ') : '';
+  document.getElementById('sheet-modal').style.display = 'flex';
+}
+async function saveSheet() {
+  if (userRole !== 'admin') return;
+  const v = id => document.getElementById(id).value.trim();
+  const data = {
+    project: v('sheet-project'), number: v('sheet-number').toUpperCase(), title: v('sheet-title'), discipline: v('sheet-disc'),
+    revision: v('sheet-rev'), status: v('sheet-status'), date: v('sheet-date'), notes: v('sheet-notes'), updatedAt: Date.now()
+  };
+  if (!data.number || !data.title) { alert("Sheet number and title are required."); return; }
+  const dup = sheetList().find(s => s.id !== editingSheetId && s.project === data.project && s.number === data.number);
+  if (dup) { alert(`Sheet ${data.number} already exists in this project.`); return; }
+  try {
+    if (editingSheetId) {
+      const old = sheets[editingSheetId];
+      if (old.revision !== data.revision) {
+        await db.ref(`registers/sheets/${editingSheetId}/history`).push({ revision: old.revision || '', status: old.status || '', date: old.date || '', at: Date.now() });
+      }
+      await db.ref('registers/sheets/' + editingSheetId).update(data);
+    } else {
+      data.createdAt = Date.now();
+      await db.ref('registers/sheets').push(data);
+    }
+    logActivity(`Mokhtar ${editingSheetId ? 'updated' : 'added'} sheet ${data.number} Rev ${data.revision} (${data.status})`);
+    toast(`Sheet ${data.number} saved`, 'success');
+    closeRegModal('sheet-modal');
+  } catch (e) { alert("Could not save: " + e.message); }
+}
+async function deleteSheet() {
+  if (userRole !== 'admin' || !editingSheetId) return;
+  const s = sheets[editingSheetId];
+  if (!confirm(`Delete sheet ${s.number}? This cannot be undone.`)) return;
+  await db.ref('registers/sheets/' + editingSheetId).remove();
+  logActivity(`Mokhtar deleted sheet ${s.number}`);
+  closeRegModal('sheet-modal');
+}
+function exportSheets() {
+  if (userRole !== 'admin' && userRole !== 'manager') return;
+  const projects = getProjects();
+  const rows = sheetList().sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number, undefined, { numeric: true }))
+    .map(s => [stripEmoji(labelFor(projects, s.project)), s.number, s.title, s.discipline, s.revision, s.status, s.date, s.notes]);
+  toCsvAndDownload(`bimwow-sheet-register-${cairoTodayISO()}.csv`, ['Project', 'Sheet No.', 'Title', 'Discipline', 'Revision', 'Status', 'Date', 'Notes'], rows);
+}
+
+// ---------------------------- WEEKLY REPORT -------------------------
+function initReportDates() {
+  const to = document.getElementById('rep-to'), from = document.getElementById('rep-from');
+  if (!to.value) to.value = cairoTodayISO();
+  if (!from.value) from.value = addDaysISO(cairoTodayISO(), -6);
+}
+function generateReport() {
+  if (userRole !== 'admin' && userRole !== 'manager') return;
+  const proj = document.getElementById('rep-project').value || 'ALL';
+  const from = document.getElementById('rep-from').value, to = document.getElementById('rep-to').value;
+  if (!from || !to || from > to) { alert("Choose a valid date range."); return; }
+  const projects = getProjects(), types = getTypes();
+  const pName = v => stripEmoji(labelFor(projects, v));
+  const inProj = x => proj === 'ALL' || x.project === proj;
+  const inRange = iso => iso && iso >= from && iso <= to;
+  const tsISO = ts => ts ? new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo' }).format(new Date(ts)) : '';
+  const showProj = proj === 'ALL';
+  const h = esc;
+
+  const pt = tasks.filter(t => inProj(t) && !t.archived);
+  const completed = tasks.filter(t => inProj(t) && t.progress === 100 && inRange(tsISO(t.completedAt)));
+  const openTasks = pt.filter(t => t.progress !== 100).sort((a, b) => (isOverdue(b) - isOverdue(a)) || String(a.deadline || '9').localeCompare(String(b.deadline || '9')));
+  const prog = pt.filter(t => t.progress === 50).length;
+  const late = pt.filter(isOverdue);
+  const pr = rfiList().filter(inProj);
+  const prOpen = pr.filter(r => r.status === 'Draft' || r.status === 'Sent');
+  const prActivity = pr.filter(r => r.status === 'Draft' || r.status === 'Sent' || inRange(r.sentDate) || inRange(r.answerDate))
+    .sort((a, b) => (rfiIsLate(b) - rfiIsLate(a)) || String(a.number).localeCompare(b.number));
+  const answeredInPeriod = pr.filter(r => inRange(r.answerDate)).length;
+  const issued = sheetList().filter(s => inProj(s) && s.status === 'Issued' && inRange(s.date))
+    .sort((a, b) => String(a.number).localeCompare(b.number, undefined, { numeric: true }));
+  const statusOf = t => t.progress === 100 ? 'Completed' : t.progress === 50 ? 'In Progress' : 'Pending';
+
+  const table = (head, rows, empty) => rows.length
+    ? `<table><thead><tr>${head.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`
+    : `<p class="empty">${empty}</p>`;
+  const pc = x => showProj ? `<td>${h(pName(x.project))}</td>` : '';
+  const ph = showProj ? ['Project'] : [];
+
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>BIM WOW Report ${h(from)} to ${h(to)}</title>
+<style>
+*{box-sizing:border-box} body{font-family:Inter,Segoe UI,Arial,sans-serif;color:#1d2433;margin:0;padding:32px 36px;font-size:12px}
+.top{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #294a80;padding-bottom:14px;margin-bottom:20px}
+.logo{font-size:30px;font-weight:300;letter-spacing:1px;color:#1d2433}.logo b{font-weight:900;color:#294a80}
+.sub{font-size:9px;letter-spacing:2px;color:#6b7a93;font-weight:700;text-transform:uppercase}
+.meta{text-align:right;font-size:11px;color:#4a5568;line-height:1.6}.meta h1{margin:0 0 4px;font-size:16px;color:#1d2433}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.tile{border:1px solid #dfe5ef;border-radius:8px;padding:12px;text-align:center;border-top:4px solid #294a80}
+.tile b{display:block;font-size:22px}.tile span{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:#6b7a93;font-weight:700}
+.tile.g{border-top-color:#27ae60}.tile.y{border-top-color:#f1c40f}.tile.r{border-top-color:#e74c3c}.tile.r b{color:#c0392b}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:#294a80;margin:22px 0 8px;border-left:4px solid #294a80;padding-left:8px}
+table{width:100%;border-collapse:collapse;font-size:11px}th{background:#eef2f8;text-align:left;padding:7px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:#4a5568}
+td{padding:7px 8px;border-bottom:1px solid #edf0f5;vertical-align:top}tr.late td{background:#fdecea}
+.late-tag{color:#c0392b;font-weight:700}.ok{color:#1e8449;font-weight:700}.empty{color:#6b7a93;font-style:italic;margin:4px 0}
+.foot{margin-top:28px;border-top:1px solid #dfe5ef;padding-top:10px;font-size:9px;color:#8a94a6;display:flex;justify-content:space-between}
+@media print{body{padding:14px 18px}h2{break-after:avoid}tr{break-inside:avoid}@page{margin:12mm}}
+</style></head><body>
+<div class="top"><div><div class="logo">BIM<b>WOW</b></div><div class="sub">Design.Build.Operate</div></div>
+<div class="meta"><h1>Weekly Progress Report</h1>Project: <b>${h(showProj ? 'All Projects' : pName(proj))}</b><br>Period: <b>${h(from)}</b> to <b>${h(to)}</b><br>Prepared by: ${h(me.name)} · ${h(cairoTodayISO())}</div></div>
+<div class="tiles">
+<div class="tile"><b>${pt.length}</b><span>Active Tasks</span></div>
+<div class="tile g"><b>${completed.length}</b><span>Completed This Period</span></div>
+<div class="tile y"><b>${prog}</b><span>In Progress</span></div>
+<div class="tile ${late.length ? 'r' : 'g'}"><b>${late.length}</b><span>Overdue Tasks</span></div>
+<div class="tile y"><b>${prOpen.filter(r => r.kind === 'RFI').length}</b><span>Open RFIs</span></div>
+<div class="tile y"><b>${prOpen.filter(r => r.kind === 'Submittal').length}</b><span>Open Submittals</span></div>
+<div class="tile g"><b>${answeredInPeriod}</b><span>Answered This Period</span></div>
+<div class="tile g"><b>${issued.length}</b><span>Sheets Issued</span></div>
+</div>
+<h2>Completed This Period</h2>
+${table([...ph, 'Type', 'Task', 'Assignee'], completed.map(t => `<tr>${pc(t)}<td>${h(stripEmoji(labelFor(types, t.type)))}</td><td>${h(t.details || '')}</td><td>${h(t.assignee || '')}</td></tr>`), 'No tasks were marked completed in this period.')}
+<h2>Open Tasks</h2>
+${table([...ph, 'Type', 'Task', 'Assignee', 'Priority', 'Status', 'Deadline'], openTasks.map(t => `<tr class="${isOverdue(t) ? 'late' : ''}">${pc(t)}<td>${h(stripEmoji(labelFor(types, t.type)))}</td><td>${h(t.details || '')}</td><td>${h(t.assignee || '')}</td><td>${h(t.priority || '')}</td><td>${statusOf(t)}</td><td>${h(t.deadline || '—')}${isOverdue(t) ? ' <span class="late-tag">OVERDUE</span>' : ''}</td></tr>`), 'No open tasks.')}
+<h2>RFIs &amp; Submittals</h2>
+${table([...ph, 'Type', 'No.', 'Subject', 'Sent To', 'Sent', 'Due', 'Status'], prActivity.map(r => `<tr class="${rfiIsLate(r) ? 'late' : ''}">${pc(r)}<td>${h(r.kind)}</td><td>${h(r.number)}</td><td>${h(r.subject || '')}</td><td>${h(r.sentTo || '')}</td><td>${h(r.sentDate || '—')}</td><td>${h(r.dueDate || '—')}</td><td>${rfiIsLate(r) ? '<span class="late-tag">Reply overdue</span>' : (r.status === 'Answered' || r.status === 'Closed') ? `<span class="ok">${h(r.status)}</span>` : h(r.status)}</td></tr>`), 'No open or recently updated RFIs / submittals.')}
+<h2>Sheets Issued This Period</h2>
+${table([...ph, 'Sheet No.', 'Title', 'Discipline', 'Rev', 'Issued'], issued.map(s => `<tr>${pc(s)}<td>${h(s.number)}</td><td>${h(s.title || '')}</td><td>${h(s.discipline || '')}</td><td>${h(s.revision || '')}</td><td>${h(s.date || '')}</td></tr>`), 'No sheets were issued in this period.')}
+<div class="foot"><span>BIM WOW · Generated ${h(new Date().toLocaleString('en-GB'))}</span><span>Confidential — prepared for the project team</span></div>
+<script>window.onload=function(){setTimeout(function(){window.print()},300)}<\/script>
+</body></html>`;
+  const w = window.open('', '_blank');
+  if (!w) { alert("Your browser blocked the report window. Allow pop-ups for this site and try again."); return; }
+  w.document.open(); w.document.write(html); w.document.close();
 }
 </script>
 </body>
