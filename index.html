@@ -60,6 +60,9 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 .card-glow-pend { border-bottom: 3px solid #e74c3c; }
 .chart-container-box { background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 10px; display: flex; align-items: center; justify-content: center; height: 160px; width: 100%; box-sizing: border-box; position: relative; }
 .chart-container-box canvas { max-width: 145px !important; max-height: 145px !important; position: relative; z-index: 1; }
+#livePieChart { display: none !important; }
+#reactorCore { width: 150px; height: 150px; max-width: 150px !important; max-height: 150px !important; }
+.chart-container-box .chart-center-percentage { display: none !important; }
 .chart-center-percentage { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; pointer-events: none; }
 .chart-center-val { font-size: 21px; font-weight: 700; font-family: 'Roboto Mono', monospace; color: #ffffff; line-height: 1; }
 .chart-center-lbl { font-size: 9px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
@@ -210,6 +213,8 @@ body.sb-open { overflow: hidden; }
 .sb-btn.success { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.35); color: #2ecc71; }
 .sb-btn.success:hover { background: #2ecc71; color: #0b0f19; }
 .sb-btn.small { padding: 6px 10px; font-size: 11px; }
+.sb-btn.report-btn { background: linear-gradient(135deg,#1e8449,#27ae60); }
+.sb-btn.report-btn:hover { filter: brightness(1.1); }
 .sb-note { font-size: 11px; color: #8fa0bc; line-height: 1.6; margin: 0; }
 .sb-note.ok { color: #2ecc71; } .sb-note.warn { color: #f1c40f; } .sb-note.bad { color: #e74c3c; }
 .sb-sub { font-size: 10px; font-weight: 700; color: #5c6e8c; text-transform: uppercase; letter-spacing: .6px; margin-top: 6px; }
@@ -456,6 +461,82 @@ html.light .overdue-chip.active, html.light .overdue-chip:hover { background: #e
 html.light .sb-action.logout { color: #e74c3c; border-color: rgba(231,76,60,0.3); }
 .sidebar { box-shadow: none; }
 body.sb-open .sidebar { box-shadow: 20px 0 50px rgba(0,0,0,0.6); }
+
+/* ===================== MEETINGS / ACTION ITEMS ===================== */
+.pill-role-coordinator { color: #48c9b0 !important; border-color: rgba(26,188,156,0.35); }
+.mt-drop { border: 2px dashed rgba(74,114,178,0.45); border-radius: 12px; padding: 22px 14px; text-align: center; color: #8fa0bc; font-size: 13px; cursor: pointer; transition: all .2s ease; background: rgba(24,31,50,0.35); }
+.mt-drop:hover, .mt-drop.over { border-color: #4a72b2; background: rgba(74,114,178,0.12); color: #fff; }
+.mt-drop i { font-size: 26px; color: #6f97d6; display: block; margin-bottom: 8px; }
+.mt-drop small { display: block; margin-top: 6px; font-size: 11px; }
+.mt-modal { max-width: 920px !important; max-height: 92vh; overflow-y: auto; }
+.mt-head { display: grid; grid-template-columns: 1.3fr 1fr 1.6fr; gap: 10px; margin-bottom: 14px; }
+.mt-head label, .mt-item label { display: flex; flex-direction: column; gap: 4px; font-size: 10px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: .5px; }
+.mt-in { padding: 9px 10px; background: rgba(24,31,50,0.7); border: 1px solid rgba(255,255,255,0.08); color: #fff; border-radius: 6px; font-size: 13px; font-family: inherit; outline: none; color-scheme: dark; text-transform: none; letter-spacing: 0; font-weight: 400; }
+.mt-in:focus { border-color: #4a72b2; }
+.mt-in { width: 100%; box-sizing: border-box; min-width: 0; }
+.mt-item > div { min-width: 0; }
+textarea.mt-in { min-height: 64px; resize: vertical; line-height: 1.45; }
+.mt-tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; align-items: center; }
+.mt-tools .grow { flex: 1; }
+.mt-hint { font-size: 11px; color: #8fa0bc; }
+.mt-items { display: flex; flex-direction: column; gap: 10px; }
+.mt-item { background: rgba(25,33,56,0.85); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #4a72b2; border-radius: 10px; padding: 12px; display: grid; grid-template-columns: 26px 1fr; gap: 10px; }
+.mt-item.k-RFI { border-left-color: #9b59b6; } .mt-item.k-Clash { border-left-color: #e74c3c; }
+.mt-item.k-Model-Update { border-left-color: #3498db; } .mt-item.k-Verify { border-left-color: #f1c40f; }
+.mt-item.hold { opacity: .8; background: repeating-linear-gradient(135deg, rgba(25,33,56,0.85) 0 14px, rgba(92,110,140,0.12) 14px 28px); }
+.mt-idx { font-family: 'Roboto Mono', monospace; font-weight: 700; color: #6f97d6; font-size: 13px; padding-top: 4px; }
+.mt-fields { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+.mt-imgs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; align-items: center; }
+.mt-thumb { position: relative; width: 120px; height: 78px; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #0b0f19; cursor: zoom-in; }
+.mt-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mt-thumb button { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; border-radius: 50%; border: none; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; cursor: pointer; }
+.mt-add-img { width: 120px; height: 78px; border-radius: 6px; border: 1px dashed rgba(255,255,255,0.18); background: none; color: #8fa0bc; font-size: 11px; cursor: pointer; font-family: inherit; }
+.mt-add-img:hover { color: #fff; border-color: #4a72b2; }
+.mt-x { background: none; border: none; color: #8fa0bc; cursor: pointer; font-size: 13px; float: right; }
+.mt-x:hover { color: #e74c3c; }
+.mt-actions { display: flex; gap: 10px; margin: 16px -24px -24px; position: sticky; bottom: -24px; padding: 14px 24px 18px; background: #111827; border-top: 1px solid rgba(255,255,255,0.06); border-radius: 0 0 16px 16px; }
+html.light .mt-actions { background: #ffffff; border-top-color: rgba(29,36,51,0.08); }
+.mt-actions .reg-btn { flex: 1; justify-content: center; padding: 12px; font-size: 13px; }
+.mt-busy { text-align: center; padding: 26px; color: #8fa0bc; font-size: 13px; }
+.mt-busy i { font-size: 22px; color: #6f97d6; display: block; margin-bottom: 8px; }
+.ai-badge { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; background: rgba(74,114,178,0.18); color: #6f97d6; border: 1px solid rgba(74,114,178,0.4); }
+.ai-badge.k-RFI { background: rgba(155,89,182,0.18); color: #c39bd3; border-color: rgba(155,89,182,0.4); }
+.ai-badge.k-Clash { background: rgba(231,76,60,0.15); color: #ff7675; border-color: rgba(231,76,60,0.4); }
+.ai-badge.k-Verify { background: rgba(241,196,15,0.15); color: #f1c40f; border-color: rgba(241,196,15,0.4); }
+.ai-badge.disc { background: rgba(26,188,156,0.12); color: #48c9b0; border-color: rgba(26,188,156,0.35); }
+.ai-badge.hold { background: rgba(92,110,140,0.25); color: #cbd5e1; border-color: rgba(143,160,188,0.4); }
+.inbox-row { align-items: flex-start; }
+.inbox-row .reg-main { display: flex; flex-direction: column; }
+.inbox-assign { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; align-items: center; }
+.inbox-assign .reg-select { padding: 7px 8px; }
+.inbox-thumbs { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.inbox-thumbs img { width: 92px; height: 60px; object-fit: cover; border-radius: 5px; border: 1px solid rgba(255,255,255,0.1); cursor: zoom-in; }
+.mt-section-title { font-size: 13px; font-weight: 800; color: #6f97d6; margin: 22px 0 10px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: .5px; }
+.img-viewer { position: fixed; inset: 0; z-index: 10050; background: rgba(0,0,0,0.88); display: none; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+.img-viewer img { max-width: 100%; max-height: 100%; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+.mt-file { display: flex; align-items: center; gap: 12px; background: rgba(231,76,60,0.08); border: 1px solid rgba(231,76,60,0.3); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+.mt-file > i { font-size: 24px; color: #e74c3c; }
+.mt-file .grow { flex: 1; min-width: 0; }
+.mt-file b { display: block; font-size: 13px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mt-file small { font-size: 11px; color: #8fa0bc; }
+.mt-notes { margin-bottom: 12px; background: rgba(11,15,25,0.45); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 8px 12px; }
+.mt-notes summary { cursor: pointer; font-size: 12px; font-weight: 700; color: #6f97d6; }
+.mt-notes pre { white-space: pre-wrap; font-family: inherit; font-size: 12px; line-height: 1.55; color: #cbd5e1; margin: 10px 0 4px; max-height: 320px; overflow: auto; }
+html.light .mt-file b { color: #1d2433; }
+html.light .mt-notes { background: #f4f6fa; } html.light .mt-notes pre { color: #1d2433; }
+@media (max-width: 720px) { .mt-file { flex-wrap: wrap; } }
+.mt-json { width: 100%; box-sizing: border-box; min-height: 160px; font-family: 'Roboto Mono', monospace; font-size: 11px; }
+.mt-prompt { background: rgba(11,15,25,0.55); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #cbd5e1; white-space: pre-wrap; max-height: 140px; overflow: auto; font-family: 'Roboto Mono', monospace; }
+html.light .mt-item, html.light .mt-drop { background: #ffffff; border-color: rgba(29,36,51,0.1); }
+html.light .mt-item.hold { background: repeating-linear-gradient(135deg, #ffffff 0 14px, #f1f4f9 14px 28px); }
+html.light .mt-in { background: #f4f6fa; color: #1d2433; border-color: rgba(29,36,51,0.12); color-scheme: light; }
+html.light .mt-prompt { background: #f4f6fa; color: #1d2433; }
+html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
+@media (max-width: 720px) {
+  .mt-head { grid-template-columns: 1fr; }
+  .mt-fields { grid-template-columns: 1fr 1fr; }
+  .mt-thumb, .mt-add-img { width: 96px; height: 64px; }
+}
 </style>
 <script>try{if(localStorage.getItem('bimTheme')==='light')document.documentElement.classList.add('light')}catch(e){}</script>
 </head>
@@ -607,6 +688,7 @@ body.sb-open .sidebar { box-shadow: 20px 0 50px rgba(0,0,0,0.6); }
 <select class="sb-select" id="new-member-role">
 <option value="member">🧑‍💻 Member</option>
 <option value="manager">💼 Manager</option>
+<option value="coordinator">📋 Meeting Coordinator</option>
 </select>
 <button class="sb-btn" onclick="createTeamAccount()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
 <ul class="team-list" id="team-members-list"></ul>
@@ -687,7 +769,14 @@ body.sb-open .sidebar { box-shadow: 20px 0 50px rgba(0,0,0,0.6); }
 <div class="sb-body" id="team-stats-body"></div>
 </details>
 
-<button class="sb-action" data-roles="admin manager" onclick="exportTasksToExcel()"><i class="fa-solid fa-file-excel sb-ico" style="color:#2ecc71;"></i> Export Tasks to Excel</button>
+<details class="sb-section" data-roles="admin manager" id="sb-report">
+<summary><i class="fa-solid fa-file-excel sb-ico" style="color:#2ecc71;"></i> Monthly Team Report</summary>
+<div class="sb-body">
+<label class="sb-note" for="report-month">Choose the month, then export a colour-coded Excel report of every member's progress.</label>
+<input type="month" id="report-month" class="sb-input">
+<button class="sb-btn report-btn" onclick="exportMonthlyReport()"><i class="fa-solid fa-file-arrow-down"></i> Export to Excel</button>
+</div>
+</details>
 <button class="sb-action" data-roles="admin" onclick="openLoginHistoryModal()"><i class="fa-solid fa-clock-rotate-left sb-ico" style="color:#3498db;"></i> Login Audit Log</button>
 
 <div class="sb-group-label">My Account</div>
@@ -731,6 +820,7 @@ body.sb-open .sidebar { box-shadow: 20px 0 50px rgba(0,0,0,0.6); }
 <button class="page-tab" data-page="rfis" data-roles="admin manager" onclick="showPage('rfis')"><i class="fa-solid fa-circle-question"></i> RFIs &amp; Submittals <span class="tab-count hidden" id="rfi-open-count"></span></button>
 <button class="page-tab" data-page="sheets" data-roles="admin manager" onclick="showPage('sheets')"><i class="fa-solid fa-layer-group"></i> Sheet Register</button>
 <button class="page-tab" data-page="reports" data-roles="admin manager" onclick="showPage('reports')"><i class="fa-solid fa-file-pdf"></i> Weekly Report</button>
+<button class="page-tab" data-page="meetings" data-roles="admin manager coordinator" onclick="showPage('meetings')"><i class="fa-solid fa-people-group"></i> Meetings</button>
 </div>
 <div id="tasks-page">
 <div class="dashboard-stats-wrapper" id="stats-wrapper-layout">
@@ -754,6 +844,7 @@ body.sb-open .sidebar { box-shadow: 20px 0 50px rgba(0,0,0,0.6); }
 </div>
 <div class="chart-container-box">
 <canvas id="livePieChart"></canvas>
+<canvas id="reactorCore" aria-label="Completion reactor gauge" role="img"></canvas>
 <div class="chart-center-percentage">
 <span class="chart-center-val" id="chart-percentage-txt">0%</span>
 <span class="chart-center-lbl">Done</span>
@@ -762,7 +853,7 @@ body.sb-open .sidebar { box-shadow: 20px 0 50px rgba(0,0,0,0.6); }
 </div>
 <div class="tracker-head">
 <h1><i class="fa-solid fa-folder-tree"></i> Projects Task Tracker</h1>
-<button class="new-task-btn" data-roles="admin" onclick="openTaskModal()"><i class="fa-solid fa-plus"></i> New Task</button>
+<button class="new-task-btn" data-roles="admin coordinator" onclick="openTaskModal()"><i class="fa-solid fa-plus"></i> New Task</button>
 </div>
 <div class="filter-section">
 <div class="filter-group">
@@ -847,8 +938,78 @@ body.sb-open .sidebar { box-shadow: 20px 0 50px rgba(0,0,0,0.6); }
 <button class="reg-btn" style="width:100%; justify-content:center; padding:13px; font-size:14px;" onclick="generateReport()"><i class="fa-solid fa-file-arrow-down"></i> Generate Report</button>
 </div>
 </div>
+
+<!-- ===================== MEETINGS & ACTION ITEMS ===================== -->
+<div id="meetings-page" class="hidden">
+<div class="reg-summary" id="meet-summary"></div>
+<div class="mt-section-title"><i class="fa-solid fa-people-group"></i> Meeting Summaries</div>
+<div class="reg-toolbar">
+<select id="meet-f-project" class="reg-select reg-project-filter" onchange="renderMeetings()"></select>
+<input id="meet-f-search" class="reg-search" placeholder="Search meeting title or notes..." oninput="renderMeetings()">
+<button class="reg-btn" data-roles="admin coordinator" onclick="openMeetingModal()"><i class="fa-solid fa-plus"></i> New Meeting</button>
+</div>
+<div class="reg-list" id="meet-list"></div>
 </div>
 </div>
+</div>
+
+<!-- Forward task window -->
+<div id="fwd-modal" class="app-modal-overlay" onclick="if(event.target===this)closeRegModal('fwd-modal')">
+<div class="app-modal-box" style="max-width:440px;">
+<div class="history-modal-header">
+<h3><i class="fa-solid fa-share"></i> Forward Task</h3>
+<button class="close-modal-btn" onclick="closeRegModal('fwd-modal')"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="reg-form">
+<div class="reg-history" id="fwd-task-text"></div>
+<label class="full">Send it to<select id="fwd-to"></select></label>
+<div class="reg-form-actions"><button class="reg-btn" onclick="confirmForward()"><i class="fa-solid fa-share"></i> Forward</button></div>
+</div>
+</div>
+</div>
+
+<!-- Meeting summary window -->
+<div id="meet-modal" class="app-modal-overlay" onclick="if(event.target===this)closeMeetingModal()">
+<div class="app-modal-box mt-modal">
+<div class="history-modal-header">
+<h3 id="meet-modal-title"><i class="fa-solid fa-people-group"></i> New Meeting Summary</h3>
+<button class="close-modal-btn" onclick="closeMeetingModal()"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="mt-head">
+<label>Project<select id="mt-project" class="mt-in"></select></label>
+<label>Meeting date<input type="date" id="mt-date" class="mt-in"></label>
+<label>Title<input type="text" id="mt-title" class="mt-in" placeholder="e.g. Weekly MEP Coordination"></label>
+</div>
+<div id="mt-archive" class="hidden"></div>
+<div id="mt-drop-zone" class="mt-drop" onclick="document.getElementById('mt-file').click()">
+<i class="fa-solid fa-file-pdf"></i>
+<b>Drop the meeting PDF here</b> or click to choose it
+<small>Each line that starts with “-” becomes an action item, with the screenshots under it. Everything stays editable before you send.</small>
+</div>
+<input type="file" id="mt-file" accept="application/pdf" class="hidden" onchange="if(this.files[0])importMeetingPdf(this.files[0]); this.value='';">
+<div class="mt-tools">
+<button class="reg-btn ghost" onclick="addMeetingItem()"><i class="fa-solid fa-plus"></i> Add item manually</button>
+<button class="reg-btn ghost" style="background:rgba(155,89,182,0.12);border-color:rgba(155,89,182,0.4);color:#c39bd3;" onclick="openClaudeImport()"><i class="fa-solid fa-wand-magic-sparkles"></i> Paste result from Claude</button>
+<span class="grow"></span>
+<span class="mt-hint" id="mt-count"></span>
+</div>
+<div id="mt-claude-box" class="hidden" style="margin-bottom:12px;">
+<div class="mt-hint" style="margin-bottom:6px;">1) Copy this prompt · 2) Open Claude and attach the PDF with it · 3) Paste Claude's reply below.</div>
+<div class="mt-prompt" id="mt-prompt"></div>
+<div class="mt-tools"><button class="reg-btn ghost" onclick="copyClaudePrompt()"><i class="fa-solid fa-copy"></i> Copy prompt</button></div>
+<textarea id="mt-json" class="mt-in mt-json" placeholder="Paste Claude's reply here..."></textarea>
+<div class="mt-tools"><button class="reg-btn" onclick="applyClaudeJson()"><i class="fa-solid fa-check"></i> Apply</button><button class="reg-btn ghost" onclick="openClaudeImport(false)">Cancel</button></div>
+</div>
+<div id="mt-items" class="mt-items"></div>
+<div class="mt-actions">
+<button class="reg-btn danger hidden" id="mt-delete-btn" onclick="deleteMeeting()"><i class="fa-solid fa-trash-can"></i></button>
+<button class="reg-btn ghost" id="mt-draft-btn" onclick="saveMeeting(false)"><i class="fa-solid fa-floppy-disk"></i> Save draft</button>
+<button class="reg-btn" id="mt-send-btn" onclick="saveMeeting(true)"><i class="fa-solid fa-paper-plane"></i> Send tasks</button>
+</div>
+</div>
+</div>
+<input type="file" id="mt-img-file" accept="image/*" class="hidden" onchange="onItemImageFile(this)">
+<div class="img-viewer" id="img-viewer" onclick="this.style.display='none'"><img id="img-viewer-img" alt="Screenshot"></div>
 
 <!-- New task window -->
 <div id="task-modal" class="app-modal-overlay" onclick="if(event.target===this)closeTaskModal()">
@@ -1121,7 +1282,8 @@ applyThemeIcon();
 const ROLE_META = {
   admin:   { tag: 'Admin',           icon: '👑',    cls: 'pill-role-admin' },
   manager: { tag: 'General Manager', icon: '💼',    cls: 'pill-role-manager' },
-  member:  { tag: 'Member',          icon: '🧑‍💻', cls: 'pill-role-khaled' }
+  member:  { tag: 'Member',          icon: '🧑‍💻', cls: 'pill-role-khaled' },
+  coordinator: { tag: 'Meeting Coordinator', icon: '📋', cls: 'pill-role-coordinator' }
 };
 const DEFAULT_PROJECTS = [
   { value: 'BRENT ELEMENTARY SCHOOL', label: '🏫 Brent Elementary School' },
@@ -1184,7 +1346,7 @@ function labelFor(list, value) {
 // ---------------------------- SIDEBAR -------------------------------
 function openSidebar() { document.body.classList.add('sb-open'); }
 function closeSidebar() { document.body.classList.remove('sb-open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSidebar(); closeTaskModal(); closeLoginHistoryModal(); closeRegModal('rfi-modal'); closeRegModal('sheet-modal'); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSidebar(); closeTaskModal(); closeLoginHistoryModal(); closeRegModal('rfi-modal'); closeRegModal('sheet-modal'); document.getElementById('img-viewer').style.display = 'none'; } });
 
 // ---------------------------- AUTH ----------------------------------
 async function submitGateLogin() {
@@ -1209,7 +1371,7 @@ db.ref('settings/celebration').on('value', snap => {
 
 auth.onAuthStateChanged(async user => {
   stopAllListeners();
-  tasks = []; teamMembers = {}; pwRequests = {}; myPwRequest = null; lastPresenceData = null; rfis = {}; sheets = {};
+  tasks = []; teamMembers = {}; pwRequests = {}; myPwRequest = null; lastPresenceData = null; rfis = {}; sheets = {}; meetings = {};
   tasksLoaded = false; prevSigs.tasks = prevSigs.rfis = prevSigs.sheets = null; animateNextList.tasks = animateNextList.rfis = animateNextList.sheets = true; animateCountsIn.cache = {};
   showPage('tasks');
   closeSidebar();
@@ -1249,6 +1411,15 @@ auth.onAuthStateChanged(async user => {
     listen(db.ref('registers/rfis'), 'value', snap => { rfis = snap.val() || {}; trackChanges('rfis', rfis); renderRfis(); });
     listen(db.ref('registers/sheets'), 'value', snap => { sheets = snap.val() || {}; trackChanges('sheets', sheets); renderSheets(); });
   }
+
+  if (userRole === 'admin' || userRole === 'manager' || userRole === 'coordinator') {
+    listen(db.ref('meetings'), 'value', snap => { meetings = snap.val() || {}; renderMeetings(); });
+  }
+  if (userRole === 'member' || userRole === 'coordinator') {
+    // names only: used to assign meeting items and to forward tasks
+    listen(db.ref('users'), 'value', snap => { teamMembers = snap.val() || {}; renderTeam(); renderTasks(); if (mtEdit) renderMeetingEditor(); });
+  }
+  if (userRole === 'coordinator') setTimeout(() => showPage('meetings'), 0); // she lands on the Meetings page
 
   if (userRole !== 'admin') {
     listen(db.ref('password_requests/' + user.uid), 'value', snap => { myPwRequest = snap.val(); renderPasswordSection(); });
@@ -1382,7 +1553,7 @@ async function createTeamAccount() {
   const role = document.getElementById('new-member-role').value;
   if (!name || !/^[a-z0-9._-]{3,30}$/.test(username)) { alert("Enter a display name and a username (letters/numbers only, 3+ characters)."); return; }
   if (pass.length < 8) { alert("Password must be at least 8 characters."); return; }
-  if (role !== 'member' && role !== 'manager') return;
+  if (role !== 'member' && role !== 'manager' && role !== 'coordinator') return;
   const secondary = firebase.apps.find(a => a.name === 'secondary') || firebase.initializeApp(firebaseConfig, 'secondary');
   try {
     const cred = await secondary.auth().createUserWithEmailAndPassword(username + EMAIL_DOMAIN, pass);
@@ -1664,7 +1835,7 @@ function checkPermissions() {
 }
 
 function visibleToMe(t) {
-  return userRole !== 'member' || t.assignee === me.name;
+  return userRole !== 'member' || t.assignee === me.name || t.forwardedFrom === me.name;
 }
 
 function renderAll() {
@@ -1675,7 +1846,7 @@ function renderAll() {
 }
 
 function calculateAnalytics() {
-  const filtered = tasks.filter(t => !t.archived && visibleToMe(t));
+  const filtered = tasks.filter(t => !t.archived && (userRole !== 'member' || t.assignee === me.name)); // counters: only tasks I still own
   const total = filtered.length;
   const done = filtered.filter(t => t.progress === 100).length;
   const prog = filtered.filter(t => t.progress === 50).length;
@@ -1690,16 +1861,68 @@ function calculateAnalytics() {
   updatePieChart(done, prog, pend);
 }
 
+// ---- Energy Reactor gauge (replaces the old doughnut) ----
+const reactor = { target: 0, shown: 0, started: false };
 function updatePieChart(done, prog, pend) {
-  const ctx = document.getElementById('livePieChart');
-  if (!ctx || typeof Chart === 'undefined') return;
-  const chartData = (done + prog + pend) === 0 ? [0, 0, 1] : [done, prog, pend];
-  if (myPieChart) { myPieChart.data.datasets[0].data = chartData; myPieChart.update(); return; }
-  myPieChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: { labels: ['Completed', 'In Progress', 'Pending'], datasets: [{ data: chartData, backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'], borderWidth: 0, hoverOffset: 4 }] },
-    options: { animation: { duration: reduceMotion ? 0 : 1300, easing: 'easeOutQuart', animateRotate: true, animateScale: true }, plugins: { legend: { display: false }, tooltip: { enabled: true } }, cutout: '72%', responsive: true, maintainAspectRatio: false }
-  });
+  const total = done + prog + pend;
+  reactor.target = total > 0 ? (done / total) * 100 : 0;
+  if (!reactor.started) startReactor();
+}
+function startReactor() {
+  const c = document.getElementById('reactorCore');
+  if (!c) return;
+  reactor.started = true;
+  const x = c.getContext('2d'), S = 150, N = 48;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  c.width = S * dpr; c.height = S * dpr; x.scale(dpr, dpr);
+  const cx = S / 2, cy = S / 2;
+  function frame(t) {
+    const light = document.documentElement.classList.contains('light');
+    // ease the shown value toward the target (animates on every change)
+    reactor.shown += (reactor.target - reactor.shown) * (reduceMotion ? 1 : 0.06);
+    if (Math.abs(reactor.target - reactor.shown) < 0.05) reactor.shown = reactor.target;
+    const p = reactor.shown / 100, tt = reduceMotion ? 0 : t;
+    const pulse = 1 + Math.sin(tt / 300) * 0.05;
+    x.clearRect(0, 0, S, S);
+    // outer charge ticks
+    const lit = Math.round(N * p);
+    for (let i = 0; i < N; i++) {
+      const a = -Math.PI / 2 + i / N * Math.PI * 2, on = i < lit;
+      x.strokeStyle = on ? `hsl(${150 - i},80%,${light ? 42 : 58}%)` : (light ? 'rgba(29,36,51,.12)' : 'rgba(255,255,255,.08)');
+      x.lineWidth = 3; x.lineCap = 'round';
+      x.shadowColor = '#2ecc71'; x.shadowBlur = on && !light ? 6 : 0;
+      x.beginPath(); x.moveTo(cx + Math.cos(a) * 60, cy + Math.sin(a) * 60); x.lineTo(cx + Math.cos(a) * 70, cy + Math.sin(a) * 70); x.stroke();
+    }
+    x.shadowBlur = 0;
+    // containment ring
+    x.strokeStyle = light ? 'rgba(14,116,144,.25)' : 'rgba(34,211,238,.25)'; x.lineWidth = 1;
+    x.setLineDash([2, 4]); x.lineDashOffset = -tt / 60; x.beginPath(); x.arc(cx, cy, 54, 0, 7); x.stroke(); x.setLineDash([]);
+    // core glow grows with progress
+    const R = (22 + p * 22) * pulse;
+    const g = x.createRadialGradient(cx, cy, 0, cx, cy, R * 1.6);
+    g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(.25, 'rgba(110,255,200,.85)');
+    g.addColorStop(.6, 'rgba(46,204,113,.35)'); g.addColorStop(1, 'rgba(34,211,238,0)');
+    x.fillStyle = g; x.beginPath(); x.arc(cx, cy, R * 1.6, 0, 7); x.fill();
+    // plasma swirls
+    for (let k = 0; k < 3; k++) {
+      x.strokeStyle = `rgba(200,255,240,${.35 - k * .08})`; x.lineWidth = 1.2;
+      x.beginPath();
+      for (let a = 0; a < Math.PI * 2; a += .12) {
+        const rr = R * (.55 + .12 * Math.sin(a * 3 + tt / (400 + k * 150) + k));
+        const px = cx + Math.cos(a + tt / (900 + k * 300)) * rr, py = cy + Math.sin(a + tt / (900 + k * 300)) * rr;
+        a ? x.lineTo(px, py) : x.moveTo(px, py);
+      }
+      x.closePath(); x.stroke();
+    }
+    // readout
+    x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.fillStyle = '#06130c'; x.font = '900 22px Consolas, monospace';
+    x.fillText(Math.round(reactor.shown) + '%', cx, cy - 2);
+    x.font = '800 6px sans-serif'; x.fillStyle = 'rgba(6,19,12,.75)';
+    x.fillText('CORE CHARGED', cx, cy + 13);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 }
 
 // --------------------------- TEAM STATS -----------------------------
@@ -1730,23 +1953,251 @@ ${s.late ? `<span class="stat-chip late">⏰ ${s.late} overdue</span>` : ''}
 }
 
 // ----------------------------- EXPORT -------------------------------
+// Monthly team report as a real, styled Excel file (.xlsx) — built in the browser.
 const stripEmoji = s => String(s || '').replace(/^[^\p{L}\p{N}]+/u, '').trim();
-function exportTasksToExcel() {
-  if (userRole !== 'admin' && userRole !== 'manager') return;
+function loadJSZip() {
+  if (window.JSZip) return Promise.resolve(window.JSZip);
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+    s.onload = () => res(window.JSZip); s.onerror = () => rej(new Error('Could not load the Excel engine. Check your internet connection.'));
+    document.head.appendChild(s);
+  });
+}
+
+// ---- tiny XLSX writer (styles, merged cells, column widths, frozen header) ----
+const XS = {   // style ids -> see stylesXml()
+  base: 0, banner: 1, sub: 2, kpiLbl: 3, kpiVal: 4, head: 5, cell: 6, cellAlt: 7, center: 8, centerAlt: 9,
+  pctGood: 10, pctMid: 11, pctBad: 12, barGood: 13, barMid: 14, barBad: 15, total: 16, totalCenter: 17,
+  stDone: 18, stProg: 19, stPend: 20, late: 21, pHigh: 22, pMed: 23, pLow: 24, date: 25, dateAlt: 26, kpiLblG: 27, kpiLblY: 28, kpiLblR: 29, kpiLblB: 30, note: 31, bigGood: 32, bigMid: 33, bigBad: 34
+};
+function stylesXml() {
+  const fonts = [
+    '<font><sz val="10"/><name val="Arial"/></font>',                                   // 0
+    '<font><b/><sz val="18"/><color rgb="FFFFFFFF"/><name val="Arial"/></font>',      // 1 banner
+    '<font><i/><sz val="10"/><color rgb="FFD6E0F0"/><name val="Arial"/></font>',      // 2 sub
+    '<font><b/><sz val="9"/><color rgb="FFFFFFFF"/><name val="Arial"/></font>',       // 3 kpi label / header
+    '<font><b/><sz val="20"/><color rgb="FF1F3864"/><name val="Arial"/></font>',      // 4 kpi value
+    '<font><b/><sz val="10"/><color rgb="FF1E8449"/><name val="Arial"/></font>',      // 5 green bold
+    '<font><b/><sz val="10"/><color rgb="FF9A7D0A"/><name val="Arial"/></font>',      // 6 amber bold
+    '<font><b/><sz val="10"/><color rgb="FFA93226"/><name val="Arial"/></font>',      // 7 red bold
+    '<font><sz val="12"/><color rgb="FF27AE60"/><name val="Arial"/></font>',          // 8 bar green
+    '<font><sz val="12"/><color rgb="FFD4AC0D"/><name val="Arial"/></font>',          // 9 bar amber
+    '<font><sz val="12"/><color rgb="FFC0392B"/><name val="Arial"/></font>',          // 10 bar red
+    '<font><b/><sz val="10"/><color rgb="FF1F3864"/><name val="Arial"/></font>',      // 11 total
+    '<font><i/><sz val="9"/><color rgb="FF5C6E8C"/><name val="Arial"/></font>',       // 12 note
+    '<font><b/><sz val="20"/><color rgb="FF1E8449"/><name val="Arial"/></font>',      // 13 big green
+    '<font><b/><sz val="20"/><color rgb="FF9A7D0A"/><name val="Arial"/></font>',      // 14 big amber
+    '<font><b/><sz val="20"/><color rgb="FFA93226"/><name val="Arial"/></font>'       // 15 big red
+  ];
+  const fill = c => `<fill><patternFill patternType="solid"><fgColor rgb="FF${c}"/><bgColor indexed="64"/></patternFill></fill>`;
+  const fills = ['<fill><patternFill patternType="none"/></fill>', '<fill><patternFill patternType="gray125"/></fill>',
+    fill('1F3864'), fill('294A80'), fill('EEF2F8'), fill('F7F9FC'), fill('D5F5E3'), fill('FCF3CF'), fill('FADBD8'),
+    fill('DCE6F2'), fill('27AE60'), fill('D4AC0D'), fill('C0392B'), fill('2E86C1')];
+  // fill ids: 2 navy,3 blue,4 light,5 alt,6 green bg,7 amber bg,8 red bg,9 total,10 green,11 amber,12 red,13 sky
+  const borders = ['<border><left/><right/><top/><bottom/><diagonal/></border>',
+    '<border><left style="thin"><color rgb="FFD5DCE8"/></left><right style="thin"><color rgb="FFD5DCE8"/></right><top style="thin"><color rgb="FFD5DCE8"/></top><bottom style="thin"><color rgb="FFD5DCE8"/></bottom><diagonal/></border>'];
+  const al = (h, wrap) => `<alignment horizontal="${h}" vertical="center"${h === 'left' ? ' indent="1"' : ''}${wrap ? ' wrapText="1"' : ''}/>`;
+  const xf = (font, fill, border, align, numFmt = 0) => `<xf numFmtId="${numFmt}" fontId="${font}" fillId="${fill}" borderId="${border}" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"${numFmt ? ' applyNumberFormat="1"' : ''}>${align}</xf>`;
+  const xfs = [
+    xf(0, 0, 0, al('left')),                 // 0 base
+    xf(1, 2, 0, al('left')),                 // 1 banner
+    xf(2, 2, 0, al('left')),                 // 2 sub
+    xf(3, 3, 1, al('center', 1)),            // 3 kpi label
+    xf(4, 4, 1, al('center')),               // 4 kpi value
+    xf(3, 3, 1, al('center', 1)),            // 5 header
+    xf(0, 0, 1, al('left', 1)),              // 6 cell
+    xf(0, 5, 1, al('left', 1)),              // 7 cell alt
+    xf(0, 0, 1, al('center')),               // 8 center
+    xf(0, 5, 1, al('center')),               // 9 center alt
+    xf(5, 6, 1, al('center'), 9),            // 10 pct good
+    xf(6, 7, 1, al('center'), 9),            // 11 pct mid
+    xf(7, 8, 1, al('center'), 9),            // 12 pct bad
+    xf(8, 0, 1, al('left')),                 // 13 bar good
+    xf(9, 0, 1, al('left')),                 // 14 bar mid
+    xf(10, 0, 1, al('left')),                // 15 bar bad
+    xf(11, 9, 1, al('left')),                // 16 total
+    xf(11, 9, 1, al('center')),              // 17 total center
+    xf(5, 6, 1, al('center')),               // 18 status done
+    xf(6, 7, 1, al('center')),               // 19 status in progress
+    xf(7, 8, 1, al('center')),               // 20 status pending
+    xf(7, 8, 1, al('center')),               // 21 overdue
+    xf(7, 0, 1, al('center')),               // 22 priority high
+    xf(6, 0, 1, al('center')),               // 23 priority medium
+    xf(5, 0, 1, al('center')),               // 24 priority low
+    xf(0, 0, 1, al('center'), 164),          // 25 date
+    xf(0, 5, 1, al('center'), 164),          // 26 date alt
+    xf(3, 10, 1, al('center', 1)),           // 27 kpi label green
+    xf(3, 11, 1, al('center', 1)),           // 28 kpi label amber
+    xf(3, 12, 1, al('center', 1)),           // 29 kpi label red
+    xf(3, 13, 1, al('center', 1)),           // 30 kpi label sky
+    xf(12, 0, 0, al('left')),                // 31 note
+    xf(13, 6, 1, al('center'), 9),           // 32 big pct good
+    xf(14, 7, 1, al('center'), 9),           // 33 big pct mid
+    xf(15, 8, 1, al('center'), 9)            // 34 big pct bad
+  ];
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+<numFmts count="1"><numFmt numFmtId="164" formatCode="dd-mmm-yyyy"/></numFmts>
+<fonts count="${fonts.length}">${fonts.join('')}</fonts>
+<fills count="${fills.length}">${fills.join('')}</fills>
+<borders count="${borders.length}">${borders.join('')}</borders>
+<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
+<cellXfs count="${xfs.length}">${xfs.join('')}</cellXfs>
+<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>
+</styleSheet>`;
+}
+const xEsc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+const colName = i => { let s = ''; i++; while (i) { const m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; };
+function excelDate(iso) { if (!iso) return null; const d = new Date(iso + 'T00:00:00Z'); return d.getTime() / 86400000 + 25569; }
+// sheet = { name, cols:[widths], rows: { r: { height, cells: [ {c, v, s, f} ] } }, merges:[], freeze: rowNumber }
+function sheetXml(sh) {
+  const rows = Object.keys(sh.rows).map(Number).sort((a, b) => a - b).map(r => {
+    const row = sh.rows[r];
+    const cells = row.cells.sort((a, b) => a.c - b.c).map(cell => {
+      const ref = colName(cell.c) + r, s = cell.s || 0;
+      if (cell.f) return `<c r="${ref}" s="${s}"><f>${xEsc(cell.f)}</f></c>`;
+      if (cell.v === null || cell.v === undefined || cell.v === '') return `<c r="${ref}" s="${s}"/>`;
+      if (typeof cell.v === 'number') return `<c r="${ref}" s="${s}"><v>${cell.v}</v></c>`;
+      return `<c r="${ref}" s="${s}" t="inlineStr"><is><t xml:space="preserve">${xEsc(cell.v)}</t></is></c>`;
+    }).join('');
+    return `<row r="${r}"${row.height ? ` ht="${row.height}" customHeight="1"` : ''}>${cells}</row>`;
+  }).join('');
+  const cols = sh.cols.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join('');
+  const pane = sh.freeze ? `<pane ySplit="${sh.freeze - 1}" topLeftCell="A${sh.freeze}" activePane="bottomLeft" state="frozen"/>` : '';
+  const merges = sh.merges.length ? `<mergeCells count="${sh.merges.length}">${sh.merges.map(m => `<mergeCell ref="${m}"/>`).join('')}</mergeCells>` : '';
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+<sheetPr><pageSetUpPr fitToPage="1"/></sheetPr>
+<sheetViews><sheetView workbookViewId="0" showGridLines="0">${pane}</sheetView></sheetViews>
+<sheetFormatPr defaultRowHeight="18"/>
+<cols>${cols}</cols><sheetData>${rows}</sheetData>${merges}
+<pageMargins left="0.4" right="0.4" top="0.5" bottom="0.5" header="0.3" footer="0.3"/>
+<pageSetup orientation="landscape" fitToWidth="1" fitToHeight="0"/>
+</worksheet>`;
+}
+async function buildXlsx(sheets) {
+  const JSZip = await loadJSZip();
+  const zip = new JSZip();
+  zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>
+<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>
+${sheets.map((s, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}
+</Types>`);
+  zip.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`);
+  zip.file('xl/workbook.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>
+${sheets.map((s, i) => `<sheet name="${xEsc(s.name)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('')}</sheets></workbook>`);
+  zip.file('xl/_rels/workbook.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+${sheets.map((s, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('')}
+<Relationship Id="rId${sheets.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`);
+  zip.file('xl/styles.xml', stylesXml());
+  sheets.forEach((s, i) => zip.file(`xl/worksheets/sheet${i + 1}.xml`, sheetXml(s)));
+  return zip.generateAsync({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+
+// ---- the monthly report ----
+function monthLabel(ym) {
+  const [y, m] = ym.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, 1)).toLocaleString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+}
+function buildMonthlyReport(ym) {
   const projects = getProjects(), types = getTypes();
+  const tsMonth = ts => ts ? new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo' }).format(new Date(ts)).slice(0, 7) : '';
+  const tsISO = ts => ts ? new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo' }).format(new Date(ts)) : '';
+  // tasks that belong to this month: finished in it, due in it, or still open
+  const list = tasks.filter(t =>
+    (t.progress === 100 && tsMonth(t.completedAt) === ym) ||
+    (t.deadline && t.deadline.slice(0, 7) === ym) ||
+    (t.progress !== 100 && !t.archived));
   const statusOf = t => t.progress === 100 ? 'Completed' : t.progress === 50 ? 'In Progress' : 'Pending';
-  const header = ['Project', 'Type', 'Details', 'Assignee', 'Priority', 'Status', 'Deadline', 'Overdue', 'Archived'];
-  const rows = tasks.slice().sort((a, b) => String(a.project).localeCompare(b.project)).map(t => [
-    stripEmoji(labelFor(projects, t.project)), stripEmoji(labelFor(types, t.type)),
-    t.details || '', t.assignee || '', t.priority || '', statusOf(t), t.deadline || '', isOverdue(t) ? 'YES' : '', t.archived ? 'YES' : ''
-  ]);
-  const csv = [header, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
-  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `bimwow-tasks-${cairoTodayISO()}.csv`;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  const by = {};
+  list.forEach(t => {
+    const k = t.assignee || 'Unassigned';
+    const s = by[k] = by[k] || { total: 0, done: 0, prog: 0, pend: 0, late: 0 };
+    s.total++; if (t.progress === 100) s.done++; else if (t.progress === 50) s.prog++; else s.pend++;
+    if (isOverdue(t)) s.late++;
+  });
+  Object.values(teamMembers || {}).forEach(p => { if (p.role === 'member' && p.name && !by[p.name]) by[p.name] = { total: 0, done: 0, prog: 0, pend: 0, late: 0 }; });
+  const names = Object.keys(by).sort((a, b) => (by[b].total ? by[b].done / by[b].total : -1) - (by[a].total ? by[a].done / by[a].total : -1) || by[b].total - by[a].total);
+  const T = { total: list.length, done: list.filter(t => t.progress === 100).length, prog: list.filter(t => t.progress === 50).length, late: list.filter(isOverdue).length };
+  T.pend = T.total - T.done - T.prog;
+
+  // ---- Sheet 1: Team Summary ----
+  const S = { name: 'Team Summary', cols: [24, 12, 12, 12, 12, 12, 14, 26], rows: {}, merges: [], freeze: 0 };
+  const put = (r, c, v, s, h) => { (S.rows[r] = S.rows[r] || { cells: [], height: h }).cells.push({ c, v, s }); if (h) S.rows[r].height = h; };
+  const fillRow = (r, c0, c1, s) => { for (let c = c0; c <= c1; c++) if (!S.rows[r].cells.some(x => x.c === c)) S.rows[r].cells.push({ c, v: '', s }); };
+  put(1, 0, 'BIM WOW  |  Monthly Team Report', XS.banner, 36); fillRow(1, 1, 7, XS.banner); S.merges.push('A1:H1');
+  put(2, 0, `${monthLabel(ym)}   ·   Generated ${cairoTodayISO()}   ·   Prepared by ${me ? me.name : ''}`, XS.sub, 20); fillRow(2, 1, 7, XS.sub); S.merges.push('A2:H2');
+  const kpis = [['TOTAL TASKS', T.total, XS.kpiLbl], ['COMPLETED', T.done, XS.kpiLblG], ['IN PROGRESS', T.prog, XS.kpiLblY], ['PENDING', T.pend, XS.kpiLblB], ['OVERDUE', T.late, XS.kpiLblR], ['COMPLETION', T.total ? T.done / T.total : 0, XS.kpiLbl]];
+  const kcols = [[0, 0], [1, 2], [3, 3], [4, 4], [5, 5], [6, 7]];
+  kpis.forEach(([lbl, val, st], i) => {
+    const [a, b] = kcols[i];
+    put(4, a, lbl, st, 22); put(5, a, val, i === 5 ? (val >= 0.75 ? XS.bigGood : val >= 0.4 ? XS.bigMid : XS.bigBad) : XS.kpiVal, 40);
+    for (let c = a + 1; c <= b; c++) { put(4, c, '', st); put(5, c, '', S.rows[5].cells.find(x => x.c === a).s); }
+    if (b > a) { S.merges.push(`${colName(a)}4:${colName(b)}4`, `${colName(a)}5:${colName(b)}5`); }
+  });
+  const hdr = ['Team Member', 'Assigned', 'Completed', 'In Progress', 'Pending', 'Overdue', 'Completion', 'Progress'];
+  hdr.forEach((h, c) => put(7, c, h, XS.head, 26));
+  let r = 8;
+  names.forEach((n, i) => {
+    const s = by[n], pct = s.total ? s.done / s.total : 0, alt = i % 2 === 1;
+    const band = pct >= 0.75 ? 0 : pct >= 0.4 ? 1 : 2;
+    const blocks = Math.round(pct * 10);
+    put(r, 0, n, alt ? XS.cellAlt : XS.cell, 22);
+    [s.total, s.done, s.prog, s.pend].forEach((v, k) => put(r, k + 1, v, alt ? XS.centerAlt : XS.center));
+    put(r, 5, s.late, s.late ? XS.late : (alt ? XS.centerAlt : XS.center));
+    put(r, 6, pct, [XS.pctGood, XS.pctMid, XS.pctBad][band]);
+    put(r, 7, '█'.repeat(blocks) + '░'.repeat(10 - blocks), [XS.barGood, XS.barMid, XS.barBad][band]);
+    r++;
+  });
+  put(r, 0, 'TEAM TOTAL', XS.total, 24);
+  [T.total, T.done, T.prog, T.pend, T.late].forEach((v, k) => put(r, k + 1, v, XS.totalCenter));
+  put(r, 6, T.total ? T.done / T.total : 0, XS.totalCenter); S.rows[r].cells[S.rows[r].cells.length - 1].s = (T.total && T.done / T.total >= 0.75) ? XS.pctGood : (T.total && T.done / T.total >= 0.4) ? XS.pctMid : XS.pctBad;
+  put(r, 7, '', XS.total);
+  put(r + 2, 0, 'Completion = completed ÷ assigned for the month. Green ≥ 75%, amber ≥ 40%, red below 40%. Overdue = past deadline and not completed.', XS.note);
+
+  // ---- Sheet 2: Task Details ----
+  const D = { name: 'Task Details', cols: [22, 18, 42, 16, 11, 14, 14, 15, 11], rows: {}, merges: [], freeze: 5 };
+  const dput = (rr, c, v, s, h) => { (D.rows[rr] = D.rows[rr] || { cells: [], height: h }).cells.push({ c, v, s }); if (h) D.rows[rr].height = h; };
+  dput(1, 0, 'BIM WOW  |  Task Details', XS.banner, 34); for (let c = 1; c <= 8; c++) dput(1, c, '', XS.banner); D.merges.push('A1:I1');
+  dput(2, 0, monthLabel(ym), XS.sub, 20); for (let c = 1; c <= 8; c++) dput(2, c, '', XS.sub); D.merges.push('A2:I2');
+  ['Project', 'Type', 'Task', 'Assignee', 'Priority', 'Status', 'Deadline', 'Completed On', 'Overdue'].forEach((h, c) => dput(4, c, h, XS.head, 26));
+  const pOrder = { high: 0, medium: 1, low: 2 };
+  const rowsSorted = list.slice().sort((a, b) => String(a.assignee).localeCompare(b.assignee) || (a.progress === 100) - (b.progress === 100) || (pOrder[a.priority] ?? 3) - (pOrder[b.priority] ?? 3));
+  rowsSorted.forEach((t, i) => {
+    const rr = 5 + i, alt = i % 2 === 1, st = statusOf(t), late = isOverdue(t);
+    dput(rr, 0, stripEmoji(labelFor(projects, t.project)), alt ? XS.cellAlt : XS.cell, 20);
+    dput(rr, 1, stripEmoji(labelFor(types, t.type)), alt ? XS.cellAlt : XS.cell);
+    dput(rr, 2, t.details || '', alt ? XS.cellAlt : XS.cell);
+    dput(rr, 3, t.assignee || '', alt ? XS.centerAlt : XS.center);
+    dput(rr, 4, (t.priority || '').toUpperCase(), { high: XS.pHigh, medium: XS.pMed, low: XS.pLow }[t.priority] || XS.center);
+    dput(rr, 5, st, { Completed: XS.stDone, 'In Progress': XS.stProg, Pending: XS.stPend }[st]);
+    dput(rr, 6, excelDate(t.deadline), alt ? XS.dateAlt : XS.date);
+    dput(rr, 7, excelDate(tsISO(t.completedAt)), alt ? XS.dateAlt : XS.date);
+    dput(rr, 8, late ? 'YES' : '', late ? XS.late : (alt ? XS.centerAlt : XS.center));
+  });
+  return [S, D];
+}
+(() => { const m = document.getElementById('report-month'); if (m && !m.value) m.value = cairoTodayISO().slice(0, 7); })();
+async function exportMonthlyReport() {
+  if (userRole !== 'admin' && userRole !== 'manager') return;
+  const input = document.getElementById('report-month');
+  const ym = (input && input.value) || cairoTodayISO().slice(0, 7);
+  try {
+    toast('Preparing the Excel report…', 'info');
+    const blob = await buildXlsx(buildMonthlyReport(ym));
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `BIMWOW-Team-Report-${ym}.xlsx`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast('Excel report downloaded', 'success');
+  } catch (e) { alert('Could not create the report: ' + e.message); }
 }
 
 // --------------------------- ACTIVITY -------------------------------
@@ -1788,7 +2239,7 @@ function listOptions(list, selected) {
   return optionsHtml(pairs, selected);
 }
 
-function openTaskModal() { if (userRole !== 'admin') return; document.getElementById('task-modal').style.display = 'flex'; setTimeout(() => document.getElementById('task-input').focus(), 50); }
+function openTaskModal() { if (userRole !== 'admin' && userRole !== 'coordinator') return; document.getElementById('task-modal').style.display = 'flex'; setTimeout(() => document.getElementById('task-input').focus(), 50); }
 function closeTaskModal() { document.getElementById('task-modal').style.display = 'none'; }
 
 function enableInlineTaskEdit(id) { if (userRole !== 'admin') return; editingTaskId = id; renderTasks(); }
@@ -1879,10 +2330,13 @@ function renderTasks() {
         if (task.archived) archiveActionBtn = `<button class="unarchive-btn" onclick="setTaskArchiveStatus('${id}', false)"><i class="fa-solid fa-box-open"></i></button>`;
         else if (progress === 100) archiveActionBtn = `<button class="archive-btn" onclick="setTaskArchiveStatus('${id}', true)"><i class="fa-solid fa-box-archive"></i></button>`;
       }
+      const mine = me && task.assignee === me.name;
+      const forwardBtn = (userRole !== 'admin' && mine && !task.archived && progress !== 100)
+        ? `<button class="edit-btn" title="Forward this task to someone else" onclick="openForwardModal('${id}')"><i class="fa-solid fa-share"></i></button>` : '';
       const actions = userRole === 'admin' ? `
 <button class="edit-btn" onclick="enableInlineTaskEdit('${id}')"><i class="fa-solid fa-user-pen"></i></button>
 ${statusCycleBtn}${archiveActionBtn}
-<button class="delete-btn" onclick="deleteTask('${id}')"><i class="fa-solid fa-trash-can"></i></button>` : statusCycleBtn;
+<button class="delete-btn" onclick="deleteTask('${id}')"><i class="fa-solid fa-trash-can"></i></button>` : (userRole === 'member' && !mine ? '' : statusCycleBtn) + forwardBtn;
 
       const priorityHtml = canPlan ? `
 <select class="inline-priority-select" onchange="changePriorityDirect('${id}', this.value)">
@@ -1900,6 +2354,8 @@ ${statusCycleBtn}${archiveActionBtn}
 <span class="project-badge">${esc(labelFor(projects, task.project))}</span>
 <span class="type-badge">${esc(labelFor(types, task.type))}</span>
 ${task.assignee ? `<span class="assignee-badge">To: ${esc(task.assignee)}</span>` : ''}
+${task.forwardedFrom ? `<span class="assignee-badge" style="opacity:.85" title="Forwarded"><i class="fa-solid fa-share"></i> from ${esc(task.forwardedFrom)}</span>` : ''}
+${task.fromMeeting ? `<span class="type-badge" title="Created from a meeting summary"><i class="fa-solid fa-people-group"></i> Meeting</span>` : ''}
 ${deadlineHtml}
 ${late ? `<span class="overdue-badge"><i class="fa-solid fa-triangle-exclamation"></i> OVERDUE</span>` : ''}
 <span class="task-text">${esc(task.details || 'No notes')}</span>
@@ -1923,7 +2379,7 @@ ${actions}
 }
 
 async function addNewTask() {
-  if (userRole !== 'admin') return;
+  if (userRole !== 'admin' && userRole !== 'coordinator') return;
   const newTask = {
     project: document.getElementById('project-input').value,
     type: document.getElementById('type-input').value,
@@ -1931,7 +2387,7 @@ async function addNewTask() {
     priority: document.getElementById('priority-input').value,
     deadline: document.getElementById('deadline-input').value,
     assignee: document.getElementById('assignee-input').value,
-    progress: 0, archived: false
+    progress: 0, archived: false, createdBy: me.name
   };
   if (!newTask.assignee) { alert("Choose who the task is for."); return; }
   await db.ref('tasks').push(newTask);
@@ -1977,11 +2433,12 @@ let sheets = {};
 let currentPage = 'tasks';
 let editingRfiId = null;
 let editingSheetId = null;
-const PAGE_IDS = { tasks: 'tasks-page', rfis: 'rfis-page', sheets: 'sheets-page', reports: 'reports-page' };
+const PAGE_IDS = { tasks: 'tasks-page', rfis: 'rfis-page', sheets: 'sheets-page', reports: 'reports-page', meetings: 'meetings-page' };
 const DISCIPLINES = ['Mechanical', 'Plumbing', 'Electrical', 'Fire Protection', 'Coordination', 'Architectural', 'Structural', 'Other'];
 
 function showPage(page) {
-  if (page !== 'tasks' && userRole !== 'admin' && userRole !== 'manager') page = 'tasks'; // members only see their tasks
+  if (page === 'meetings' && userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') page = 'tasks';
+  if (page !== 'tasks' && page !== 'meetings' && userRole !== 'admin' && userRole !== 'manager') page = 'tasks'; // members only see their tasks
   currentPage = page;
   Object.keys(PAGE_IDS).forEach(p => document.getElementById(PAGE_IDS[p]).classList.toggle('hidden', p !== page));
   const pg = document.getElementById(PAGE_IDS[page]);
@@ -1991,6 +2448,7 @@ function showPage(page) {
   if (page === 'tasks') { animateNextList.tasks = true; renderTasks(); }
   document.querySelectorAll('.page-tab').forEach(t => t.classList.toggle('active', t.dataset.page === page));
   if (page === 'reports') initReportDates();
+  if (page === 'meetings') renderMeetings();
 }
 const statusCls = s => String(s || '').replace(/\s+/g, '-');
 function addDaysISO(iso, n) {
@@ -2338,6 +2796,622 @@ ${table([...ph, 'Sheet No.', 'Title', 'Discipline', 'Rev', 'Issued'], issued.map
   const w = window.open('', '_blank');
   if (!w) { alert("Your browser blocked the report window. Allow pop-ups for this site and try again."); return; }
   w.document.open(); w.document.write(html); w.document.close();
+}
+
+// =====================================================================
+//  MEETINGS & ACTION ITEMS
+//  The coordinator uploads the meeting PDF (or types the notes). The PDF
+//  is read here in the browser (free, nothing is sent anywhere): every
+//  line starting with "-" becomes an action item, the screenshots under
+//  it are attached, and the department / type are guessed from keywords.
+//  She reviews and edits, then sends them to the admin's inbox, where
+//  each item is assigned to a person and becomes a normal task.
+//  Screenshots live in /meeting_images (loaded only when needed) so the
+//  meetings list stays light.
+// =====================================================================
+let meetings = {};
+let mtEdit = null;
+let mtDirty = false;
+let mtFocusIdx = null;
+let mtImgTarget = null;
+const mtImgCache = {};
+const MT_KINDS = ['Action', 'RFI', 'Clash', 'Model Update', 'Verify'];
+const MT_KIND_TYPE = { 'RFI': 'RFI', 'Clash': 'Coordination', 'Model Update': 'Modeling', 'Verify': 'Coordination', 'Action': 'Coordination' };
+const MT_MAX_IMGS = 4;
+const kindCls = k => 'k-' + String(k || 'Action').replace(/\s+/g, '-');
+const meetingList = () => Object.keys(meetings).map(k => ({ id: k, ...meetings[k] }));
+const itemsOf = m => Object.keys(m.items || {}).map(k => ({ key: k, ...m.items[k] })).sort((a, b) => (a.order || 0) - (b.order || 0));
+const newKey = () => db.ref().push().key;
+
+// ---------- free keyword classification ----------
+const MT_DISC_RULES = [
+  ['Fire Protection', /fire protection|sprinkler|\bfp\b|standpipe|fire pump/],
+  ['Plumbing', /plumb|storm|sanitary|domestic water|waste|vent pipe|\bdrain|water heater|fixture|hose bib|cleanout|\bdcw\b|\bdhw\b/],
+  ['Mechanical', /diffuser|duct|hvac|mechanical|condensate|\bahu\b|\bvav\b|\brtu\b|grille|exhaust|refrigerant|chiller|fan coil|\bfcu\b/],
+  ['Electrical', /electric|conduit|cable tray|lighting|light fixture|panel|receptacle|switchgear|transformer/],
+  ['Structural', /beam|column|joist|slab|structur|footing/],
+  ['Architectural', /wall|framer|framing|gypsum|ceiling|window|door|architect|soffit/]
+];
+function guessDiscipline(text) {
+  const s = ' ' + String(text).toLowerCase();
+  let best = null, bestPos = Infinity;
+  MT_DISC_RULES.forEach(([d, re]) => { const m = s.match(re); if (m && m.index < bestPos) { best = d; bestPos = m.index; } });
+  return best || 'Coordination';
+}
+function guessKind(text) {
+  const s = String(text).toLowerCase().trim();
+  if (/\brfi\b|request for information/.test(s)) return 'RFI';
+  if (/^verif|^confirm|^check/.test(s)) return 'Verify';
+  if (/clash|conflict|interfer|collid/.test(s)) return 'Clash';
+  if (/verif|confirm|double.?check|validate/.test(s)) return 'Verify';
+  if (/model|shift|re-?rout|routing|relocat|\bmove|correct|update|revise|adjust|provide/.test(s)) return 'Model Update';
+  return 'Action';
+}
+const guessStatus = t => /on hold|\bhold\b|\btbd\b|waiting for|pending (approval|answer|response)/i.test(t) ? 'On Hold' : 'Open';
+const guessPriority = t => /urgent|asap|critical|immediately|priority/i.test(t) ? 'high' : 'medium';
+function newItem(text, extra) {
+  const t = String(text || '').trim();
+  const it = Object.assign({ key: newKey(), text: t, discipline: guessDiscipline(t), kind: guessKind(t), status: guessStatus(t), priority: guessPriority(t), images: [], assignee: '', due: '' }, extra || {});
+  if (!it.assignee) it.assignee = mtRemembered(it.discipline);
+  return it;
+}
+
+// ---------- PDF reading (pdf.js loads only when a PDF is dropped) ----------
+let pdfjsReady = null;
+function loadPdfJs() {
+  if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  if (pdfjsReady) return pdfjsReady;
+  pdfjsReady = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = () => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; res(window.pdfjsLib); };
+    s.onerror = () => { pdfjsReady = null; rej(new Error('Could not load the PDF reader. Check the internet connection.')); };
+    document.head.appendChild(s);
+  });
+  return pdfjsReady;
+}
+function cropCompress(src, b, maxW) {
+  maxW = maxW || 1000;
+  const sx = Math.max(0, Math.floor(b.x)), sy = Math.max(0, Math.floor(b.y));
+  const sw = Math.min(src.width - sx, Math.ceil(b.w)), sh = Math.min(src.height - sy, Math.ceil(b.h));
+  const k = Math.min(1, maxW / sw);
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, Math.round(sw * k)); c.height = Math.max(1, Math.round(sh * k));
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+  ctx.drawImage(src, sx, sy, sw, sh, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', 0.72);
+}
+function compressImageFile(file, maxW) {
+  maxW = maxW || 1200;
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, maxW / img.naturalWidth);
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', 0.75));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Not an image')); };
+    img.src = url;
+  });
+}
+async function parseMeetingPdf(file) {
+  const lib = await loadPdfJs();
+  const pdf = await lib.getDocument({ data: await file.arrayBuffer() }).promise;
+  const SCALE = 2, O = lib.OPS, lines = [], images = [];
+  for (let p = 1; p <= Math.min(pdf.numPages, 40); p++) {
+    const page = await pdf.getPage(p);
+    const vp = page.getViewport({ scale: SCALE });
+    // 1) text -> lines, top to bottom
+    const tc = await page.getTextContent();
+    const rows = [];
+    tc.items.forEach(it => {
+      if (typeof it.str !== 'string' || !it.str.length) return;
+      const [x, y] = lib.Util.applyTransform([it.transform[4], it.transform[5]], vp.transform);
+      const h = Math.max(6, Math.hypot(it.transform[2], it.transform[3]) * SCALE);
+      let row = rows.find(r => Math.abs(r.y - y) < Math.max(3, h * 0.45));
+      if (!row) { row = { y, h, parts: [] }; rows.push(row); }
+      row.parts.push({ x, w: (it.width || 0) * SCALE, s: it.str, h });
+    });
+    rows.sort((a, b) => a.y - b.y).forEach(r => {
+      r.parts.sort((a, b) => a.x - b.x);
+      let txt = '', end = null;
+      r.parts.forEach(pt => {
+        if (end !== null && pt.x - end > pt.h * 0.18 && !/\s$/.test(txt) && !/^\s/.test(pt.s)) txt += ' ';
+        txt += pt.s; end = pt.x + pt.w;
+      });
+      txt = txt.replace(/\s+/g, ' ').trim();
+      if (txt) lines.push({ page: p, y: r.y - r.h, text: txt });
+    });
+    // 2) where are the images drawn on the page?
+    const ops = await page.getOperatorList();
+    let ctm = [1, 0, 0, 1, 0, 0]; const stack = [], boxes = [];
+    for (let i = 0; i < ops.fnArray.length; i++) {
+      const fn = ops.fnArray[i], args = ops.argsArray[i];
+      if (fn === O.save) stack.push(ctm.slice());
+      else if (fn === O.restore) ctm = stack.pop() || [1, 0, 0, 1, 0, 0];
+      else if (fn === O.transform) ctm = lib.Util.transform(ctm, args);
+      else if (fn === O.paintFormXObjectBegin) { stack.push(ctm.slice()); if (args && args[0]) ctm = lib.Util.transform(ctm, args[0]); }
+      else if (fn === O.paintFormXObjectEnd) ctm = stack.pop() || [1, 0, 0, 1, 0, 0];
+      else if (fn === O.paintImageXObject || fn === O.paintInlineImageXObject || fn === O.paintImageXObjectRepeat || fn === O.paintJpegXObject) {
+        const m = lib.Util.transform(vp.transform, ctm);
+        const pts = [[0, 0], [1, 0], [0, 1], [1, 1]].map(pt => lib.Util.applyTransform(pt, m));
+        const xs = pts.map(q => q[0]), ys = pts.map(q => q[1]);
+        const b = { x: Math.min(...xs), y: Math.min(...ys), w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys) };
+        const fullPage = b.w > vp.width * 0.9 && b.h > vp.height * 0.9;
+        const dup = boxes.some(o => Math.abs(o.x - b.x) < 4 && Math.abs(o.y - b.y) < 4 && Math.abs(o.w - b.w) < 4);
+        if (b.w > 60 && b.h > 40 && !fullPage && !dup) boxes.push(b);
+      }
+    }
+    // 3) crop the screenshots from a rendered copy of the page
+    if (boxes.length) {
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+      boxes.sort((a, b) => a.y - b.y || a.x - b.x).forEach(b => images.push({ page: p, y: b.y, src: cropCompress(canvas, b) }));
+      canvas.width = canvas.height = 0;
+    }
+  }
+  // 4) lines -> action items (a line starting with "-", "•" or "1." starts a new item)
+  const BUL = /^(?:[-–—•▪●◦*]|\d{1,2}[.)])\s*/;
+  const hasBullets = lines.some(l => BUL.test(l.text) && l.text.replace(BUL, '').trim().length > 3);
+  const items = []; let cur = null;
+  lines.forEach(l => {
+    if (!hasBullets || BUL.test(l.text)) {
+      const t = l.text.replace(BUL, '').trim();
+      if (!t) return;
+      cur = { text: t, page: l.page, y: l.y, images: [] }; items.push(cur);
+    } else if (cur) {
+      cur.text += (/-$/.test(cur.text) ? '' : ' ') + l.text;          // continuation / note under the item
+    } // lines before the first bullet are headings (e.g. "RFI / Action")
+  });
+  // 5) each screenshot belongs to the last item above it
+  images.forEach(img => {
+    let owner = null;
+    items.forEach(it => { if (it.page < img.page || (it.page === img.page && it.y <= img.y + 6)) owner = it; });
+    owner = owner || items[0];
+    if (owner && owner.images.length < MT_MAX_IMGS) owner.images.push(img.src);
+  });
+  const rawText = lines.map((l, i) => (i && l.page !== lines[i - 1].page ? '\n' : '') + l.text).join('\n');
+  return { items, imageCount: images.length, rawText };
+}
+
+// ---------- page ----------
+function teamPeople() {
+  return Object.values(teamMembers || {}).filter(p => p.name && p.role !== 'coordinator')
+    .sort((x, y) => (x.role === 'admin' ? -1 : 0) - (y.role === 'admin' ? -1 : 0) || x.name.localeCompare(y.name));
+}
+function renderMeetings() {
+  if (currentPage !== 'meetings') return;
+  const all = meetingList();
+  document.querySelectorAll('#meetings-page .reg-project-filter').forEach(s => { if (!s.options.length) fillProjectSelect(s, true); });
+  let items = 0, onHold = 0;
+  all.filter(m => m.status === 'sent').forEach(m => itemsOf(m).forEach(it => { items++; if (it.status === 'On Hold') onHold++; }));
+  document.getElementById('meet-summary').innerHTML = `
+    <div class="reg-stat"><b>${all.length}</b><span>Meetings</span></div>
+    <div class="reg-stat warn"><b>${all.filter(m => m.status !== 'sent').length}</b><span>Drafts</span></div>
+    <div class="reg-stat good"><b>${items}</b><span>Tasks sent</span></div>
+    <div class="reg-stat bad"><b>${onHold}</b><span>On hold</span></div>`;
+  const mp = document.getElementById('meet-f-project').value || 'ALL';
+  const q = (document.getElementById('meet-f-search').value || '').toLowerCase();
+  const list = all.filter(m => (mp === 'ALL' || m.project === mp) &&
+      (!q || (m.title || '').toLowerCase().includes(q) || itemsOf(m).some(it => (it.text || '').toLowerCase().includes(q))))
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)) || (b.createdAt || 0) - (a.createdAt || 0));
+  const mbox = document.getElementById('meet-list');
+  mbox.innerHTML = list.length ? list.map(m => {
+    const its = itemsOf(m), isSent = m.status === 'sent';
+    const who = [...new Set(its.map(it => it.assignee).filter(Boolean))];
+    const done = isSent ? its.filter(it => { const t = tasks.find(x => x.id === it.taskId); return t && t.progress === 100; }).length : 0;
+    return `<div class="reg-row clickable ${isSent ? (done === its.length && its.length ? 'st-Answered' : 'st-Sent') : 'st-Draft'}" onclick="openMeetingModal('${m.id}')">
+      <div class="reg-main">
+        <div class="reg-badges"><span class="reg-num">${esc(m.date || '')}</span><span class="ai-badge">${esc(labelFor(getProjects(), m.project))}</span>${m.file ? '<span class="ai-badge" title="Original PDF saved"><i class="fa-solid fa-file-pdf"></i> PDF saved</span>' : m.source === 'pdf' ? '<span class="ai-badge" title="Read from PDF"><i class="fa-solid fa-file-pdf"></i> PDF</span>' : ''}</div>
+        <div class="reg-title">${esc(m.title || 'Meeting')}</div>
+        <div class="reg-meta"><span>${its.length} action item(s)</span>${isSent ? `<span class="${done === its.length ? 'good' : ''}">${done}/${its.length} done</span>` : ''}${who.length ? `<span><i class="fa-solid fa-user"></i> ${who.map(esc).join(', ')}</span>` : ''}<span>by ${esc(m.createdBy || '')}</span></div>
+      </div>
+      <span class="status-pill ${isSent ? 'Sent' : 'Draft'}">${isSent ? 'Sent' : 'Draft'}</span>
+    </div>`;
+  }).join('') : emptyStateHtml('No meetings yet', (userRole === 'admin' || userRole === 'coordinator') ? 'Add the first one with “New Meeting”.' : 'Nothing has been logged yet.');
+}
+function viewImg(src) {
+  document.getElementById('img-viewer-img').src = src;
+  document.getElementById('img-viewer').style.display = 'flex';
+}
+
+// ---------- forward a task (the person who received it passes it on, e.g. to a junior) ----------
+let fwdTaskId = null;
+function openForwardModal(id) {
+  const t = tasks.find(x => x.id === id);
+  if (!t || !me || t.assignee !== me.name) return;
+  fwdTaskId = id;
+  document.getElementById('fwd-task-text').innerHTML = `<b>${esc(labelFor(getProjects(), t.project))}</b> — ${esc(t.details || '')}`;
+  const people = teamPeople().filter(p => p.name !== me.name);
+  document.getElementById('fwd-to').innerHTML = people.length
+    ? people.map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('')
+    : '<option value="">No one else on the team</option>';
+  document.getElementById('fwd-modal').style.display = 'flex';
+}
+async function confirmForward() {
+  const to = document.getElementById('fwd-to').value;
+  const t = tasks.find(x => x.id === fwdTaskId);
+  if (!to || !t) return;
+  try {
+    await db.ref('tasks/' + fwdTaskId).update({ assignee: to, forwardedFrom: me.name, forwardedAt: Date.now() });
+    logActivity(`${me.name} forwarded "${String(t.details || '').slice(0, 60)}" to ${to}`);
+    toast('Task forwarded to ' + to, 'success');
+    closeRegModal('fwd-modal');
+  } catch (e) { alert("Couldn't forward the task: " + (e.code === 'PERMISSION_DENIED' ? 'the database rules need updating.' : e.message)); }
+}
+
+// ---------- editor ----------
+function openMeetingModal(id) {
+  const m = id ? meetings[id] : null;
+  const canEdit = userRole === 'admin' || userRole === 'coordinator';
+  const ro = !canEdit || (!!m && m.status === 'sent');
+  mtEdit = m
+    ? { id, project: m.project, date: m.date, title: m.title, status: m.status, source: m.source, fileName: m.fileName, file: m.file || null, notesText: m.notesText || '', createdBy: m.createdBy, createdAt: m.createdAt, readOnly: ro,
+        items: itemsOf(m).map(it => ({ key: it.key, text: it.text || '', discipline: it.discipline || 'Coordination', kind: it.kind || 'Action', status: it.status || 'Open', priority: it.priority || 'medium', images: [], imgCount: it.imgCount || 0, assignee: it.assignee || '', due: it.due || '', taskId: it.taskId })) }
+    : { id: null, project: (getProjects()[0] || {}).value, date: cairoTodayISO(), title: '', status: 'draft', items: [], readOnly: false };
+  mtDirty = false; mtFocusIdx = null;
+  const ps = document.getElementById('mt-project'); fillProjectSelect(ps, false); ps.value = mtEdit.project || '';
+  document.getElementById('mt-date').value = mtEdit.date || '';
+  document.getElementById('mt-title').value = mtEdit.title || '';
+  ['mt-project', 'mt-date', 'mt-title'].forEach(x => document.getElementById(x).disabled = ro);
+  document.getElementById('mt-drop-zone').classList.toggle('hidden', ro);
+  document.querySelector('#meet-modal .mt-tools').classList.toggle('hidden', ro);
+  document.getElementById('mt-claude-box').classList.add('hidden');
+  document.getElementById('mt-draft-btn').classList.toggle('hidden', ro);
+  document.getElementById('mt-send-btn').classList.toggle('hidden', ro);
+  document.getElementById('mt-delete-btn').classList.toggle('hidden', !id || !(userRole === 'admin' || (userRole === 'coordinator' && m && m.status !== 'sent')));
+  document.getElementById('meet-modal-title').innerHTML = `<i class="fa-solid fa-people-group"></i> ${!m ? 'New Meeting Summary' : ro ? 'Meeting Summary' : 'Edit Meeting Draft'}`;
+  document.getElementById('meet-modal').style.display = 'flex';
+  renderMeetingEditor();
+  if (m && mtEdit.items.some(it => it.imgCount)) {
+    const editing = mtEdit;
+    db.ref('meeting_images/' + id).once('value').then(s => {
+      const imgs = s.val() || {};
+      if (mtEdit !== editing) return;
+      editing.items.forEach(it => { if (imgs[it.key]) it.images = Object.values(imgs[it.key]); });
+      renderMeetingEditor();
+    }).catch(() => {});
+  }
+}
+function closeMeetingModal(force) {
+  if (!force && mtDirty && mtEdit && !mtEdit.readOnly && !confirm('Close without saving? Your changes will be lost.')) return;
+  document.getElementById('meet-modal').style.display = 'none';
+  mtEdit = null; mtDirty = false;
+}
+function renderMeetingEditor() {
+  if (!mtEdit) return;
+  const ro = mtEdit.readOnly, box = document.getElementById('mt-items');
+  const opt = (list, cur, lab) => list.map(v => `<option value="${esc(v)}" ${v === cur ? 'selected' : ''}>${esc(lab ? lab(v) : v)}</option>`).join('');
+  const dis = ro ? 'disabled' : '';
+  box.innerHTML = !mtEdit.items.length
+    ? `<div class="reg-empty">${ro ? 'This meeting has no action items.' : 'No action items yet — drop the PDF above, or add items manually.'}</div>`
+    : mtEdit.items.map((it, i) => `
+    <div class="mt-item ${kindCls(it.kind)} ${it.status === 'On Hold' ? 'hold' : ''}" data-i="${i}">
+      <div class="mt-idx">${i + 1}</div>
+      <div>
+        ${ro ? '' : `<button class="mt-x" title="Remove this item" onclick="removeMeetingItem(${i})"><i class="fa-solid fa-trash-can"></i></button>`}
+        ${mtEdit.status === 'sent' ? (() => { const t = tasks.find(x => x.id === it.taskId); const st = t ? (t.progress === 100 ? '<span class="good">Done</span>' : t.progress === 50 ? '<span>In progress</span>' : '<span class="late">Pending</span>') : ''; return `<div class="reg-meta" style="margin:0 0 6px;"><span><i class="fa-solid fa-user"></i> ${esc(t ? t.assignee : it.assignee)}${t && t.forwardedFrom ? ` (forwarded by ${esc(t.forwardedFrom)})` : ''}</span>${st}</div>`; })() : ''}
+        <label>Required action<textarea class="mt-in" ${dis} oninput="mtSet(${i},'text',this.value)">${esc(it.text)}</textarea></label>
+        <div class="mt-fields">
+          <label>Department<select class="mt-in" ${dis} onchange="mtSetDiscipline(${i},this.value)">${opt(DISCIPLINES, it.discipline)}</select></label>
+          <label>Type<select class="mt-in" ${dis} onchange="mtSet(${i},'kind',this.value,true)">${opt(MT_KINDS, it.kind)}</select></label>
+          <label>Status<select class="mt-in" ${dis} onchange="mtSet(${i},'status',this.value,true)">${opt(['Open', 'On Hold'], it.status)}</select></label>
+          <label>Priority<select class="mt-in" ${dis} onchange="mtSet(${i},'priority',this.value)">${opt(['high', 'medium', 'low'], it.priority, v => v === 'high' ? '🔥 High' : v === 'medium' ? '🟡 Medium' : '🟢 Low')}</select></label>
+          ${ro ? '' : `<label style="grid-column:span 2;">Send to<select class="mt-in" onchange="mtSetAssignee(${i},this.value)"><option value="">— choose a person —</option>${teamPeople().map(p => `<option value="${esc(p.name)}" ${p.name === it.assignee ? 'selected' : ''}>${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('')}</select></label>
+          <label style="grid-column:span 2;">Due date (optional)<input type="date" class="mt-in" value="${esc(it.due || '')}" onchange="mtSet(${i},'due',this.value)"></label>`}
+        </div>
+        <div class="mt-imgs">
+          ${it.images.map((src, j) => `<div class="mt-thumb"><img src="${src}" alt="Screenshot" onclick="viewImg(this.src)">${ro ? '' : `<button title="Remove image" onclick="removeItemImage(${i},${j})">✕</button>`}</div>`).join('')}
+          ${!ro && it.images.length < MT_MAX_IMGS ? `<button class="mt-add-img" onclick="pickItemImage(${i})"><i class="fa-solid fa-image"></i><br>Add image<br><small>or Ctrl+V</small></button>` : ''}
+          ${ro && !it.images.length && it.imgCount ? '<span class="mt-hint"><i class="fa-solid fa-image"></i> loading screenshots...</span>' : ''}
+        </div>
+      </div>
+    </div>`).join('');
+  renderMeetingArchive();
+  const n = mtEdit.items.length, imgs = mtEdit.items.reduce((s, it) => s + it.images.length, 0);
+  document.getElementById('mt-count').textContent = n ? `${n} item(s) · ${imgs} image(s)` : '';
+}
+function mtSet(i, field, val, rerender) {
+  if (!mtEdit || mtEdit.readOnly || !mtEdit.items[i]) return;
+  mtEdit.items[i][field] = val; mtDirty = true;
+  if (rerender) renderMeetingEditor();
+}
+// remember who usually takes each department, so the next meeting is pre-filled
+function mtRemembered(disc) { try { return (JSON.parse(localStorage.getItem('bimMeetAssign') || '{}'))[disc] || ''; } catch (e) { return ''; } }
+function mtSetAssignee(i, name) {
+  mtSet(i, 'assignee', name);
+  const it = mtEdit && mtEdit.items[i];
+  if (!it || !name) return;
+  try { const m = JSON.parse(localStorage.getItem('bimMeetAssign') || '{}'); m[it.discipline] = name; localStorage.setItem('bimMeetAssign', JSON.stringify(m)); } catch (e) {}
+}
+function mtSetDiscipline(i, disc) {
+  if (!mtEdit || !mtEdit.items[i]) return;
+  mtEdit.items[i].discipline = disc;
+  if (!mtEdit.items[i].assignee) mtEdit.items[i].assignee = mtRemembered(disc);
+  mtDirty = true; renderMeetingEditor();
+}
+function addMeetingItem() {
+  if (!mtEdit || mtEdit.readOnly) return;
+  mtEdit.items.push(newItem('', { discipline: 'Coordination', kind: 'Action' }));
+  mtDirty = true; renderMeetingEditor();
+  const tas = document.querySelectorAll('#mt-items textarea');
+  if (tas.length) tas[tas.length - 1].focus();
+}
+function removeMeetingItem(i) {
+  if (!mtEdit || mtEdit.readOnly) return;
+  const it = mtEdit.items[i];
+  if ((it.text || it.images.length) && !confirm(`Remove item ${i + 1}?`)) return;
+  mtEdit.items.splice(i, 1); mtDirty = true; renderMeetingEditor();
+}
+function removeItemImage(i, j) {
+  if (!mtEdit || mtEdit.readOnly) return;
+  mtEdit.items[i].images.splice(j, 1); mtDirty = true; renderMeetingEditor();
+}
+function pickItemImage(i) { mtImgTarget = i; document.getElementById('mt-img-file').click(); }
+async function onItemImageFile(input) {
+  const f = input.files && input.files[0]; input.value = '';
+  if (f && mtImgTarget !== null) await addImageToItem(mtImgTarget, f);
+}
+async function addImageToItem(i, file) {
+  if (!mtEdit || mtEdit.readOnly || !mtEdit.items[i]) return;
+  if (mtEdit.items[i].images.length >= MT_MAX_IMGS) { toast(`Max ${MT_MAX_IMGS} images per item`, 'info'); return; }
+  try {
+    mtEdit.items[i].images.push(await compressImageFile(file));
+    mtDirty = true; renderMeetingEditor();
+  } catch (e) { alert('That file is not an image.'); }
+}
+document.addEventListener('focusin', e => {
+  const el = e.target && e.target.closest && e.target.closest('.mt-item');
+  if (el) mtFocusIdx = +el.dataset.i;
+});
+document.addEventListener('paste', async e => {
+  if (!mtEdit || mtEdit.readOnly || document.getElementById('meet-modal').style.display !== 'flex') return;
+  const entry = [...((e.clipboardData && e.clipboardData.items) || [])].find(x => x.type && x.type.startsWith('image/'));
+  if (!entry) return;
+  e.preventDefault();
+  let i = mtFocusIdx;
+  if (i === null || !mtEdit.items[i]) { if (!mtEdit.items.length) addMeetingItem(); i = mtEdit.items.length - 1; }
+  await addImageToItem(i, entry.getAsFile());
+  toast(`Image added to item ${i + 1}`, 'success');
+});
+(function setupMeetingDrop() {
+  const z = document.getElementById('mt-drop-zone');
+  if (!z) return;
+  ['dragenter', 'dragover'].forEach(ev => z.addEventListener(ev, e => { e.preventDefault(); z.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach(ev => z.addEventListener(ev, e => { e.preventDefault(); z.classList.remove('over'); }));
+  z.addEventListener('drop', e => {
+    const f = [...(e.dataTransfer.files || [])].find(x => x.type === 'application/pdf' || /\.pdf$/i.test(x.name));
+    if (f) importMeetingPdf(f); else alert('Please drop a PDF file.');
+  });
+})();
+async function importMeetingPdf(file) {
+  if (!mtEdit || mtEdit.readOnly) return;
+  if (file.size > 30 * 1024 * 1024) { alert('This PDF is larger than 30 MB.'); return; }
+  const box = document.getElementById('mt-items');
+  box.innerHTML = `<div class="mt-busy"><i class="fa-solid fa-spinner fa-spin"></i>Reading ${esc(file.name)}...</div>`;
+  try {
+    const res = await parseMeetingPdf(file);
+    if (!res.items.length) {
+      alert("No text was found in this PDF (it may be a scanned picture).\nAdd the items manually, or use “Paste result from Claude”.");
+      renderMeetingEditor(); return;
+    }
+    const fresh = res.items.map(it => newItem(it.text, { images: it.images }));
+    if (mtEdit.items.length && !confirm(`Found ${fresh.length} action items.\n\nOK = replace the current items\nCancel = add them after the current items`)) mtEdit.items = mtEdit.items.concat(fresh);
+    else mtEdit.items = fresh;
+    mtEdit.source = 'pdf'; mtEdit.fileName = file.name; mtEdit.pdfFile = file; mtEdit.notesText = res.rawText || ''; mtDirty = true;
+    const guess = guessProjectFromName(file.name + ' ' + (res.rawText || '').slice(0, 400));
+    if (guess) document.getElementById('mt-project').value = guess;
+    const t = document.getElementById('mt-title');
+    if (!t.value.trim()) t.value = cleanFileTitle(file.name);
+    toast(`Read ${fresh.length} items and ${res.imageCount} screenshot(s) — please review them`, 'success');
+  } catch (e) {
+    alert('Could not read this PDF: ' + e.message);
+  }
+  renderMeetingEditor();
+}
+
+// ---------- archive: original PDF + full notes ----------
+const MT_CHUNK = 900 * 1024;           // base64 characters per database entry
+const MT_MAX_PDF = 15 * 1024 * 1024;   // 15 MB
+function cleanFileTitle(name) {
+  let s = String(name || '').replace(/\.pdf$/i, '');
+  try { s = decodeURIComponent(s); } catch (e) {}
+  return s.replace(/[_+]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 80);
+}
+function guessProjectFromName(text) {
+  let t = String(text || '');
+  try { t = decodeURIComponent(t); } catch (e) {}
+  t = t.toLowerCase().replace(/[^a-z0-9]+/g, ' ');
+  let best = null, bestLen = 0;
+  getProjects().forEach(p => {
+    const words = [p.value, String(p.label || '').replace(/[^\w\s]/g, ' ')].join(' ').toLowerCase().match(/[a-z0-9]{4,}/g) || [];
+    words.forEach(w => { if (w.length > bestLen && new RegExp('\\b' + w + '\\b').test(t)) { best = p.value; bestLen = w.length; } });
+  });
+  return best;
+}
+const fmtSize = b => b > 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB';
+function fileToBase64(file) {
+  return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = rej; r.readAsDataURL(file); });
+}
+async function uploadMeetingPdf(id, file) {
+  if (file.size > MT_MAX_PDF) { toast('PDF is over 15 MB — the items were saved but not the file', 'info'); return null; }
+  const b64 = await fileToBase64(file);
+  const chunks = {};
+  for (let i = 0, n = 0; i < b64.length; i += MT_CHUNK, n++) chunks[n] = b64.slice(i, i + MT_CHUNK);
+  const meta = { name: file.name, size: file.size, chunks: Object.keys(chunks).length, at: Date.now() };
+  await db.ref('meeting_files/' + id).set({ meta, c: chunks });
+  return meta;
+}
+async function meetingPdfBlob() {
+  if (mtEdit && mtEdit.pdfFile) return mtEdit.pdfFile;
+  if (!mtEdit || !mtEdit.id || !mtEdit.file) return null;
+  const snap = await db.ref('meeting_files/' + mtEdit.id + '/c').once('value');
+  const c = snap.val() || {};
+  const b64 = Object.keys(c).sort((a, b) => a - b).map(k => c[k]).join('');
+  const bin = atob(b64), u8 = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  return new Blob([u8], { type: 'application/pdf' });
+}
+async function openMeetingPdf(download) {
+  const btn = document.getElementById(download ? 'mt-pdf-dl' : 'mt-pdf-open');
+  if (btn) { btn.disabled = true; btn.dataset.t = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...'; }
+  try {
+    const blob = await meetingPdfBlob();
+    if (!blob) { alert('No PDF is stored for this meeting.'); return; }
+    const url = URL.createObjectURL(blob);
+    if (download) {
+      const a = document.createElement('a'); a.href = url; a.download = (mtEdit.file && mtEdit.file.name) || (mtEdit.fileName || 'meeting.pdf');
+      document.body.appendChild(a); a.click(); a.remove();
+    } else if (!window.open(url, '_blank')) alert('Your browser blocked the new tab. Use Download instead.');
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch (e) { alert('Could not open the PDF: ' + e.message); }
+  finally { if (btn) { btn.disabled = false; btn.innerHTML = btn.dataset.t; } }
+}
+function renderMeetingArchive() {
+  const box = document.getElementById('mt-archive');
+  if (!box || !mtEdit) return;
+  const f = mtEdit.pdfFile ? { name: mtEdit.pdfFile.name, size: mtEdit.pdfFile.size, pending: true } : mtEdit.file;
+  const notes = String(mtEdit.notesText || '').trim();
+  if (!f && !notes) { box.classList.add('hidden'); box.innerHTML = ''; return; }
+  box.classList.remove('hidden');
+  box.innerHTML = `
+    ${f ? `<div class="mt-file">
+      <i class="fa-solid fa-file-pdf"></i>
+      <div class="grow"><b>${esc(cleanFileTitle(f.name))}.pdf</b><small>${fmtSize(f.size || 0)}${f.pending ? ' · will be saved with the meeting' : ' · original meeting PDF'}</small></div>
+      <button class="reg-btn ghost" id="mt-pdf-open" onclick="openMeetingPdf(false)"><i class="fa-solid fa-up-right-from-square"></i> Open</button>
+      <button class="reg-btn ghost" id="mt-pdf-dl" onclick="openMeetingPdf(true)"><i class="fa-solid fa-download"></i> Download</button>
+    </div>` : ''}
+    ${notes ? `<details class="mt-notes"><summary><i class="fa-solid fa-align-left"></i> Full meeting notes (as written in the PDF)</summary><pre>${esc(notes)}</pre></details>` : ''}`;
+}
+
+// ---------- optional: better reading with Claude (copy / paste, no API cost) ----------
+function claudePrompt() {
+  return `Read the attached meeting-notes PDF and list every action item in it.
+Reply with ONLY a JSON array (no other text), one object per item, in the same order as the PDF:
+[{"text": "clear description of what must be done, keeping sizes, levels and room numbers",
+  "discipline": one of ${JSON.stringify(DISCIPLINES)},
+  "kind": one of ${JSON.stringify(MT_KINDS)},
+  "status": "Open" or "On Hold",
+  "priority": "high", "medium" or "low"}]
+Do not merge separate items. Notes written under an item belong to that item.`;
+}
+function openClaudeImport(show) {
+  const b = document.getElementById('mt-claude-box');
+  if (show === false) { b.classList.add('hidden'); return; }
+  document.getElementById('mt-prompt').textContent = claudePrompt();
+  document.getElementById('mt-json').value = '';
+  b.classList.remove('hidden');
+}
+async function copyClaudePrompt() {
+  const txt = claudePrompt();
+  try { await navigator.clipboard.writeText(txt); }
+  catch (e) { const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+  toast('Prompt copied — paste it in Claude with the PDF', 'success');
+}
+function applyClaudeJson() {
+  if (!mtEdit || mtEdit.readOnly) return;
+  const raw = document.getElementById('mt-json').value;
+  const a = raw.indexOf('['), b = raw.lastIndexOf(']');
+  let arr;
+  try { arr = JSON.parse(raw.slice(a, b + 1)); if (!Array.isArray(arr)) throw 0; }
+  catch (e) { alert("That doesn't look like Claude's JSON list. Copy the whole reply and try again."); return; }
+  const fresh = arr.filter(x => x && String(x.text || '').trim()).map(x => {
+    const t = String(x.text).trim();
+    return newItem(t, {
+      discipline: DISCIPLINES.includes(x.discipline) ? x.discipline : guessDiscipline(t),
+      kind: MT_KINDS.includes(x.kind) ? x.kind : guessKind(t),
+      status: x.status === 'On Hold' ? 'On Hold' : 'Open',
+      priority: ['high', 'medium', 'low'].includes(x.priority) ? x.priority : 'medium'
+    });
+  });
+  if (!fresh.length) { alert('No items found in that reply.'); return; }
+  // keep the screenshots already read from the PDF: give each one to the most similar new item
+  const words = s => new Set(String(s).toLowerCase().match(/[a-z0-9.]{3,}/g) || []);
+  let moved = 0;
+  mtEdit.items.filter(o => o.images.length).forEach(o => {
+    const ow = words(o.text); let best = null, score = 0;
+    fresh.forEach(n => { const nw = words(n.text); let c = 0; ow.forEach(w => { if (nw.has(w)) c++; }); const s = c / Math.max(1, Math.min(ow.size, nw.size)); if (s > score) { score = s; best = n; } });
+    if (best && score > 0.2) { o.images.forEach(src => { if (best.images.length < MT_MAX_IMGS) { best.images.push(src); moved++; } }); }
+  });
+  mtEdit.items = fresh; mtDirty = true;
+  openClaudeImport(false);
+  renderMeetingEditor();
+  toast(`${fresh.length} items applied${moved ? ` · ${moved} screenshot(s) kept` : ''}`, 'success');
+}
+
+// ---------- save / send / delete ----------
+async function saveMeeting(send) {
+  if (!mtEdit || mtEdit.readOnly) return;
+  if (userRole !== 'admin' && userRole !== 'coordinator') return;
+  const project = document.getElementById('mt-project').value;
+  const date = document.getElementById('mt-date').value;
+  let title = document.getElementById('mt-title').value.trim();
+  if (!project || !date) { alert('Choose the project and the meeting date.'); return; }
+  if (!title) title = 'Meeting ' + date;
+  const items = mtEdit.items.filter(it => String(it.text).trim());
+  if (send) {
+    if (!items.length) { alert('Add at least one action item before sending.'); return; }
+    const missing = items.map((it, i) => it.assignee ? null : i + 1).filter(Boolean);
+    if (missing.length) { alert(`Choose who receives item(s): ${missing.join(', ')}`); return; }
+    const per = {}; items.forEach(it => { per[it.assignee] = (per[it.assignee] || 0) + 1; });
+    if (!confirm(`Send ${items.length} task(s)?\n\n${Object.keys(per).map(n => `• ${n}: ${per[n]}`).join('\n')}\n\nAfter sending, the meeting can't be edited.`)) return;
+  }
+  const id = mtEdit.id || db.ref('meetings').push().key;
+  const btns = ['mt-draft-btn', 'mt-send-btn'].map(x => document.getElementById(x));
+  btns.forEach(b => b.disabled = true);
+  try {
+    const itemsObj = {}, imgsObj = {};
+    items.forEach((it, i) => {
+      itemsObj[it.key] = { order: i, text: String(it.text).trim().slice(0, 1500), discipline: it.discipline, kind: it.kind, status: it.status, priority: it.priority, assignee: it.assignee || '', due: it.due || '', imgCount: it.images.length };
+      if (it.images.length) imgsObj[it.key] = it.images.slice(0, MT_MAX_IMGS);
+    });
+    await db.ref('meeting_images/' + id).set(Object.keys(imgsObj).length ? imgsObj : null); // images first, while still a draft
+    let fileMeta = mtEdit.file || null;
+    if (mtEdit.pdfFile) fileMeta = await uploadMeetingPdf(id, mtEdit.pdfFile);     // the original PDF, for the archive
+    if (send) {
+      // every item becomes a normal task for the chosen person
+      for (const it of items) {
+        const task = {
+          project, type: MT_KIND_TYPE[it.kind] || 'Coordination',
+          details: `[${it.discipline}]${it.status === 'On Hold' ? ' (ON HOLD)' : ''} ${String(it.text).trim()}`.slice(0, 600),
+          priority: it.status === 'On Hold' ? 'low' : (it.priority || 'medium'),
+          deadline: it.due || '', assignee: it.assignee, progress: 0, archived: false,
+          fromMeeting: id, createdBy: me.name
+        };
+        const ref = await db.ref('tasks').push(task);
+        itemsObj[it.key].taskId = ref.key;
+      }
+    }
+    const rec = {
+      project, date, title: title.slice(0, 150), status: send ? 'sent' : 'draft',
+      source: mtEdit.source || 'manual', fileName: mtEdit.fileName || '', file: fileMeta, notesText: String(mtEdit.notesText || '').slice(0, 60000),
+      createdBy: mtEdit.createdBy || me.name, createdAt: mtEdit.createdAt || Date.now(), updatedAt: Date.now(),
+      items: itemsObj
+    };
+    if (send) rec.sentAt = Date.now();
+    await db.ref('meetings/' + id).set(rec);
+    logActivity(`${me.name} ${send ? 'sent' : 'saved'} meeting "${rec.title}" (${items.length} items)`);
+    toast(send ? `${items.length} task(s) sent` : 'Draft saved', 'success');
+    closeMeetingModal(true);
+  } catch (e) {
+    alert('Could not save: ' + (e.code === 'PERMISSION_DENIED' ? "your account isn't allowed to do this (check the database rules)." : e.message));
+  } finally { btns.forEach(b => b.disabled = false); }
+}
+async function deleteMeeting() {
+  if (!mtEdit || !mtEdit.id) return;
+  if (!confirm(`Delete the meeting "${mtEdit.title || ''}"?\nTasks already created from it will stay.`)) return;
+  try {
+    await db.ref('meeting_images/' + mtEdit.id).remove();
+    await db.ref('meeting_files/' + mtEdit.id).remove();
+    await db.ref('meetings/' + mtEdit.id).remove();
+    logActivity(`${me.name} deleted meeting "${mtEdit.title || ''}"`);
+    closeMeetingModal(true);
+  } catch (e) { alert('Could not delete: ' + e.message); }
 }
 </script>
 </body>
