@@ -463,6 +463,8 @@ html.light .sb-action.logout { color: #e74c3c; border-color: rgba(231,76,60,0.3)
 body.sb-open .sidebar { box-shadow: 20px 0 50px rgba(0,0,0,0.6); }
 
 /* ===================== MEETINGS / ACTION ITEMS ===================== */
+.team-role-select { background: rgba(74,114,178,0.12); border: 1px solid rgba(74,114,178,0.35); color: #6f97d6; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; border-radius: 5px; padding: 3px 4px; font-family: inherit; cursor: pointer; outline: none; color-scheme: dark; max-width: 100%; }
+html.light .team-role-select { background: #f1f4f9; color: #294a80; color-scheme: light; }
 .pill-role-coordinator { color: #48c9b0 !important; border-color: rgba(26,188,156,0.35); }
 .mt-drop { border: 2px dashed rgba(74,114,178,0.45); border-radius: 12px; padding: 22px 14px; text-align: center; color: #8fa0bc; font-size: 13px; cursor: pointer; transition: all .2s ease; background: rgba(24,31,50,0.35); }
 .mt-drop:hover, .mt-drop.over { border-color: #4a72b2; background: rgba(74,114,178,0.12); color: #fff; }
@@ -1524,7 +1526,7 @@ function renderTeam() {
   const list = document.getElementById('team-members-list');
   if (!list || userRole !== 'admin') return;
   list.innerHTML = '';
-  const order = { admin: 0, manager: 1, member: 2 };
+  const order = { admin: 0, manager: 1, coordinator: 2, member: 3 };
   Object.keys(teamMembers)
     .sort((a, b) => (order[teamMembers[a].role] ?? 9) - (order[teamMembers[b].role] ?? 9) || String(teamMembers[a].name).localeCompare(teamMembers[b].name))
     .forEach(uid => {
@@ -1538,12 +1540,23 @@ function renderTeam() {
       li.innerHTML = `
 <div class="team-row-info">
 <span class="team-row-name">${esc(p.name)} ${meta.icon}</span>
-<span class="team-role-tag">${esc(meta.tag)}</span>
+${uid === me.uid ? `<span class="team-role-tag">${esc(meta.tag)}</span>` : `<select class="team-role-select" title="Change role" onchange="changeTeamRole('${esc(uid)}', this.value, this)">${['member', 'manager', 'coordinator'].map(r => `<option value="${r}" ${p.role === r ? 'selected' : ''}>${ROLE_META[r].icon} ${ROLE_META[r].tag}</option>`).join('')}</select>`}
 <span class="team-row-user">@${esc(p.username || '')}</span>
 </div>
 ${action}`;
       list.appendChild(li);
     });
+}
+async function changeTeamRole(uid, role, sel) {
+  if (userRole !== 'admin' || !teamMembers[uid] || uid === me.uid) return;
+  if (!['member', 'manager', 'coordinator'].includes(role)) return;
+  const p = teamMembers[uid];
+  if (!confirm(`Change ${p.name}'s role to ${ROLE_META[role].tag}?\nThey'll get the new access the next time they open the site.`)) { sel.value = p.role; return; }
+  try {
+    await db.ref('users/' + uid + '/role').set(role);
+    logActivity(`Mokhtar changed ${p.name}'s role to ${ROLE_META[role].tag}`);
+    toast(`${p.name} is now ${ROLE_META[role].tag}`, 'success');
+  } catch (e) { alert('Could not change the role: ' + e.message); sel.value = p.role; }
 }
 async function createTeamAccount() {
   if (userRole !== 'admin') return;
