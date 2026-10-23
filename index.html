@@ -182,7 +182,8 @@ body.sb-open { overflow: hidden; }
 .sb-close { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #cbd5e1; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 14px; flex-shrink: 0; }
 .sb-close:hover { background: rgba(231,76,60,0.6); color: #fff; }
 .sb-scroll { flex: 1; overflow-y: auto; padding: 14px 14px 24px; display: flex; flex-direction: column; gap: 8px; }
-.sb-group-label { font-size: 10px; font-weight: 700; color: #5c6e8c; text-transform: uppercase; letter-spacing: 1px; margin: 10px 4px 2px; }
+.sb-group-label { font-size: 10px; font-weight: 800; color: #6f97d6; text-transform: uppercase; letter-spacing: 1.2px; margin: 18px 4px 6px; display: flex; align-items: center; gap: 7px; }
+.sb-group-label:first-child { margin-top: 4px; }
 .sb-section { background: rgba(24, 31, 50, 0.45); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; }
 .sb-section > summary { list-style: none; cursor: pointer; padding: 12px 14px; font-size: 12px; font-weight: 700; color: #cbd5e1; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: .4px; user-select: none; }
 .sb-section > summary::-webkit-details-marker { display: none; }
@@ -527,6 +528,53 @@ html.light .mt-actions { background: #ffffff; border-top-color: rgba(29,36,51,0.
 html.light .mt-file b { color: #1d2433; }
 html.light .mt-notes { background: #f4f6fa; } html.light .mt-notes pre { color: #1d2433; }
 @media (max-width: 720px) { .mt-file { flex-wrap: wrap; } }
+.task-content-details { cursor: pointer; }
+/* ---- Sheet Register: statuses, levels ---- */
+.reg-row.st-Issued-for-Review { border-left-color: #f1c40f; }
+.reg-row.st-Approved { border-left-color: #2ecc71; }
+.reg-row.st-As-Built { border-left-color: #9b59b6; }
+.status-pill.Issued-for-Review { background: rgba(241,196,15,0.15); color: #f1c40f; }
+.status-pill.Approved { background: rgba(46,204,113,0.15); color: #2ecc71; }
+.status-pill.As-Built { background: rgba(155,89,182,0.18); color: #c39bd3; }
+.sheet-summary { grid-template-columns: repeat(5, 1fr) !important; }
+.reg-stat.purple b { color: #c39bd3; }
+.sh-seg { display: inline-flex; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden; }
+.sh-seg button { background: none; border: none; color: #8fa0bc; font: 700 12px inherit; font-family: inherit; padding: 9px 12px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.sh-seg button.on { background: #4a72b2; color: #fff; }
+.sh-proj { font-size: 13px; font-weight: 800; color: #6f97d6; margin: 18px 0 8px; text-transform: uppercase; letter-spacing: .5px; }
+.sh-proj:first-child { margin-top: 0; }
+.lv-box { border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; overflow: hidden; background: rgba(18,24,40,0.6); margin-bottom: 12px; }
+.lv-h { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: rgba(74,114,178,0.12); font-size: 14px; font-weight: 800; color: #fff; cursor: pointer; user-select: none; }
+.lv-h .car { transition: transform .2s ease; color: #8fa0bc; font-size: 11px; }
+.lv-box.closed > .lv-h .car, .dh.closed .car { transform: rotate(-90deg); }
+.lv-tag { font-size: 10px; font-weight: 800; letter-spacing: .6px; padding: 3px 8px; border-radius: 5px; background: rgba(255,255,255,0.08); color: #8fa0bc; }
+.lv-tag.below { background: rgba(155,89,182,0.2); color: #c39bd3; } .lv-tag.roof { background: rgba(26,188,156,0.15); color: #48c9b0; }
+.lv-tag.gen { background: rgba(92,110,140,0.25); color: #cbd5e1; }
+.lv-h .sp { flex: 1; } .lv-h small { color: #8fa0bc; font-weight: 600; font-size: 11px; }
+.lv-bar { width: 110px; height: 6px; border-radius: 4px; background: rgba(255,255,255,0.08); overflow: hidden; } .lv-bar span { display: block; height: 100%; background: #2ecc71; }
+.dh { display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 20px; font-size: 12px; font-weight: 800; color: #48c9b0; background: rgba(255,255,255,0.025); border-top: 1px solid rgba(255,255,255,0.05); border-left: 3px solid #48c9b0; cursor: pointer; user-select: none; }
+.dh small { color: #8fa0bc; font-weight: 600; }
+.lv-box .reg-row { border-radius: 0; border: none; border-top: 1px solid rgba(255,255,255,0.04); margin: 0; box-shadow: none; }
+.lv-box .reg-row.nested { padding-left: 30px; }
+.lv-box.closed > .lv-body, .dh.closed + .dh-body { display: none; }
+.lv-auto { font-size: 10px; color: #8fa0bc; font-weight: 600; }
+html.light .lv-box { background: #f7f9fc; border-color: rgba(29,36,51,0.08); }
+html.light .lv-h { background: rgba(74,114,178,0.1); color: #1d2433; }
+html.light .dh { background: #fff; }
+@media (max-width: 720px) { .sheet-summary { grid-template-columns: repeat(2, 1fr) !important; } .lv-bar { display: none; } }
+.td-box { max-width: 680px !important; max-height: 90vh; overflow-y: auto; }
+.td-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.td-text { font-size: 16px; font-weight: 600; color: #fff; line-height: 1.55; margin: 14px 0 6px; white-space: pre-wrap; word-break: break-word; }
+.td-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; margin: 14px 0; }
+.td-f { display: flex; flex-direction: column; gap: 4px; font-size: 10px; font-weight: 700; color: #8fa0bc; text-transform: uppercase; letter-spacing: .5px; }
+.td-f b { font-size: 13px; color: #e2e8f0; text-transform: none; letter-spacing: 0; font-weight: 600; }
+.td-f b.late { color: #ff7675; } .td-f b.good { color: #2ecc71; }
+.td-f.full { grid-column: span 2; }
+.td-link { color: #6f97d6; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.td-imgs { display: flex; flex-wrap: wrap; gap: 8px; }
+.td-imgs img { width: 140px; height: 90px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); cursor: zoom-in; }
+html.light .td-text, html.light .td-f b { color: #1d2433; }
+@media (max-width: 600px) { .td-grid { grid-template-columns: 1fr; } .td-f.full { grid-column: auto; } }
 .mt-json { width: 100%; box-sizing: border-box; min-height: 160px; font-family: 'Roboto Mono', monospace; font-size: 11px; }
 .mt-prompt { background: rgba(11,15,25,0.55); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #cbd5e1; white-space: pre-wrap; max-height: 140px; overflow: auto; font-family: 'Roboto Mono', monospace; }
 html.light .mt-item, html.light .mt-drop { background: #ffffff; border-color: rgba(29,36,51,0.1); }
@@ -672,17 +720,10 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 <div class="sb-scroll">
 
-<div class="sb-group-label" data-roles="admin">Founder Controls</div>
-
-<details class="sb-section" data-roles="admin" id="sb-pw-requests">
-<summary><i class="fa-solid fa-key sb-ico"></i> Password Requests <span class="sb-pill hidden" id="pw-req-count">0</span></summary>
-<div class="sb-body">
-<ul class="sb-list" id="pw-requests-list"></ul>
-</div>
-</details>
+<div class="sb-group-label" data-roles="admin manager"><i class="fa-solid fa-users"></i> Team</div>
 
 <details class="sb-section" data-roles="admin">
-<summary><i class="fa-solid fa-users-gear sb-ico"></i> Team Accounts</summary>
+<summary><i class="fa-solid fa-users-gear sb-ico"></i> Team Accounts <span class="sb-pill" id="sb-team-count" style="background:#4a72b2;">0</span></summary>
 <div class="sb-body">
 <input class="sb-input" type="text" id="new-member-name" placeholder="Display name (e.g. Hatem)" autocomplete="off">
 <input class="sb-input" type="text" id="new-member-username" placeholder="Username (e.g. hatem)" autocomplete="off">
@@ -697,8 +738,24 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 </details>
 
+<details class="sb-section" data-roles="admin" id="sb-pw-requests">
+<summary><i class="fa-solid fa-key sb-ico"></i> Password Requests <span class="sb-pill hidden" id="pw-req-count">0</span></summary>
+<div class="sb-body">
+<ul class="sb-list" id="pw-requests-list"></ul>
+</div>
+</details>
+
+<details class="sb-section" data-roles="admin manager">
+<summary><i class="fa-solid fa-satellite-dish sb-ico" style="color:#2ecc71;"></i> Online Now <span class="sb-pill" id="online-count" style="background:#27ae60;">0</span></summary>
+<div class="sb-body">
+<div class="presence-users-grid" id="live-presence-container"></div>
+</div>
+</details>
+
+<div class="sb-group-label" data-roles="admin"><i class="fa-solid fa-gear"></i> Setup</div>
+
 <details class="sb-section" data-roles="admin">
-<summary><i class="fa-solid fa-folder-tree sb-ico"></i> Projects & Task Types</summary>
+<summary><i class="fa-solid fa-folder-tree sb-ico"></i> Projects & Task Types <span class="sb-pill" id="sb-proj-count" style="background:#4a72b2;">0</span></summary>
 <div class="sb-body">
 <div class="sb-sub">Projects</div>
 <ul class="sb-list" id="projects-admin-list"></ul>
@@ -716,6 +773,41 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <button class="sb-btn ghost" onclick="addListItem('types')"><i class="fa-solid fa-plus"></i> Add Task Type</button>
 </div>
 </details>
+
+<details class="sb-section" data-roles="admin">
+<summary><i class="fa-solid fa-building sb-ico"></i> Building Levels</summary>
+<div class="sb-body">
+<p class="sb-note">Levels used to group the Sheet Register, bottom to top. Until you change them, they're read from the sheet titles.</p>
+<select class="sb-select" id="lv-project" onchange="renderLevelsAdmin()"></select>
+<ul class="sb-list" id="lv-list"></ul>
+<div class="sb-row">
+<input class="sb-input" type="text" id="lv-new-name" placeholder="New level (e.g. Mezzanine)">
+<input class="sb-input sb-emoji" type="text" id="lv-new-code" placeholder="MZ" maxlength="4" style="width:64px;">
+</div>
+<button class="sb-btn ghost" onclick="addLevel()"><i class="fa-solid fa-plus"></i> Add level</button>
+<button class="sb-btn ghost small" onclick="resetLevels()"><i class="fa-solid fa-rotate-left"></i> Back to automatic</button>
+</div>
+</details>
+
+<div class="sb-group-label" data-roles="admin manager"><i class="fa-solid fa-chart-column"></i> Reports</div>
+
+<details class="sb-section" data-roles="admin manager" id="sb-report">
+<summary><i class="fa-solid fa-file-excel sb-ico" style="color:#2ecc71;"></i> Monthly Team Report</summary>
+<div class="sb-body">
+<label class="sb-note" for="report-month">Choose the month, then export a colour-coded Excel report of every member's progress.</label>
+<input type="month" id="report-month" class="sb-input">
+<button class="sb-btn report-btn" onclick="exportMonthlyReport()"><i class="fa-solid fa-file-arrow-down"></i> Export to Excel</button>
+</div>
+</details>
+
+<details class="sb-section" data-roles="admin manager">
+<summary><i class="fa-solid fa-chart-simple sb-ico"></i> Team Stats</summary>
+<div class="sb-body" id="team-stats-body"></div>
+</details>
+
+<button class="sb-action" data-roles="admin" onclick="openLoginHistoryModal()"><i class="fa-solid fa-clock-rotate-left sb-ico" style="color:#3498db;"></i> Login Audit Log</button>
+
+<div class="sb-group-label" data-roles="admin"><i class="fa-solid fa-bullhorn"></i> Announcements</div>
 
 <details class="sb-section" data-roles="admin">
 <summary><i class="fa-solid fa-bullhorn sb-ico"></i> Team Announcement</summary>
@@ -749,14 +841,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 </details>
 
-<div class="sb-group-label" data-roles="admin manager">Team Overview</div>
-
-<details class="sb-section" data-roles="admin manager">
-<summary><i class="fa-solid fa-satellite-dish sb-ico" style="color:#2ecc71;"></i> Online Now <span class="sb-pill" id="online-count" style="background:#27ae60;">0</span></summary>
-<div class="sb-body">
-<div class="presence-users-grid" id="live-presence-container"></div>
-</div>
-</details>
+<div class="sb-group-label" data-roles="admin manager"><i class="fa-solid fa-bell"></i> Activity</div>
 
 <details class="sb-section" data-roles="admin manager">
 <summary><i class="fa-solid fa-bolt sb-ico" style="color:#f1c40f;"></i> Activity Log</summary>
@@ -766,22 +851,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 </details>
 
-<details class="sb-section" data-roles="admin manager">
-<summary><i class="fa-solid fa-chart-simple sb-ico"></i> Team Stats</summary>
-<div class="sb-body" id="team-stats-body"></div>
-</details>
-
-<details class="sb-section" data-roles="admin manager" id="sb-report">
-<summary><i class="fa-solid fa-file-excel sb-ico" style="color:#2ecc71;"></i> Monthly Team Report</summary>
-<div class="sb-body">
-<label class="sb-note" for="report-month">Choose the month, then export a colour-coded Excel report of every member's progress.</label>
-<input type="month" id="report-month" class="sb-input">
-<button class="sb-btn report-btn" onclick="exportMonthlyReport()"><i class="fa-solid fa-file-arrow-down"></i> Export to Excel</button>
-</div>
-</details>
-<button class="sb-action" data-roles="admin" onclick="openLoginHistoryModal()"><i class="fa-solid fa-clock-rotate-left sb-ico" style="color:#3498db;"></i> Login Audit Log</button>
-
-<div class="sb-group-label">My Account</div>
+<div class="sb-group-label"><i class="fa-solid fa-user"></i> My Account</div>
 
 <details class="sb-section" id="sb-password">
 <summary><i class="fa-solid fa-lock sb-ico"></i> Change Password <span class="sb-pill hidden" id="pw-ready-dot" style="background:#2ecc71;">!</span></summary>
@@ -857,28 +927,23 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <h1><i class="fa-solid fa-folder-tree"></i> Projects Task Tracker</h1>
 <button class="new-task-btn" data-roles="admin coordinator" onclick="openTaskModal()"><i class="fa-solid fa-plus"></i> New Task</button>
 </div>
-<div class="filter-section">
-<div class="filter-group">
-<span class="filter-title">Project:</span>
-<span id="project-filter-chips" style="display:contents;"></span>
-</div>
-<div class="filter-group">
-<span class="filter-title">Priority:</span>
-<span class="filter-chip active" onclick="setPriorityFilter('ALL', this)">All Levels</span>
-<span class="filter-chip" onclick="setPriorityFilter('high', this)">🔥 High</span>
-<span class="filter-chip" onclick="setPriorityFilter('medium', this)">🟡 Med</span>
-<span class="filter-chip" onclick="setPriorityFilter('low', this)">🟢 Low</span>
-</div>
-<div class="filter-group">
-<span class="filter-title">View:</span>
-<span class="filter-chip active" onclick="setViewFilter('ALL', this)">All Tasks</span>
-<span class="filter-chip overdue-chip" onclick="setViewFilter('OVERDUE', this)">⏰ Overdue (<span id="overdue-count">0</span>)</span>
-</div>
-<div class="filter-group" data-roles="admin manager">
-<span class="filter-title">Archive:</span>
-<span class="filter-chip active" onclick="toggleArchiveView(false, this)">🟢 Active Only</span>
-<span class="filter-chip archive-filter-chip" onclick="toggleArchiveView(true, this)">📦 Show Archived</span>
-</div>
+<div class="reg-toolbar task-toolbar">
+<select id="tf-project" class="reg-select" onchange="setTaskFilters()" title="Project"></select>
+<select id="tf-priority" class="reg-select" onchange="setTaskFilters()" title="Priority">
+<option value="ALL">All levels</option>
+<option value="high">🔥 High</option>
+<option value="medium">🟡 Medium</option>
+<option value="low">🟢 Low</option>
+</select>
+<select id="tf-view" class="reg-select" onchange="setTaskFilters()" title="View">
+<option value="ALL">All tasks</option>
+<option value="OVERDUE" id="tf-overdue-opt">⏰ Overdue (0)</option>
+</select>
+<select id="tf-archive" class="reg-select" data-roles="admin manager" onchange="setTaskFilters()" title="Archive">
+<option value="0">🟢 Active only</option>
+<option value="1">📦 Archived</option>
+</select>
+<input id="tf-search" class="reg-search" placeholder="Search tasks..." oninput="setTaskFilters()">
 </div>
 <ul class="task-list" id="task-list-container"></ul>
 </div>
@@ -909,16 +974,21 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 
 <!-- ===================== SHEET REGISTER ===================== -->
 <div id="sheets-page" class="hidden">
-<div class="reg-summary" id="sheet-summary"></div>
+<div class="reg-summary sheet-summary" id="sheet-summary"></div>
 <div class="reg-toolbar">
+<div class="sh-seg" id="sheet-view-seg">
+<button data-v="level" onclick="setSheetView('level')"><i class="fa-solid fa-building"></i> By level</button>
+<button data-v="disc" onclick="setSheetView('disc')"><i class="fa-solid fa-layer-group"></i> By discipline</button>
+<button data-v="list" onclick="setSheetView('list')"><i class="fa-solid fa-list"></i> List</button>
+</div>
 <select id="sheet-f-project" class="reg-select reg-project-filter" onchange="renderSheets()"></select>
 <select id="sheet-f-disc" class="reg-select" onchange="renderSheets()"></select>
 <select id="sheet-f-status" class="reg-select" onchange="renderSheets()">
 <option value="ALL">All statuses</option>
 <option value="WIP">WIP</option>
-<option value="For Review">For Review</option>
-<option value="Issued">Issued</option>
-<option value="Superseded">Superseded</option>
+<option value="Issued for Review">Issued for Review</option>
+<option value="Approved">Approved</option>
+<option value="As-Built">As-Built</option>
 </select>
 <input id="sheet-f-search" class="reg-search" placeholder="Search sheet number or title..." oninput="renderSheets()">
 <button class="reg-btn ghost" title="Export to Excel" onclick="exportSheets()"><i class="fa-solid fa-file-excel"></i> Export</button>
@@ -952,6 +1022,17 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 <div class="reg-list" id="meet-list"></div>
 </div>
+</div>
+</div>
+
+<!-- Task details window -->
+<div id="td-modal" class="app-modal-overlay" onclick="if(event.target===this)closeRegModal('td-modal')">
+<div class="app-modal-box td-box">
+<div class="history-modal-header">
+<h3><i class="fa-solid fa-circle-info"></i> Task Details</h3>
+<button class="close-modal-btn" onclick="closeRegModal('td-modal')"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div id="td-body"></div>
 </div>
 </div>
 
@@ -1071,14 +1152,14 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <button class="close-modal-btn" onclick="closeRegModal('sheet-modal')"><i class="fa-solid fa-xmark"></i></button>
 </div>
 <div class="reg-form">
-<label class="full">Project<select id="sheet-project"></select></label>
+<label class="full">Project<select id="sheet-project" onchange="fillSheetLevelSelect()"></select></label>
 <label>Sheet number<input type="text" id="sheet-number" placeholder="e.g. M-101"></label>
 <label>Discipline<select id="sheet-disc"></select></label>
-<label class="full">Sheet title<input type="text" id="sheet-title" placeholder="e.g. Level 1 Mechanical Ductwork Plan"></label>
+<label class="full">Sheet title<input type="text" id="sheet-title" placeholder="e.g. Level 1 Mechanical Ductwork Plan" oninput="fillSheetLevelSelect(true)"></label>
 <label>Revision<input type="text" id="sheet-rev" placeholder="e.g. 0, A, 1"></label>
-<label>Status<select id="sheet-status"><option>WIP</option><option>For Review</option><option>Issued</option><option>Superseded</option></select></label>
+<label>Status<select id="sheet-status"><option>WIP</option><option>Issued for Review</option><option>Approved</option><option>As-Built</option></select></label>
 <label>Date (issued / updated)<input type="date" id="sheet-date"></label>
-<label>&nbsp;<span></span></label>
+<label>Level<select id="sheet-level"></select></label>
 <label class="full">Notes<textarea id="sheet-notes" placeholder="Transmittal number, comments..."></textarea></label>
 <div class="reg-history hidden" id="sheet-history"></div>
 <div class="reg-form-actions">
@@ -1348,7 +1429,7 @@ function labelFor(list, value) {
 // ---------------------------- SIDEBAR -------------------------------
 function openSidebar() { document.body.classList.add('sb-open'); }
 function closeSidebar() { document.body.classList.remove('sb-open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSidebar(); closeTaskModal(); closeLoginHistoryModal(); closeRegModal('rfi-modal'); closeRegModal('sheet-modal'); document.getElementById('img-viewer').style.display = 'none'; } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSidebar(); closeTaskModal(); closeLoginHistoryModal(); closeRegModal('rfi-modal'); closeRegModal('sheet-modal'); closeRegModal('td-modal'); document.getElementById('img-viewer').style.display = 'none'; } });
 
 // ---------------------------- AUTH ----------------------------------
 async function submitGateLogin() {
@@ -1373,7 +1454,7 @@ db.ref('settings/celebration').on('value', snap => {
 
 auth.onAuthStateChanged(async user => {
   stopAllListeners();
-  tasks = []; teamMembers = {}; pwRequests = {}; myPwRequest = null; lastPresenceData = null; rfis = {}; sheets = {}; meetings = {};
+  sheetMigrationDone = false; levelsData = {}; tasks = []; teamMembers = {}; pwRequests = {}; myPwRequest = null; lastPresenceData = null; rfis = {}; sheets = {}; meetings = {};
   tasksLoaded = false; prevSigs.tasks = prevSigs.rfis = prevSigs.sheets = null; animateNextList.tasks = animateNextList.rfis = animateNextList.sheets = true; animateCountsIn.cache = {};
   showPage('tasks');
   closeSidebar();
@@ -1408,10 +1489,11 @@ auth.onAuthStateChanged(async user => {
   });
   listen(db.ref('settings/projects'), 'value', snap => { projectsData = snap.val(); renderListControls(); renderAll(); });
   listen(db.ref('settings/types'), 'value', snap => { typesData = snap.val(); renderListControls(); renderAll(); });
+  listen(db.ref('settings/levels'), 'value', snap => { levelsData = snap.val() || {}; renderSheets(); renderLevelsAdmin(); });
   listen(db.ref('settings/announcement'), 'value', snap => renderAnnouncement(snap.val()));
   if (userRole === 'admin' || userRole === 'manager') {
     listen(db.ref('registers/rfis'), 'value', snap => { rfis = snap.val() || {}; trackChanges('rfis', rfis); renderRfis(); });
-    listen(db.ref('registers/sheets'), 'value', snap => { sheets = snap.val() || {}; trackChanges('sheets', sheets); renderSheets(); });
+    listen(db.ref('registers/sheets'), 'value', snap => { sheets = snap.val() || {}; trackChanges('sheets', sheets); migrateSheetStatuses(); renderSheets(); renderLevelsAdmin(); });
   }
 
   if (userRole === 'admin' || userRole === 'manager' || userRole === 'coordinator') {
@@ -1523,6 +1605,7 @@ function renderTeam() {
       .map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('');
     if (current) sel.value = current;
   }
+  const tc = document.getElementById('sb-team-count'); if (tc) tc.textContent = Object.keys(teamMembers || {}).length;
   const list = document.getElementById('team-members-list');
   if (!list || userRole !== 'admin') return;
   list.innerHTML = '';
@@ -1709,15 +1792,16 @@ function renderListControls() {
   if (pCur) pSel.value = pCur; if (tCur) tSel.value = tCur;
   // Project filter chips
   if (activeProjectFilter !== 'ALL' && !projects.some(p => p.value === activeProjectFilter)) activeProjectFilter = 'ALL';
-  const chips = document.getElementById('project-filter-chips');
-  chips.innerHTML = `<span class="filter-chip ${activeProjectFilter === 'ALL' ? 'active' : ''}" data-val="ALL">All Projects</span>` +
-    projects.map(p => `<span class="filter-chip ${activeProjectFilter === p.value ? 'active' : ''}" data-val="${esc(p.value)}">${esc(p.label)}</span>`).join('');
-  chips.querySelectorAll('.filter-chip').forEach(ch => ch.addEventListener('click', () => setProjectFilter(ch.dataset.val, ch)));
+  const tfp = document.getElementById('tf-project');
+  tfp.innerHTML = `<option value="ALL">All projects</option>` + projects.map(p => `<option value="${esc(p.value)}">${esc(p.label)}</option>`).join('');
+  tfp.value = activeProjectFilter;
   renderRegisterControls(); renderRfis(); renderSheets();
   // Admin lists
   if (userRole !== 'admin') return;
   const row = (kind, it) => `<li class="sb-item"><span>${esc(it.label)}</span><button class="icon-btn" title="Remove" onclick="removeListItem('${kind}','${esc(it.key)}')"><i class="fa-solid fa-trash-can"></i></button></li>`;
   document.getElementById('projects-admin-list').innerHTML = projects.map(p => row('projects', p)).join('');
+  const pc = document.getElementById('sb-proj-count'); if (pc) pc.textContent = projects.length;
+  const lvp = document.getElementById('lv-project'); if (lvp) { fillProjectSelect(lvp, false); renderLevelsAdmin(); }
   document.getElementById('types-admin-list').innerHTML = types.map(t => row('types', t)).join('');
 }
 async function seedListIfNeeded(kind) {
@@ -1819,6 +1903,21 @@ async function stopCelebration() {
 }
 
 // ----------------------------- UI -----------------------------------
+let activeTaskSearch = '';
+function setTaskFilters() {
+  animateNextList.tasks = true;
+  activeProjectFilter = document.getElementById('tf-project').value || 'ALL';
+  activePriorityFilter = document.getElementById('tf-priority').value || 'ALL';
+  activeViewFilter = document.getElementById('tf-view').value || 'ALL';
+  showArchivedTasks = document.getElementById('tf-archive').value === '1';
+  activeTaskSearch = (document.getElementById('tf-search').value || '').trim().toLowerCase();
+  renderTasks();
+}
+function taskMatchesSearch(t) {
+  if (!activeTaskSearch) return true;
+  const hay = [t.details, t.assignee, t.forwardedFrom, t.createdBy, labelFor(getProjects(), t.project), labelFor(getTypes(), t.type), t.deadline].join(' ').toLowerCase();
+  return activeTaskSearch.split(/\s+/).every(w => hay.includes(w));
+}
 function setProjectFilter(val, element) { animateNextList.tasks = true; activeProjectFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
 function setPriorityFilter(val, element) { animateNextList.tasks = true; activePriorityFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
 function setViewFilter(val, element) { animateNextList.tasks = true; activeViewFilter = val; element.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); element.classList.add('active'); renderTasks(); }
@@ -1869,7 +1968,7 @@ function calculateAnalytics() {
   animateCount(document.getElementById('count-done'), done);
   animateCount(document.getElementById('count-prog'), prog);
   animateCount(document.getElementById('count-pend'), pend);
-  animateCount(document.getElementById('overdue-count'), filtered.filter(isOverdue).length);
+  const ovo = document.getElementById('tf-overdue-opt'); if (ovo) ovo.textContent = `⏰ Overdue (${filtered.filter(isOverdue).length})`;
   animateCount(document.getElementById('chart-percentage-txt'), total > 0 ? Math.round((done / total) * 100) : 0, '%');
   updatePieChart(done, prog, pend);
 }
@@ -2291,6 +2390,7 @@ function renderTasks() {
     const matchArchive = showArchivedTasks ? (task.archived === true) : (!task.archived);
     if (!matchArchive || !visibleToMe(task)) return false;
     if (activeViewFilter === 'OVERDUE' && !isOverdue(task)) return false;
+    if (!taskMatchesSearch(task)) return false;
     return (activeProjectFilter === 'ALL' || task.project === activeProjectFilter) &&
            (activePriorityFilter === 'ALL' || task.priority === activePriorityFilter);
   });
@@ -2301,7 +2401,7 @@ function renderTasks() {
   container.innerHTML = '';
   if (!tasksLoaded) { container.innerHTML = '<li class="skeleton"></li><li class="skeleton"></li><li class="skeleton"></li>'; return; }
   if (!filteredTasks.length) {
-    const filtered = activeProjectFilter !== 'ALL' || activePriorityFilter !== 'ALL' || activeViewFilter !== 'ALL' || showArchivedTasks;
+    const filtered = activeProjectFilter !== 'ALL' || activePriorityFilter !== 'ALL' || activeViewFilter !== 'ALL' || showArchivedTasks || !!activeTaskSearch;
     container.innerHTML = filtered ? emptyStateHtml('Nothing here', 'No tasks match these filters — try another one.', 'li')
       : emptyStateHtml('All clear!', userRole === 'member' ? 'You have no tasks right now. Enjoy the calm ☕' : 'No tasks yet. Add one with “New Task”.', 'li');
     fxDone('tasks');
@@ -2363,7 +2463,7 @@ ${statusCycleBtn}${archiveActionBtn}
         : (task.deadline ? `<span class="deadline-badge"><i class="fa-regular fa-calendar-check"></i> Due: ${esc(task.deadline)}</span>` : '');
 
       li.innerHTML = `
-<div class="task-content-details">
+<div class="task-content-details" onclick="openTaskDetails(event, '${id}')" title="Click for details">
 <span class="project-badge">${esc(labelFor(projects, task.project))}</span>
 <span class="type-badge">${esc(labelFor(types, task.type))}</span>
 ${task.assignee ? `<span class="assignee-badge">To: ${esc(task.assignee)}</span>` : ''}
@@ -2629,39 +2729,191 @@ function exportRfis() {
 function sheetList() {
   return Object.keys(sheets).map(k => ({ id: k, ...sheets[k] }));
 }
+// ---- statuses ----
+const SHEET_STATUSES = ['WIP', 'Issued for Review', 'Approved', 'As-Built'];
+const OLD_SHEET_STATUS = { 'For Review': 'Issued for Review', 'Issued': 'Approved' };
+const sheetStatus = s => OLD_SHEET_STATUS[s.status] || s.status || 'WIP';
+let sheetMigrationDone = false;
+function migrateSheetStatuses() {
+  if (sheetMigrationDone || userRole !== 'admin') return;
+  sheetMigrationDone = true;
+  const upd = {}; let superseded = 0;
+  Object.keys(sheets).forEach(k => {
+    const st = sheets[k].status;
+    if (OLD_SHEET_STATUS[st]) upd[`${k}/status`] = OLD_SHEET_STATUS[st];
+    if (st === 'Superseded') superseded++;
+  });
+  if (Object.keys(upd).length) db.ref('registers/sheets').update(upd).then(() => toast(`Updated ${Object.keys(upd).length} sheet(s) to the new statuses`, 'info')).catch(() => {});
+  if (superseded) setTimeout(() => alert(`${superseded} sheet(s) are still marked "Superseded".\nOpen them in the Sheet Register and choose one of the new statuses.`), 800);
+}
+
+// ---- levels ----
+let levelsData = {};                      // settings/levels: { projectKey: { lvKey: {name, code, order} } }
+let sheetView = 'level';
+try { sheetView = localStorage.getItem('bimSheetView') || 'level'; } catch (e) {}
+const sheetCollapsed = new Set();
+const projKey = v => String(v || '').replace(/[.#$\[\]\/]/g, '_');
+function levelRank(code) {
+  const c = String(code || '').toUpperCase();
+  if (c === 'UG') return -1000;
+  let m;
+  if ((m = c.match(/^B(\d+)$/))) return -100 - (+m[1]);
+  if (c === 'CL') return -150;
+  if ((m = c.match(/^PD(\d*)$/))) return -10 + (+m[1] || 1) * 0.1;
+  if (c === 'MZ') return 1.5;
+  if ((m = c.match(/^L(\d+)$/))) return +m[1];
+  if (c === 'RF') return 10000;
+  return 5000;
+}
+function detectLevel(text, custom) {
+  const s = ' ' + String(text || '').toLowerCase() + ' ';
+  for (const lv of (custom || [])) {                       // levels the admin typed in (e.g. "Cellar") win
+    if (!/^(UG|RF|L\d+|B\d+|PD\d*|MZ|CL)$/.test(lv.code) && lv.name && s.includes(' ' + lv.name.toLowerCase())) return lv.code;
+  }
+  let m;
+  if (/underground|below grade|\bug\b|site utilit/.test(s)) return 'UG';
+  if ((m = s.match(/(?:basement|\bb)\s*-?\s*(\d)\b/))) return 'B' + m[1];
+  if (/basement|lower level|sub-?level/.test(s)) return 'B1';
+  if (/cellar/.test(s)) return 'CL';
+  if ((m = s.match(/podium\s*(?:level\s*)?(\d)?/))) return 'PD' + (m[1] || '');
+  if (/mezzanine|\bmezz\b/.test(s)) return 'MZ';
+  if (/\broof\b|penthouse|\brf\b/.test(s)) return 'RF';
+  if ((m = s.match(/(?:level|lvl|floor)\s*-?\s*(\d{1,2})\b/)) || (m = s.match(/\bl(\d{1,2})\b/)) || (m = s.match(/\b(\d{1,2})(?:st|nd|rd|th)\s*floor/))) return 'L' + (+m[1]);
+  if (/ground floor|first floor/.test(s)) return 'L1';
+  return '';
+}
+function defaultLevelName(code) {
+  const c = String(code).toUpperCase(); let m;
+  if (c === 'UG') return 'Underground'; if (c === 'RF') return 'Roof'; if (c === 'MZ') return 'Mezzanine'; if (c === 'CL') return 'Cellar';
+  if ((m = c.match(/^B(\d+)$/))) return 'Basement ' + m[1];
+  if ((m = c.match(/^PD(\d*)$/))) return 'Podium' + (m[1] ? ' ' + m[1] : '');
+  if ((m = c.match(/^L(\d+)$/))) return 'Level ' + m[1];
+  return c;
+}
+function savedLevels(project) {
+  const d = levelsData[projKey(project)];
+  if (!d) return null;
+  return Object.keys(d).map(k => ({ key: k, ...d[k] })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+}
+function sheetLevelCode(s, levels) {
+  if (s.level === 'GEN') return 'GEN';
+  if (s.level) return s.level;
+  return detectLevel(s.title + ' ' + (s.number || ''), levels) || 'GEN';
+}
+// The building's levels (bottom to top): saved by the admin, or read from the sheet titles
+function projectLevels(project) {
+  const saved = savedLevels(project);
+  if (saved) return saved.map(l => ({ code: l.code, name: l.name }));
+  const codes = new Set(['UG', 'L1', 'RF']);
+  let maxL = 1;
+  sheetList().filter(s => s.project === project).forEach(s => {
+    const c = sheetLevelCode(s, null);
+    if (!c || c === 'GEN') return;
+    const m = c.match(/^L(\d+)$/); if (m) maxL = Math.max(maxL, +m[1]); else codes.add(c);
+  });
+  for (let i = 1; i <= maxL; i++) codes.add('L' + i);
+  return [...codes].sort((a, b) => levelRank(a) - levelRank(b)).map(c => ({ code: c, name: defaultLevelName(c) }));
+}
+function setSheetView(v) {
+  sheetView = v; try { localStorage.setItem('bimSheetView', v); } catch (e) {}
+  animateNextList.sheets = true; renderSheets();
+}
+function toggleSheetGroup(key) { sheetCollapsed.has(key) ? sheetCollapsed.delete(key) : sheetCollapsed.add(key); renderSheets(); }
+
 function renderSheets() {
   if (userRole !== 'admin' && userRole !== 'manager') return;
   const all = sheetList();
-  const count = s => all.filter(x => x.status === s).length;
+  const count = st => all.filter(x => sheetStatus(x) === st).length;
   document.getElementById('sheet-summary').innerHTML = `
-<div class="reg-stat"><b data-count="${all.filter(x => x.status !== 'Superseded').length}" data-key="sh-active">0</b><span>Active Sheets</span></div>
-<div class="reg-stat good"><b data-count="${count('Issued')}" data-key="sh-issued">0</b><span>Issued</span></div>
-<div class="reg-stat warn"><b data-count="${count('For Review')}" data-key="sh-review">0</b><span>For Review</span></div>
-<div class="reg-stat"><b data-count="${count('WIP')}" data-key="sh-wip">0</b><span>WIP</span></div>`;
+<div class="reg-stat"><b data-count="${all.length}" data-key="sh-all">0</b><span>Total Sheets</span></div>
+<div class="reg-stat" style="--c:#5dade2"><b data-count="${count('WIP')}" data-key="sh-wip" style="color:#5dade2">0</b><span>WIP</span></div>
+<div class="reg-stat warn"><b data-count="${count('Issued for Review')}" data-key="sh-review">0</b><span>Issued for Review</span></div>
+<div class="reg-stat good"><b data-count="${count('Approved')}" data-key="sh-approved">0</b><span>Approved</span></div>
+<div class="reg-stat purple"><b data-count="${count('As-Built')}" data-key="sh-asbuilt">0</b><span>As-Built</span></div>`;
   animateCountsIn(document.getElementById('sheet-summary'));
+  document.querySelectorAll('#sheet-view-seg button').forEach(b => b.classList.toggle('on', b.dataset.v === sheetView));
   const fp = document.getElementById('sheet-f-project').value || 'ALL';
   const fd = document.getElementById('sheet-f-disc').value || 'ALL';
   const fs = document.getElementById('sheet-f-status').value;
   const q = document.getElementById('sheet-f-search').value.trim().toLowerCase();
   const list = all.filter(s =>
-    (fp === 'ALL' || s.project === fp) && (fd === 'ALL' || s.discipline === fd) && (fs === 'ALL' || s.status === fs) &&
+    (fp === 'ALL' || s.project === fp) && (fd === 'ALL' || s.discipline === fd) && (fs === 'ALL' || sheetStatus(s) === fs) &&
     (!q || [s.number, s.title].some(v => String(v || '').toLowerCase().includes(q)))
   ).sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number, undefined, { numeric: true }));
   const box = document.getElementById('sheet-list');
   if (!list.length) { box.innerHTML = all.length ? emptyStateHtml('Nothing here', 'No sheets match these filters.') : emptyStateHtml('Sheet register is empty', userRole === 'admin' ? 'Add your first sheet with the “New” button.' : 'No sheets have been logged yet.'); fxDone('sheets'); return; }
   const projects = getProjects();
   const canEdit = userRole === 'admin';
-  box.innerHTML = list.map((s, idx) => { const fx = fxClasses('sheets', s.id, idx); return `
-<div class="reg-row st-${statusCls(s.status)}${canEdit ? ' clickable' : ''}${fx.cls}" style="${fx.style}" ${canEdit ? `onclick="openSheetModal('${esc(s.id)}')"` : ''}>
+  let idx = 0;
+  const row = (s, opts) => {
+    const st = sheetStatus(s), fx = fxClasses('sheets', s.id, idx++);
+    const dLabel = st === 'Issued for Review' ? 'Issued for review' : st === 'Approved' ? 'Approved' : st === 'As-Built' ? 'As-built' : 'Updated';
+    return `
+<div class="reg-row st-${statusCls(st)}${opts.nested ? ' nested' : ''}${canEdit ? ' clickable' : ''}${fx.cls}" style="${fx.style}" ${canEdit ? `onclick="openSheetModal('${esc(s.id)}')"` : ''}>
 <div class="reg-rev">${esc(s.revision || '—')}<small>REV</small></div>
 <div class="reg-main">
-<div class="reg-badges"><span class="reg-num">${esc(s.number)}</span><span class="type-badge" style="margin:0;">${esc(s.discipline || '')}</span><span class="project-badge" style="margin:0;">${esc(labelFor(projects, s.project))}</span></div>
+<div class="reg-badges"><span class="reg-num">${esc(s.number)}</span>${opts.disc ? `<span class="type-badge" style="margin:0;">${esc(s.discipline || '')}</span>` : ''}${opts.proj ? `<span class="project-badge" style="margin:0;">${esc(labelFor(projects, s.project))}</span>` : ''}${opts.level ? `<span class="lv-tag">${esc(opts.level)}</span>` : ''}</div>
 <div class="reg-title">${esc(s.title || 'Untitled sheet')}</div>
-<div class="reg-meta">${s.date ? `<span>${s.status === 'Issued' ? 'Issued' : 'Updated'}: ${esc(s.date)}</span>` : ''}${s.notes ? `<span>${esc(s.notes)}</span>` : ''}</div>
+<div class="reg-meta">${s.date ? `<span>${dLabel}: ${esc(s.date)}</span>` : ''}${s.notes ? `<span>${esc(s.notes)}</span>` : ''}</div>
 </div>
-<span class="status-pill ${statusCls(s.status)}">${esc(s.status)}</span>
-</div>`; }).join('');
+<span class="status-pill ${statusCls(st)}">${esc(st)}</span>
+</div>`;
+  };
+  const done = arr => arr.filter(s => { const st = sheetStatus(s); return st === 'Approved' || st === 'As-Built'; }).length;
+  const discOrder = d => { const i = DISCIPLINES.indexOf(d); return i < 0 ? 99 : i; };
+
+  if (sheetView === 'list') {
+    box.innerHTML = list.map(s => row(s, { disc: true, proj: true })).join('');
+  } else {
+    const projIds = [...new Set(list.map(s => s.project))];
+    box.innerHTML = projIds.map(pid => {
+      const ps = list.filter(s => s.project === pid);
+      const levels = projectLevels(pid);
+      const lvName = c => (levels.find(l => l.code === c) || {}).name || defaultLevelName(c);
+      const head = projIds.length > 1 || fp === 'ALL' ? `<div class="sh-proj">${esc(labelFor(projects, pid))}</div>` : '';
+      if (sheetView === 'disc') {
+        const discs = [...new Set(ps.map(s => s.discipline || 'Other'))].sort((a, b) => discOrder(a) - discOrder(b));
+        return head + discs.map(d => {
+          const ds = ps.filter(s => (s.discipline || 'Other') === d)
+            .map(s => ({ s, c: sheetLevelCode(s, levels) }))
+            .sort((a, b) => levelRank(a.c === 'GEN' ? 'ZZ' : a.c) - levelRank(b.c === 'GEN' ? 'ZZ' : b.c) || String(a.s.number).localeCompare(b.s.number, undefined, { numeric: true }));
+          const key = pid + '|d|' + d, closed = sheetCollapsed.has(key), pc = Math.round(done(ds.map(x => x.s)) / ds.length * 100);
+          return `<div class="lv-box${closed ? ' closed' : ''}"><div class="lv-h" onclick="toggleSheetGroup('${esc(key)}')"><i class="fa-solid fa-chevron-down car"></i> ${esc(d)}<span class="sp"></span><small>${ds.length} sheet${ds.length > 1 ? 's' : ''} · ${pc}% approved</small><div class="lv-bar"><span style="width:${pc}%"></span></div></div>
+            <div class="lv-body">${ds.map(x => row(x.s, { level: x.c === 'GEN' ? 'GEN' : x.c })).join('')}</div></div>`;
+        }).join('');
+      }
+      // by level (bottom -> top), then discipline inside each level
+      const groups = {};
+      ps.forEach(s => { const c = sheetLevelCode(s, levels); (groups[c] = groups[c] || []).push(s); });
+      const known = levels.map(l => l.code);
+      const order = known.filter(c => groups[c])
+        .concat(Object.keys(groups).filter(c => c !== 'GEN' && !known.includes(c)).sort((a, b) => levelRank(a) - levelRank(b)))
+        .concat(groups.GEN ? ['GEN'] : []);
+      return head + order.map(c => {
+        const ls = groups[c], key = pid + '|l|' + c, closed = sheetCollapsed.has(key), pc = Math.round(done(ls) / ls.length * 100);
+        const tag = c === 'GEN' ? 'gen' : levelRank(c) < 0 ? 'below' : c === 'RF' ? 'roof' : '';
+        const discs = [...new Set(ls.map(s => s.discipline || 'Other'))].sort((a, b) => discOrder(a) - discOrder(b));
+        return `<div class="lv-box${closed ? ' closed' : ''}"><div class="lv-h" onclick="toggleSheetGroup('${esc(key)}')"><i class="fa-solid fa-chevron-down car"></i> ${esc(c === 'GEN' ? 'General / Details / Schedules' : lvName(c))} <span class="lv-tag ${tag}">${esc(c)}</span><span class="sp"></span><small>${ls.length} sheet${ls.length > 1 ? 's' : ''} · ${pc}% approved</small><div class="lv-bar"><span style="width:${pc}%"></span></div></div>
+          <div class="lv-body">${discs.map(d => {
+            const ds = ls.filter(s => (s.discipline || 'Other') === d).sort((a, b) => String(a.number).localeCompare(b.number, undefined, { numeric: true }));
+            const dkey = key + '|' + d, dclosed = sheetCollapsed.has(dkey);
+            return `<div class="dh${dclosed ? ' closed' : ''}" onclick="toggleSheetGroup('${esc(dkey)}')"><i class="fa-solid fa-chevron-down car"></i> ${esc(d)} <small>${ds.length} sheet${ds.length > 1 ? 's' : ''}</small></div><div class="dh-body">${ds.map(s => row(s, { nested: true })).join('')}</div>`;
+          }).join('')}</div></div>`;
+      }).join('');
+    }).join('');
+  }
   fxDone('sheets');
+}
+function fillSheetLevelSelect(keepChoice) {
+  const sel = document.getElementById('sheet-level');
+  if (!sel) return;
+  const cur = keepChoice ? sel.value : (editingSheetId && sheets[editingSheetId] ? (sheets[editingSheetId].level || '') : '');
+  const project = document.getElementById('sheet-project').value;
+  const levels = projectLevels(project);
+  const auto = detectLevel(document.getElementById('sheet-title').value + ' ' + document.getElementById('sheet-number').value, savedLevels(project));
+  const autoName = auto ? ((levels.find(l => l.code === auto) || {}).name || defaultLevelName(auto)) : 'General / Details';
+  sel.innerHTML = `<option value="">Automatic — ${esc(autoName)}</option>` + levels.slice().map(l => `<option value="${esc(l.code)}">${esc(l.name)} (${esc(l.code)})</option>`).join('') + `<option value="GEN">General / Details / Schedules</option>`;
+  sel.value = [...sel.options].some(o => o.value === cur) ? cur : '';
 }
 function openSheetModal(id) {
   if (userRole !== 'admin') return;
@@ -2674,14 +2926,16 @@ function openSheetModal(id) {
   document.getElementById('sheet-title').value = s ? (s.title || '') : '';
   document.getElementById('sheet-disc').value = s ? (s.discipline || 'Mechanical') : 'Mechanical';
   document.getElementById('sheet-rev').value = s ? (s.revision || '') : '0';
-  document.getElementById('sheet-status').value = s ? s.status : 'WIP';
+  const st = s ? sheetStatus(s) : 'WIP';
+  document.getElementById('sheet-status').value = SHEET_STATUSES.includes(st) ? st : 'WIP';
   document.getElementById('sheet-date').value = s ? (s.date || '') : cairoTodayISO();
   document.getElementById('sheet-notes').value = s ? (s.notes || '') : '';
+  fillSheetLevelSelect(false);
   document.getElementById('sheet-delete-btn').classList.toggle('hidden', !s);
   const hist = document.getElementById('sheet-history');
-  const h = s && s.history ? Object.values(s.history).sort((a, b) => (b.at || 0) - (a.at || 0)) : [];
-  hist.classList.toggle('hidden', !h.length);
-  hist.innerHTML = h.length ? '<b>Revision history:</b> ' + h.map(x => `Rev ${esc(x.revision)} (${esc(x.status)}${x.date ? ', ' + esc(x.date) : ''})`).join(' · ') : '';
+  const hh = s && s.history ? Object.values(s.history).sort((a, b) => (a.at || 0) - (b.at || 0)) : [];
+  hist.classList.toggle('hidden', !hh.length);
+  hist.innerHTML = hh.length ? '<b>History:</b> ' + hh.map(x => `Rev ${esc(x.revision)} · ${esc(OLD_SHEET_STATUS[x.status] || x.status)}${x.date ? ' · ' + esc(x.date) : ''}`).join(' → ') : '';
   document.getElementById('sheet-modal').style.display = 'flex';
 }
 async function saveSheet() {
@@ -2689,26 +2943,86 @@ async function saveSheet() {
   const v = id => document.getElementById(id).value.trim();
   const data = {
     project: v('sheet-project'), number: v('sheet-number').toUpperCase(), title: v('sheet-title'), discipline: v('sheet-disc'),
-    revision: v('sheet-rev'), status: v('sheet-status'), date: v('sheet-date'), notes: v('sheet-notes'), updatedAt: Date.now()
+    revision: v('sheet-rev'), status: v('sheet-status'), date: v('sheet-date'), notes: v('sheet-notes'), level: v('sheet-level'), updatedAt: Date.now()
   };
   if (!data.number || !data.title) { alert("Sheet number and title are required."); return; }
   const dup = sheetList().find(s => s.id !== editingSheetId && s.project === data.project && s.number === data.number);
   if (dup) { alert(`Sheet ${data.number} already exists in this project.`); return; }
+  const histEntry = { revision: data.revision || '', status: data.status, date: data.date || '', at: Date.now() };
   try {
     if (editingSheetId) {
       const old = sheets[editingSheetId];
-      if (old.revision !== data.revision) {
-        await db.ref(`registers/sheets/${editingSheetId}/history`).push({ revision: old.revision || '', status: old.status || '', date: old.date || '', at: Date.now() });
+      if (old.revision !== data.revision || sheetStatus(old) !== data.status) {
+        // keep a record of what it was before the first logged change, then log the new state
+        if (!old.history) await db.ref(`registers/sheets/${editingSheetId}/history`).push({ revision: old.revision || '', status: sheetStatus(old), date: old.date || '', at: old.updatedAt || old.createdAt || Date.now() - 1 });
+        await db.ref(`registers/sheets/${editingSheetId}/history`).push(histEntry);
       }
       await db.ref('registers/sheets/' + editingSheetId).update(data);
     } else {
       data.createdAt = Date.now();
-      await db.ref('registers/sheets').push(data);
+      const ref = db.ref('registers/sheets').push();
+      await ref.set(data);
+      await db.ref(`registers/sheets/${ref.key}/history`).push(histEntry);
     }
     logActivity(`Mokhtar ${editingSheetId ? 'updated' : 'added'} sheet ${data.number} Rev ${data.revision} (${data.status})`);
     toast(`Sheet ${data.number} saved`, 'success');
     closeRegModal('sheet-modal');
   } catch (e) { alert("Could not save: " + e.message); }
+}
+
+// ---- admin: building levels per project ----
+function renderLevelsAdmin() {
+  const ps = document.getElementById('lv-project');
+  if (!ps || userRole !== 'admin') return;
+  if (!ps.options.length) fillProjectSelect(ps, false);
+  const project = ps.value, saved = savedLevels(project), levels = projectLevels(project);
+  document.getElementById('lv-list').innerHTML = (saved ? '' : '<li class="sb-item"><span class="lv-auto"><i class="fa-solid fa-wand-magic-sparkles"></i> Automatic (read from sheet titles)</span></li>') +
+    levels.map((l, i) => `<li class="sb-item"><span>${esc(l.name)} <span class="lv-tag">${esc(l.code)}</span></span>
+      <span style="display:flex;gap:2px;">
+        <button class="icon-btn" title="Move down" ${i === 0 ? 'disabled' : ''} onclick="moveLevel(${i}, -1)"><i class="fa-solid fa-arrow-down"></i></button>
+        <button class="icon-btn" title="Move up" ${i === levels.length - 1 ? 'disabled' : ''} onclick="moveLevel(${i}, 1)"><i class="fa-solid fa-arrow-up"></i></button>
+        <button class="icon-btn" title="Remove" onclick="removeLevel(${i})"><i class="fa-solid fa-trash-can"></i></button>
+      </span></li>`).join('');
+}
+async function saveLevels(project, levels) {
+  const obj = {};
+  levels.forEach((l, i) => { obj['lv' + i] = { name: l.name, code: l.code, order: i }; });
+  await db.ref('settings/levels/' + projKey(project)).set(obj);
+}
+async function moveLevel(i, dir) {
+  const project = document.getElementById('lv-project').value, levels = projectLevels(project);
+  const j = i + dir; if (j < 0 || j >= levels.length) return;
+  [levels[i], levels[j]] = [levels[j], levels[i]];
+  await saveLevels(project, levels);
+}
+async function removeLevel(i) {
+  const project = document.getElementById('lv-project').value, levels = projectLevels(project);
+  if (!confirm(`Remove "${levels[i].name}" from ${stripEmoji(labelFor(getProjects(), project))}?\nIts sheets will show under "Other" until you pick a level for them.`)) return;
+  levels.splice(i, 1);
+  await saveLevels(project, levels);
+}
+async function addLevel() {
+  const project = document.getElementById('lv-project').value;
+  const name = document.getElementById('lv-new-name').value.trim();
+  let code = document.getElementById('lv-new-code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!name) { alert('Type the level name, e.g. Mezzanine or Cellar.'); return; }
+  if (!code) code = detectLevel(name, null) || name.replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase();
+  const levels = projectLevels(project);
+  if (levels.some(l => l.code === code)) { alert(`A level with the code ${code} already exists. Choose another short code.`); return; }
+  // put it where it belongs by height when we know it, otherwise just below the roof
+  const r = levelRank(code);
+  let at = levels.findIndex(l => levelRank(l.code) > r);
+  if (r === 5000) at = levels.findIndex(l => l.code === 'RF');
+  if (at < 0) at = levels.length;
+  levels.splice(at, 0, { name, code });
+  await saveLevels(project, levels);
+  document.getElementById('lv-new-name').value = ''; document.getElementById('lv-new-code').value = '';
+  toast(`Level ${name} added — use the arrows to move it`, 'success');
+}
+async function resetLevels() {
+  const project = document.getElementById('lv-project').value;
+  if (!confirm('Go back to reading the levels automatically from the sheet titles?')) return;
+  await db.ref('settings/levels/' + projKey(project)).remove();
 }
 async function deleteSheet() {
   if (userRole !== 'admin' || !editingSheetId) return;
@@ -2722,8 +3036,9 @@ function exportSheets() {
   if (userRole !== 'admin' && userRole !== 'manager') return;
   const projects = getProjects();
   const rows = sheetList().sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number, undefined, { numeric: true }))
-    .map(s => [stripEmoji(labelFor(projects, s.project)), s.number, s.title, s.discipline, s.revision, s.status, s.date, s.notes]);
-  toCsvAndDownload(`bimwow-sheet-register-${cairoTodayISO()}.csv`, ['Project', 'Sheet No.', 'Title', 'Discipline', 'Revision', 'Status', 'Date', 'Notes'], rows);
+    .map(s => { const lv = projectLevels(s.project), c = sheetLevelCode(s, savedLevels(s.project));
+      return [stripEmoji(labelFor(projects, s.project)), c === 'GEN' ? 'General' : ((lv.find(l => l.code === c) || {}).name || defaultLevelName(c)), s.number, s.title, s.discipline, s.revision, sheetStatus(s), s.date, s.notes]; });
+  toCsvAndDownload(`bimwow-sheet-register-${cairoTodayISO()}.csv`, ['Project', 'Level', 'Sheet No.', 'Title', 'Discipline', 'Revision', 'Status', 'Date', 'Notes'], rows);
 }
 
 // ---------------------------- WEEKLY REPORT -------------------------
@@ -2755,7 +3070,7 @@ function generateReport() {
   const prActivity = pr.filter(r => r.status === 'Draft' || r.status === 'Sent' || inRange(r.sentDate) || inRange(r.answerDate))
     .sort((a, b) => (rfiIsLate(b) - rfiIsLate(a)) || String(a.number).localeCompare(b.number));
   const answeredInPeriod = pr.filter(r => inRange(r.answerDate)).length;
-  const issued = sheetList().filter(s => inProj(s) && s.status === 'Issued' && inRange(s.date))
+  const issued = sheetList().filter(s => inProj(s) && sheetStatus(s) !== 'WIP' && inRange(s.date))
     .sort((a, b) => String(a.number).localeCompare(b.number, undefined, { numeric: true }));
   const statusOf = t => t.progress === 100 ? 'Completed' : t.progress === 50 ? 'In Progress' : 'Pending';
 
@@ -2793,7 +3108,7 @@ td{padding:7px 8px;border-bottom:1px solid #edf0f5;vertical-align:top}tr.late td
 <div class="tile y"><b>${prOpen.filter(r => r.kind === 'RFI').length}</b><span>Open RFIs</span></div>
 <div class="tile y"><b>${prOpen.filter(r => r.kind === 'Submittal').length}</b><span>Open Submittals</span></div>
 <div class="tile g"><b>${answeredInPeriod}</b><span>Answered This Period</span></div>
-<div class="tile g"><b>${issued.length}</b><span>Sheets Issued</span></div>
+<div class="tile g"><b>${issued.length}</b><span>Sheets Issued / Approved</span></div>
 </div>
 <h2>Completed This Period</h2>
 ${table([...ph, 'Type', 'Task', 'Assignee'], completed.map(t => `<tr>${pc(t)}<td>${h(stripEmoji(labelFor(types, t.type)))}</td><td>${h(t.details || '')}</td><td>${h(t.assignee || '')}</td></tr>`), 'No tasks were marked completed in this period.')}
@@ -2801,8 +3116,8 @@ ${table([...ph, 'Type', 'Task', 'Assignee'], completed.map(t => `<tr>${pc(t)}<td
 ${table([...ph, 'Type', 'Task', 'Assignee', 'Priority', 'Status', 'Deadline'], openTasks.map(t => `<tr class="${isOverdue(t) ? 'late' : ''}">${pc(t)}<td>${h(stripEmoji(labelFor(types, t.type)))}</td><td>${h(t.details || '')}</td><td>${h(t.assignee || '')}</td><td>${h(t.priority || '')}</td><td>${statusOf(t)}</td><td>${h(t.deadline || '—')}${isOverdue(t) ? ' <span class="late-tag">OVERDUE</span>' : ''}</td></tr>`), 'No open tasks.')}
 <h2>RFIs &amp; Submittals</h2>
 ${table([...ph, 'Type', 'No.', 'Subject', 'Sent To', 'Sent', 'Due', 'Status'], prActivity.map(r => `<tr class="${rfiIsLate(r) ? 'late' : ''}">${pc(r)}<td>${h(r.kind)}</td><td>${h(r.number)}</td><td>${h(r.subject || '')}</td><td>${h(r.sentTo || '')}</td><td>${h(r.sentDate || '—')}</td><td>${h(r.dueDate || '—')}</td><td>${rfiIsLate(r) ? '<span class="late-tag">Reply overdue</span>' : (r.status === 'Answered' || r.status === 'Closed') ? `<span class="ok">${h(r.status)}</span>` : h(r.status)}</td></tr>`), 'No open or recently updated RFIs / submittals.')}
-<h2>Sheets Issued This Period</h2>
-${table([...ph, 'Sheet No.', 'Title', 'Discipline', 'Rev', 'Issued'], issued.map(s => `<tr>${pc(s)}<td>${h(s.number)}</td><td>${h(s.title || '')}</td><td>${h(s.discipline || '')}</td><td>${h(s.revision || '')}</td><td>${h(s.date || '')}</td></tr>`), 'No sheets were issued in this period.')}
+<h2>Sheets Issued / Approved This Period</h2>
+${table([...ph, 'Sheet No.', 'Title', 'Discipline', 'Rev', 'Status', 'Date'], issued.map(s => `<tr>${pc(s)}<td>${h(s.number)}</td><td>${h(s.title || '')}</td><td>${h(s.discipline || '')}</td><td>${h(s.revision || '')}</td><td>${h(sheetStatus(s))}</td><td>${h(s.date || '')}</td></tr>`), 'No sheets were issued in this period.')}
 <div class="foot"><span>BIM WOW · Generated ${h(new Date().toLocaleString('en-GB'))}</span><span>Confidential — prepared for the project team</span></div>
 <script>window.onload=function(){setTimeout(function(){window.print()},300)}<\/script>
 </body></html>`;
@@ -3031,6 +3346,62 @@ function renderMeetings() {
 function viewImg(src) {
   document.getElementById('img-viewer-img').src = src;
   document.getElementById('img-viewer').style.display = 'flex';
+}
+
+// ---------- task details (click a task) ----------
+const tdMeetingCache = {};
+function openTaskDetails(ev, id) {
+  if (ev && ev.target && ev.target.closest('input, select, button, a, textarea')) return; // clicks on the inline controls stay inline
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+  const projects = getProjects(), types = getTypes();
+  const progress = [0, 50, 100].includes(t.progress) ? t.progress : 0;
+  const late = isOverdue(t);
+  const st = progress === 100 ? ['Completed', 'Answered'] : progress === 50 ? ['In progress', 'Sent'] : ['Pending', 'Draft'];
+  const pr = { high: '🔥 High', medium: '🟡 Medium', low: '🟢 Low' }[t.priority] || '🟡 Medium';
+  const fmtD = iso => iso ? new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+  document.getElementById('td-body').innerHTML = `
+    <div class="td-chips">
+      <span class="project-badge">${esc(labelFor(projects, t.project))}</span>
+      <span class="type-badge">${esc(labelFor(types, t.type))}</span>
+      ${t.assignee ? `<span class="assignee-badge">To: ${esc(t.assignee)}</span>` : ''}
+      <span class="status-pill ${st[1]}">${st[0]}</span>
+      ${t.archived ? '<span class="status-pill Closed">Archived</span>' : ''}
+    </div>
+    <div class="td-text">${esc(t.details || 'No notes')}</div>
+    <div class="td-grid">
+      <div class="td-f">Deadline<b class="${late ? 'late' : ''}">${t.deadline ? esc(fmtD(t.deadline)) + (late ? ' · overdue' : '') : '—'}</b></div>
+      <div class="td-f">Priority<b>${pr}</b></div>
+      <div class="td-f">Created by<b>${esc(t.createdBy || 'Mokhtar')}</b></div>
+      <div class="td-f">${t.completedAt ? 'Completed' : 'Status'}<b class="${progress === 100 ? 'good' : ''}">${t.completedAt ? esc(new Date(t.completedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })) : st[0]}</b></div>
+      ${t.forwardedFrom ? `<div class="td-f">Forwarded by<b>${esc(t.forwardedFrom)}${t.forwardedAt ? ' · ' + esc(new Date(t.forwardedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })) : ''}</b></div>` : ''}
+      ${t.fromMeeting ? `<div class="td-f">From meeting<b id="td-meeting">loading...</b></div>` : ''}
+      ${t.fromMeeting ? `<div class="td-f full" id="td-imgs-wrap" style="display:none">Screenshots from the meeting<div class="td-imgs" id="td-imgs"></div></div>` : ''}
+    </div>`;
+  document.getElementById('td-modal').style.display = 'flex';
+  if (t.fromMeeting) loadTaskMeeting(t);
+}
+async function loadTaskMeeting(t) {
+  const mid = t.fromMeeting;
+  try {
+    let m = meetings[mid] || tdMeetingCache[mid];
+    if (!m) { m = (await db.ref('meetings/' + mid).once('value')).val(); if (m) tdMeetingCache[mid] = m; }
+    const el = document.getElementById('td-meeting');
+    if (!el) return;
+    if (!m) { el.textContent = 'meeting was deleted'; return; }
+    const canOpen = userRole === 'admin' || userRole === 'manager' || userRole === 'coordinator';
+    const label = `${esc(m.title || 'Meeting')} (${esc(m.date || '')})`;
+    el.innerHTML = canOpen ? `<span class="td-link" onclick="closeRegModal('td-modal'); showPage('meetings'); openMeetingModal('${esc(mid)}')">${label} →</span>` : label;
+    const key = Object.keys(m.items || {}).find(k => m.items[k].taskId === t.id);
+    if (!key || !m.items[key].imgCount) return;
+    const imgs = (await db.ref(`meeting_images/${mid}/${key}`).once('value')).val();
+    const box = document.getElementById('td-imgs');
+    if (!imgs || !box) return;
+    box.innerHTML = Object.values(imgs).map(src => `<img src="${src}" alt="Screenshot" onclick="viewImg(this.src)">`).join('');
+    document.getElementById('td-imgs-wrap').style.display = '';
+  } catch (e) {
+    const el = document.getElementById('td-meeting'); if (el) el.textContent = '—';
+  }
 }
 
 // ---------- forward a task (the person who received it passes it on, e.g. to a junior) ----------
