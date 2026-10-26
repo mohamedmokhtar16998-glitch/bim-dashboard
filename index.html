@@ -729,7 +729,8 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <input class="sb-input" type="text" id="new-member-username" placeholder="Username (e.g. hatem)" autocomplete="off">
 <input class="sb-input" type="password" id="new-member-pass" placeholder="Password (min 8 characters)" autocomplete="new-password">
 <select class="sb-select" id="new-member-role">
-<option value="member">🧑‍💻 Member</option>
+<option value="junior">🧑‍💻 Junior</option>
+<option value="senior">⭐ Senior</option>
 <option value="manager">💼 Manager</option>
 <option value="coordinator">📋 Meeting Coordinator</option>
 </select>
@@ -925,7 +926,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 <div class="tracker-head">
 <h1><i class="fa-solid fa-folder-tree"></i> Projects Task Tracker</h1>
-<button class="new-task-btn" data-roles="admin coordinator" onclick="openTaskModal()"><i class="fa-solid fa-plus"></i> New Task</button>
+<button class="new-task-btn" data-roles="admin coordinator" data-senior onclick="openTaskModal()"><i class="fa-solid fa-plus"></i> New Task</button>
 </div>
 <div class="reg-toolbar task-toolbar">
 <select id="tf-project" class="reg-select" onchange="setTaskFilters()" title="Project"></select>
@@ -939,7 +940,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <option value="ALL">All tasks</option>
 <option value="OVERDUE" id="tf-overdue-opt">⏰ Overdue (0)</option>
 </select>
-<select id="tf-archive" class="reg-select" data-roles="admin manager" onchange="setTaskFilters()" title="Archive">
+<select id="tf-archive" class="reg-select" data-roles="admin manager" data-senior onchange="setTaskFilters()" title="Archive">
 <option value="0">🟢 Active only</option>
 <option value="1">📦 Archived</option>
 </select>
@@ -1365,7 +1366,7 @@ applyThemeIcon();
 const ROLE_META = {
   admin:   { tag: 'Admin',           icon: '👑',    cls: 'pill-role-admin' },
   manager: { tag: 'General Manager', icon: '💼',    cls: 'pill-role-manager' },
-  member:  { tag: 'Member',          icon: '🧑‍💻', cls: 'pill-role-khaled' },
+  member:  { tag: 'Team Member',     icon: '🧑‍💻', cls: 'pill-role-khaled' },
   coordinator: { tag: 'Meeting Coordinator', icon: '📋', cls: 'pill-role-coordinator' }
 };
 const DEFAULT_PROJECTS = [
@@ -1601,8 +1602,10 @@ function renderTeam() {
   const sel = document.getElementById('assignee-input');
   if (sel) {
     const current = sel.value;
-    sel.innerHTML = Object.values(teamMembers).filter(p => p.name)
-      .map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('');
+    sel.innerHTML = isSenior()
+      ? seniorTargets().map(n => `<option value="${esc(n)}">${n === me.name ? 'Me (' + esc(n) + ')' : esc(n)}</option>`).join('')
+      : Object.values(teamMembers).filter(p => p.name)
+        .map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('');
     if (current) sel.value = current;
   }
   const tc = document.getElementById('sb-team-count'); if (tc) tc.textContent = Object.keys(teamMembers || {}).length;
@@ -1623,37 +1626,49 @@ function renderTeam() {
       li.innerHTML = `
 <div class="team-row-info">
 <span class="team-row-name">${esc(p.name)} ${meta.icon}</span>
-${uid === me.uid ? `<span class="team-role-tag">${esc(meta.tag)}</span>` : `<select class="team-role-select" title="Change role" onchange="changeTeamRole('${esc(uid)}', this.value, this)">${['member', 'manager', 'coordinator'].map(r => `<option value="${r}" ${p.role === r ? 'selected' : ''}>${ROLE_META[r].icon} ${ROLE_META[r].tag}</option>`).join('')}</select>`}
+${uid === me.uid ? `<span class="team-role-tag">${esc(meta.tag)}</span>` : `<select class="team-role-select" title="Change role (only you can see Junior / Senior)" onchange="changeTeamRole('${esc(uid)}', this.value, this)">${ADMIN_ROLE_KEYS.map(r => `<option value="${r}" ${adminRoleKey(p) === r ? 'selected' : ''}>${ADMIN_ROLES[r].label}</option>`).join('')}</select>`}
 <span class="team-row-user">@${esc(p.username || '')}</span>
 </div>
 ${action}`;
       list.appendChild(li);
     });
 }
-async function changeTeamRole(uid, role, sel) {
+// what the admin picks -> what is stored. Junior and Senior are both "member"; the level is the private part.
+const ADMIN_ROLES = {
+  junior:      { label: '🧑‍💻 Junior',              role: 'member', level: 'junior' },
+  senior:      { label: '⭐ Senior',                role: 'member', level: 'senior' },
+  manager:     { label: '💼 General Manager',       role: 'manager', level: null },
+  coordinator: { label: '📋 Meeting Coordinator',   role: 'coordinator', level: null }
+};
+const ADMIN_ROLE_KEYS = Object.keys(ADMIN_ROLES);
+function adminRoleKey(p) { return p.role === 'member' ? (p.level === 'senior' ? 'senior' : 'junior') : p.role; }
+async function changeTeamRole(uid, key, sel) {
   if (userRole !== 'admin' || !teamMembers[uid] || uid === me.uid) return;
-  if (!['member', 'manager', 'coordinator'].includes(role)) return;
+  const r = ADMIN_ROLES[key];
   const p = teamMembers[uid];
-  if (!confirm(`Change ${p.name}'s role to ${ROLE_META[role].tag}?\nThey'll get the new access the next time they open the site.`)) { sel.value = p.role; return; }
+  if (!r) { sel.value = adminRoleKey(p); return; }
+  const label = r.label.replace(/^\S+\s/, '');
+  if (!confirm(`Change ${p.name} to ${label}?\nThey'll get the new access the next time they open the site.`)) { sel.value = adminRoleKey(p); return; }
   try {
-    await db.ref('users/' + uid + '/role').set(role);
-    logActivity(`Mokhtar changed ${p.name}'s role to ${ROLE_META[role].tag}`);
-    toast(`${p.name} is now ${ROLE_META[role].tag}`, 'success');
-  } catch (e) { alert('Could not change the role: ' + e.message); sel.value = p.role; }
+    await db.ref('users/' + uid).update({ role: r.role, level: r.level });
+    logActivity(`Mokhtar changed ${p.name}'s access`); // the log is visible to the manager, so the level isn't written there
+    toast(`${p.name} is now ${label}`, 'success');
+  } catch (e) { alert('Could not change the role: ' + e.message); sel.value = adminRoleKey(p); }
 }
 async function createTeamAccount() {
   if (userRole !== 'admin') return;
   const name = document.getElementById('new-member-name').value.trim();
   const username = document.getElementById('new-member-username').value.trim().toLowerCase();
   const pass = document.getElementById('new-member-pass').value;
-  const role = document.getElementById('new-member-role').value;
+  const pick = ADMIN_ROLES[document.getElementById('new-member-role').value];
   if (!name || !/^[a-z0-9._-]{3,30}$/.test(username)) { alert("Enter a display name and a username (letters/numbers only, 3+ characters)."); return; }
   if (pass.length < 8) { alert("Password must be at least 8 characters."); return; }
-  if (role !== 'member' && role !== 'manager' && role !== 'coordinator') return;
+  if (!pick) return;
+  const role = pick.role;
   const secondary = firebase.apps.find(a => a.name === 'secondary') || firebase.initializeApp(firebaseConfig, 'secondary');
   try {
     const cred = await secondary.auth().createUserWithEmailAndPassword(username + EMAIL_DOMAIN, pass);
-    await db.ref('users/' + cred.user.uid).set({ name, username, role });
+    await db.ref('users/' + cred.user.uid).set(pick.level ? { name, username, role, level: pick.level } : { name, username, role });
     await secondary.auth().signOut();
     document.getElementById('new-member-name').value = '';
     document.getElementById('new-member-username').value = '';
@@ -1938,7 +1953,7 @@ function checkPermissions() {
   document.getElementById('sb-user-name').textContent = `${me.name} ${(ROLE_META[me.role] || ROLE_META.member).icon}`;
   document.getElementById('sb-user-role').textContent = `${(ROLE_META[me.role] || ROLE_META.member).tag} · @${me.username || ''}`;
   document.querySelectorAll('[data-roles]').forEach(el => {
-    el.classList.toggle('hidden', !el.dataset.roles.split(' ').includes(userRole));
+    el.classList.toggle('hidden', !el.dataset.roles.split(' ').includes(userRole) && !(el.hasAttribute('data-senior') && isSenior()));
   });
   if (userRole !== 'admin') document.getElementById('menu-badge').classList.add('hidden');
   renderListControls();
@@ -1946,8 +1961,23 @@ function checkPermissions() {
   renderAll();
 }
 
+// Junior / Senior are both "member" accounts; only the admin sees the difference (users/{uid}/level).
+function isSenior() { return userRole === 'member' && !!me && me.level === 'senior'; }
+const isJuniorProfile = p => !!p && p.role === 'member' && p.level !== 'senior';
+// tasks the senior made himself, or passed on to a junior
+function seniorOwns(t) { return isSenior() && (t.createdBy === me.name || t.forwardedFrom === me.name); }
+// he may edit only what he created himself (never meeting tasks)
+function seniorCanEdit(t) { return isSenior() && t.createdBy === me.name && !t.fromMeeting; }
+function seniorCanArchive(t) { return isSenior() && (t.assignee === me.name || seniorOwns(t)); }
+// who a senior can give work to: himself + every junior
+function seniorTargets() {
+  const juniors = Object.values(teamMembers || {}).filter(p => p.name && isJuniorProfile(p) && p.name !== me.name)
+    .map(p => p.name).sort((a, b) => a.localeCompare(b));
+  return [me.name, ...new Set(juniors)];
+}
 function visibleToMe(t) {
-  return userRole !== 'member' || t.assignee === me.name || t.forwardedFrom === me.name;
+  if (userRole !== 'member') return true;
+  return t.assignee === me.name || t.forwardedFrom === me.name || (isSenior() && t.createdBy === me.name);
 }
 
 function renderAll() {
@@ -2351,36 +2381,42 @@ function listOptions(list, selected) {
   return optionsHtml(pairs, selected);
 }
 
-function openTaskModal() { if (userRole !== 'admin' && userRole !== 'coordinator') return; document.getElementById('task-modal').style.display = 'flex'; setTimeout(() => document.getElementById('task-input').focus(), 50); }
+function openTaskModal() { if (userRole !== 'admin' && userRole !== 'coordinator' && !isSenior()) return; renderTeam(); document.getElementById('task-modal').style.display = 'flex'; setTimeout(() => document.getElementById('task-input').focus(), 50); }
 function closeTaskModal() { document.getElementById('task-modal').style.display = 'none'; }
 
-function enableInlineTaskEdit(id) { if (userRole !== 'admin') return; editingTaskId = id; renderTasks(); }
+function enableInlineTaskEdit(id) { const t = tasks.find(x => x.id === id); if (userRole !== 'admin' && !(t && seniorCanEdit(t))) return; editingTaskId = id; renderTasks(); }
 function cancelInlineTaskEdit() { editingTaskId = null; renderTasks(); }
 
 async function saveInlineTaskEdit(id) {
-  if (userRole !== 'admin') return;
+  const t = tasks.find(x => x.id === id);
+  if (userRole !== 'admin' && !(t && seniorCanEdit(t))) return;
   const upd = {
     project: document.getElementById(`edit-proj-${id}`).value,
     type: document.getElementById(`edit-type-${id}`).value,
     details: document.getElementById(`edit-note-${id}`).value,
     assignee: document.getElementById(`edit-assignee-${id}`).value
   };
+  if (isSenior() && !seniorTargets().includes(upd.assignee)) { alert('You can give this task to yourself or a junior only.'); return; }
   editingTaskId = null;
-  await db.ref('tasks/' + id).update(upd);
+  try { await db.ref('tasks/' + id).update(upd); }
+  catch (e) { alert("Couldn't save: " + (e.code === 'PERMISSION_DENIED' ? 'the database rules need updating.' : e.message)); return; }
   toast('Task updated', 'success');
-  logActivity(`Mokhtar updated task: "${upd.details || upd.type}"`);
+  logActivity(`${me.name} updated task: "${upd.details || upd.type}"`);
 }
 
 async function updateDeadlineDirect(id, newDate) {
-  if (userRole !== 'admin' && userRole !== 'manager') return;
+  const t = tasks.find(x => x.id === id);
+  if (userRole !== 'admin' && userRole !== 'manager' && !(t && seniorCanEdit(t))) return;
   await db.ref(`tasks/${id}/deadline`).set(newDate);
   logActivity(`Deadline updated for "${taskNameById(id)}" to [${newDate}]`);
 }
 
 async function setTaskArchiveStatus(id, archiveState) {
-  if (userRole !== 'admin') return;
-  await db.ref(`tasks/${id}/archived`).set(archiveState);
-  logActivity(`Mokhtar ${archiveState ? 'Archived' : 'Unarchived'}: "${taskNameById(id)}"`);
+  const t = tasks.find(x => x.id === id);
+  if (userRole !== 'admin' && !(t && seniorCanArchive(t))) return;
+  try { await db.ref(`tasks/${id}/archived`).set(archiveState); }
+  catch (e) { alert("Couldn't archive: " + (e.code === 'PERMISSION_DENIED' ? 'the database rules need updating.' : e.message)); return; }
+  logActivity(`${me.name} ${archiveState ? 'Archived' : 'Unarchived'}: "${taskNameById(id)}"`);
 }
 
 function renderTasks() {
@@ -2420,8 +2456,8 @@ function renderTasks() {
     li.className = `task-item priority-${priority} status-${progress}${late ? ' is-overdue' : ''}${fx.cls}`;
     li.setAttribute('style', fx.style);
 
-    if (userRole === 'admin' && editingTaskId === task.id) {
-      const names = teamNames();
+    if ((userRole === 'admin' || seniorCanEdit(task)) && editingTaskId === task.id) {
+      const names = isSenior() ? seniorTargets() : teamNames();
       if (task.assignee && !names.includes(task.assignee)) names.push(task.assignee);
       li.innerHTML = `
 <div class="inline-edit-fields-box">
@@ -2444,21 +2480,30 @@ function renderTasks() {
         else if (progress === 100) archiveActionBtn = `<button class="archive-btn" onclick="setTaskArchiveStatus('${id}', true)"><i class="fa-solid fa-box-archive"></i></button>`;
       }
       const mine = me && task.assignee === me.name;
-      const forwardBtn = (userRole !== 'admin' && mine && !task.archived && progress !== 100)
+      const sEdit = seniorCanEdit(task), sArch = seniorCanArchive(task);
+      // juniors can't forward; a senior forwards what he holds, made, or already passed to a junior
+      const canFwd = isSenior() ? (mine || seniorOwns(task)) : (userRole !== 'admin' && userRole !== 'member' && mine);
+      const forwardBtn = (canFwd && !task.archived && progress !== 100)
         ? `<button class="edit-btn" title="Forward this task to someone else" onclick="openForwardModal('${id}')"><i class="fa-solid fa-share"></i></button>` : '';
       const actions = userRole === 'admin' ? `
 <button class="edit-btn" onclick="enableInlineTaskEdit('${id}')"><i class="fa-solid fa-user-pen"></i></button>
 ${statusCycleBtn}${archiveActionBtn}
-<button class="delete-btn" onclick="deleteTask('${id}')"><i class="fa-solid fa-trash-can"></i></button>` : (userRole === 'member' && !mine ? '' : statusCycleBtn) + forwardBtn;
+<button class="delete-btn" onclick="deleteTask('${id}')"><i class="fa-solid fa-trash-can"></i></button>` : isSenior() ? (
+        (sEdit && !task.archived ? `<button class="edit-btn" title="Edit" onclick="enableInlineTaskEdit('${id}')"><i class="fa-solid fa-user-pen"></i></button>` : '') +
+        (mine ? statusCycleBtn : '') + forwardBtn +
+        (sArch ? (task.archived ? `<button class="unarchive-btn" title="Unarchive" onclick="setTaskArchiveStatus('${id}', false)"><i class="fa-solid fa-box-open"></i></button>`
+          : progress === 100 ? `<button class="archive-btn" title="Archive" onclick="setTaskArchiveStatus('${id}', true)"><i class="fa-solid fa-box-archive"></i></button>` : '') : '')
+      ) : (userRole === 'member' && !mine ? '' : statusCycleBtn) + forwardBtn;
+      const planHere = canPlan || sEdit;
 
-      const priorityHtml = canPlan ? `
+      const priorityHtml = planHere ? `
 <select class="inline-priority-select" onchange="changePriorityDirect('${id}', this.value)">
 <option value="high" ${priority === 'high' ? 'selected' : ''}>🔥 High</option>
 <option value="medium" ${priority === 'medium' ? 'selected' : ''}>🟡 Med</option>
 <option value="low" ${priority === 'low' ? 'selected' : ''}>🟢 Low</option>
 </select>` : `<span class="viewer-priority-badge badge-p-${priority}">${priority}</span>`;
 
-      const deadlineHtml = canPlan
+      const deadlineHtml = planHere
         ? `<input type="date" class="inline-edit-deadline-input" value="${esc(task.deadline)}" onchange="updateDeadlineDirect('${id}', this.value)">`
         : (task.deadline ? `<span class="deadline-badge"><i class="fa-regular fa-calendar-check"></i> Due: ${esc(task.deadline)}</span>` : '');
 
@@ -2469,6 +2514,7 @@ ${statusCycleBtn}${archiveActionBtn}
 ${task.assignee ? `<span class="assignee-badge">To: ${esc(task.assignee)}</span>` : ''}
 ${task.forwardedFrom ? `<span class="assignee-badge" style="opacity:.85" title="Forwarded"><i class="fa-solid fa-share"></i> from ${esc(task.forwardedFrom)}</span>` : ''}
 ${task.fromMeeting ? `<span class="type-badge" title="Created from a meeting summary"><i class="fa-solid fa-people-group"></i> Meeting</span>` : ''}
+${isSenior() && task.fromMeeting && !task.archived ? `<span class="assignee-badge" style="opacity:.8" title="Meeting tasks: you can complete, forward or archive them, not edit them"><i class="fa-solid fa-lock"></i> Locked</span>` : ''}
 ${deadlineHtml}
 ${late ? `<span class="overdue-badge"><i class="fa-solid fa-triangle-exclamation"></i> OVERDUE</span>` : ''}
 <span class="task-text">${esc(task.details || 'No notes')}</span>
@@ -2492,7 +2538,7 @@ ${actions}
 }
 
 async function addNewTask() {
-  if (userRole !== 'admin' && userRole !== 'coordinator') return;
+  if (userRole !== 'admin' && userRole !== 'coordinator' && !isSenior()) return;
   const newTask = {
     project: document.getElementById('project-input').value,
     type: document.getElementById('type-input').value,
@@ -2503,7 +2549,9 @@ async function addNewTask() {
     progress: 0, archived: false, createdBy: me.name
   };
   if (!newTask.assignee) { alert("Choose who the task is for."); return; }
-  await db.ref('tasks').push(newTask);
+  if (isSenior() && !seniorTargets().includes(newTask.assignee)) { alert('You can give a task to yourself or a junior only.'); return; }
+  try { await db.ref('tasks').push(newTask); }
+  catch (e) { alert("Couldn't add the task: " + (e.code === 'PERMISSION_DENIED' ? 'the database rules need updating.' : e.message)); return; }
   toast('Task added and assigned to ' + newTask.assignee, 'success');
   document.getElementById('task-input').value = '';
   document.getElementById('deadline-input').value = '';
@@ -2523,7 +2571,8 @@ async function cycleProgress(id) {
 }
 
 async function changePriorityDirect(id, selectedPriority) {
-  if (userRole !== 'admin' && userRole !== 'manager') return;
+  const t = tasks.find(x => x.id === id);
+  if (userRole !== 'admin' && userRole !== 'manager' && !(t && seniorCanEdit(t))) return;
   await db.ref(`tasks/${id}/priority`).set(selectedPriority);
   logActivity(`Priority changed for "${taskNameById(id)}"`);
 }
@@ -3408,19 +3457,24 @@ async function loadTaskMeeting(t) {
 let fwdTaskId = null;
 function openForwardModal(id) {
   const t = tasks.find(x => x.id === id);
-  if (!t || !me || t.assignee !== me.name) return;
+  if (!t || !me) return;
+  const senior = isSenior();
+  if (senior ? !(t.assignee === me.name || seniorOwns(t)) : (userRole === 'member' || t.assignee !== me.name)) return;
   fwdTaskId = id;
   document.getElementById('fwd-task-text').innerHTML = `<b>${esc(labelFor(getProjects(), t.project))}</b> — ${esc(t.details || '')}`;
-  const people = teamPeople().filter(p => p.name !== me.name);
+  const people = senior
+    ? seniorTargets().filter(n => n !== t.assignee).map(n => ({ name: n, label: n === me.name ? `Me (${n})` : n }))
+    : teamPeople().filter(p => p.name !== me.name).map(p => ({ name: p.name, label: (p.role === 'admin' ? '👑 ' : '') + p.name }));
   document.getElementById('fwd-to').innerHTML = people.length
-    ? people.map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('')
-    : '<option value="">No one else on the team</option>';
+    ? people.map(p => `<option value="${esc(p.name)}">${esc(p.label)}</option>`).join('')
+    : `<option value="">${senior ? 'No juniors on the team yet' : 'No one else on the team'}</option>`;
   document.getElementById('fwd-modal').style.display = 'flex';
 }
 async function confirmForward() {
   const to = document.getElementById('fwd-to').value;
   const t = tasks.find(x => x.id === fwdTaskId);
   if (!to || !t) return;
+  if (isSenior() && !seniorTargets().includes(to)) return;
   try {
     await db.ref('tasks/' + fwdTaskId).update({ assignee: to, forwardedFrom: me.name, forwardedAt: Date.now() });
     logActivity(`${me.name} forwarded "${String(t.details || '').slice(0, 60)}" to ${to}`);
