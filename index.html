@@ -151,6 +151,14 @@ h1 i { color: #4a72b2; margin-right: 8px; }
 .team-row.role-manager .team-role-tag { background: rgba(241,196,15,0.12); color: #f1c40f; border-color: rgba(241,196,15,0.3); }
 .team-revoke-btn { grid-column: auto; width: auto; margin: 0; flex-shrink: 0; padding: 6px 12px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; background: rgba(231, 76, 60, 0.12); border: 1px solid rgba(231, 76, 60, 0.35); color: #e74c3c; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
 .team-revoke-btn:hover { background: #e74c3c; color: #fff; }
+.team-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.team-mini-btn { padding: 6px 9px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; background: rgba(74,114,178,0.14); border: 1px solid rgba(74,114,178,0.4); color: #8fb3ea; border-radius: 6px; cursor: pointer; }
+.team-mini-btn:hover { background: #4a72b2; color: #fff; }
+.team-pw { font-family: 'Roboto Mono', monospace; font-size: 11px; color: #f6d58e; background: rgba(240,180,41,0.1); border: 1px solid rgba(240,180,41,0.3); border-radius: 5px; padding: 2px 7px; user-select: all; }
+.stopped-box { margin-top: 14px; }
+.stopped-box summary { cursor: pointer; font-size: 12px; font-weight: 700; color: #8fa0bc; }
+.stopped-row { border-left-color: #7f8c8d !important; opacity: .85; }
+.gate-forgot { display: block; margin-top: 12px; text-align: center; font-size: 12px; color: #8fa0bc; cursor: pointer; text-decoration: underline; background: none; border: none; width: 100%; }
 .team-you-tag { font-size: 10px; color: #5c6e8c; font-weight: 600; flex-shrink: 0; }
 .hidden { display: none !important; }
 .landing-gate-wrapper { position: relative; z-index: 999; max-width: 460px; margin: 80px auto; background: rgba(17, 22, 37, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.7); text-align: center; box-sizing: border-box; }
@@ -489,6 +497,24 @@ textarea.mt-in { min-height: 64px; resize: vertical; line-height: 1.45; }
 .mt-item.hold { opacity: .8; background: repeating-linear-gradient(135deg, rgba(25,33,56,0.85) 0 14px, rgba(92,110,140,0.12) 14px 28px); }
 .mt-idx { font-family: 'Roboto Mono', monospace; font-weight: 700; color: #6f97d6; font-size: 13px; padding-top: 4px; }
 .mt-fields { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+.mt-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; background: rgba(24,31,50,0.7); min-height: 38px; box-sizing: border-box; }
+.mt-chip { display: inline-flex; align-items: center; gap: 6px; background: #2a4f7c; color: #fff; border-radius: 14px; padding: 3px 6px 3px 10px; font-size: 12px; text-transform: none; letter-spacing: 0; font-weight: 600; }
+.mt-chip button { background: none; border: none; color: #cfe0f5; cursor: pointer; font-size: 11px; padding: 0 2px; }
+.mt-chip button:hover { color: #e74c3c; }
+.mt-chips select.mt-in { width: auto; flex: 1; min-width: 150px; padding: 5px 8px; border-style: dashed; }
+.mt-st-list { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.shared-badge { background: rgba(240,180,41,0.16) !important; color: #f6d58e !important; border-color: rgba(240,180,41,0.35) !important; }
+.proj-cards { display: flex; gap: 12px; overflow-x: auto; padding: 2px 2px 10px; margin: 0 0 14px; scrollbar-width: thin; }
+.proj-card { flex: 0 0 210px; background: rgba(24,33,56,0.9); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 12px; display: flex; gap: 11px; align-items: center; cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s; text-align: left; font-family: inherit; color: inherit; }
+.proj-card:hover { border-color: rgba(93,173,226,0.5); transform: translateY(-1px); }
+.proj-card.sel { border-color: #5dade2; box-shadow: 0 0 0 2px rgba(93,173,226,0.25); }
+.proj-ring { flex: 0 0 48px; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; font-size: 11.5px; font-weight: 700; color: #fff; }
+.proj-ring::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: #182138; }
+.proj-ring span { position: relative; z-index: 1; }
+.proj-name { font-size: 12.5px; font-weight: 700; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; }
+.proj-mini { font-size: 10.5px; color: #9fb2c8; line-height: 1.6; white-space: nowrap; }
+.proj-mini i { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 3px; vertical-align: 1px; }
+.proj-mini b { color: #e74c3c; }
 .mt-imgs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; align-items: center; }
 .mt-thumb { position: relative; width: 120px; height: 78px; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #0b0f19; cursor: zoom-in; }
 .mt-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -705,6 +731,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <label>Security Password</label>
 <input type="password" id="gate-pass-input" placeholder="••••••••">
 <button class="gate-enter-btn" onclick="submitGateLogin()"><i class="fa-solid fa-user-shield"></i> Secure Login</button>
+<button type="button" class="gate-forgot" onclick="alert('Forgot your password?\n\nContact Mokhtar — he will reset your account and send you a password. Your tasks stay exactly as they are.')">Forgot password?</button>
 </div>
 </div>
 
@@ -736,6 +763,11 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </select>
 <button class="sb-btn" onclick="createTeamAccount()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
 <ul class="team-list" id="team-members-list"></ul>
+<details class="stopped-box" id="stopped-box">
+<summary><i class="fa-solid fa-user-slash"></i> Stopped accounts <span id="stopped-count">(0)</span></summary>
+<p class="sb-note" style="margin:8px 0;">Old logins left after Revoke or Reset. They can't open the site. Delete them to keep the list clean.</p>
+<ul class="team-list" id="stopped-list"></ul>
+</details>
 </div>
 </details>
 
@@ -896,7 +928,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <button class="page-tab" data-page="meetings" data-roles="admin manager coordinator" onclick="showPage('meetings')"><i class="fa-solid fa-people-group"></i> Meetings</button>
 </div>
 <div id="tasks-page">
-<div class="dashboard-stats-wrapper" id="stats-wrapper-layout">
+<div class="dashboard-stats-wrapper" id="stats-wrapper-layout" data-roles="admin manager member">
 <div class="analytics-grid">
 <div class="analytics-card card-glow-all">
 <span class="analytics-num" id="count-all">0</span>
@@ -924,6 +956,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 </div>
 </div>
+<div class="proj-cards" id="proj-stats" data-roles="admin manager" title="Click a project to show only its tasks"></div>
 <div class="tracker-head">
 <h1><i class="fa-solid fa-folder-tree"></i> Projects Task Tracker</h1>
 <button class="new-task-btn" data-roles="admin coordinator" data-senior onclick="openTaskModal()"><i class="fa-solid fa-plus"></i> New Task</button>
@@ -1222,6 +1255,7 @@ let tasks = [];
 let projectsData = null;       // settings/projects (null = defaults)
 let typesData = null;          // settings/types (null = defaults)
 let pwRequests = {};           // admin: all password requests
+let credentials = {};          // admin only: login email + the password the admin set, per account
 let myPwRequest = null;        // non-admin: my own request
 let lastPresenceData = null;
 let currentCelebration = null;
@@ -1421,7 +1455,7 @@ function listFrom(data, defaults) {
   return Object.keys(data).map(k => ({ key: k, ...data[k] })).sort((a, b) => (a.order || 0) - (b.order || 0));
 }
 const getProjects = () => listFrom(projectsData, DEFAULT_PROJECTS);
-const getTypes = () => listFrom(typesData, DEFAULT_TYPES);
+const getTypes = () => { const l = listFrom(typesData, DEFAULT_TYPES); return l.some(x => x.value === 'Other') ? l : [...l, { value: 'Other', label: '📌 Other' }]; };
 function labelFor(list, value) {
   const f = list.find(x => x.value === value);
   return f ? f.label : value;
@@ -1437,7 +1471,11 @@ async function submitGateLogin() {
   const u = document.getElementById('gate-user-input').value.trim().toLowerCase();
   const p = document.getElementById('gate-pass-input').value;
   if (!u || !p) { alert("Please enter your username and password."); return; }
-  const email = u.includes('@') ? u : u + EMAIL_DOMAIN;
+  let email = u.includes('@') ? u : u + EMAIL_DOMAIN;
+  if (!u.includes('@')) {
+    // after a password reset the account gets a new login behind the same username
+    try { const a = (await db.ref('login_alias/' + u.replace(/[.#$\[\]\/]/g, '_')).once('value')).val(); if (a) email = a; } catch (e) {}
+  }
   try {
     await auth.signInWithEmailAndPassword(email, p);
   } catch (e) {
@@ -1516,6 +1554,7 @@ auth.onAuthStateChanged(async user => {
   }
   if (userRole === 'admin') {
     listen(db.ref('password_requests'), 'value', snap => { pwRequests = snap.val() || {}; renderPwRequests(); });
+    listen(db.ref('credentials'), 'value', snap => { credentials = snap.val() || {}; renderTeam(); });
   }
   checkPermissions();
   renderPasswordSection();
@@ -1609,6 +1648,7 @@ function renderTeam() {
     if (current) sel.value = current;
   }
   const tc = document.getElementById('sb-team-count'); if (tc) tc.textContent = Object.keys(teamMembers || {}).length;
+  renderStoppedAccounts();
   const list = document.getElementById('team-members-list');
   if (!list || userRole !== 'admin') return;
   list.innerHTML = '';
@@ -1620,14 +1660,20 @@ function renderTeam() {
       const meta = ROLE_META[p.role] || ROLE_META.member;
       const li = document.createElement('li');
       li.className = `team-row role-${esc(p.role)}`;
+      const c = credentials[uid];
       const action = uid === me.uid
         ? `<span class="team-you-tag">You</span>`
-        : `<button class="team-revoke-btn" title="Revoke access" onclick="revokeTeamAccount('${esc(uid)}')"><i class="fa-solid fa-user-slash"></i> Revoke</button>`;
+        : `<div class="team-actions">
+<button class="team-mini-btn" title="Show the password you set for this account" onclick="toggleTeamPw('${esc(uid)}')"><i class="fa-solid fa-eye"></i></button>
+<button class="team-mini-btn" title="Reset password (forgotten password)" onclick="resetTeamAccount('${esc(uid)}')"><i class="fa-solid fa-key"></i> Reset</button>
+<button class="team-revoke-btn" title="Revoke access" onclick="revokeTeamAccount('${esc(uid)}')"><i class="fa-solid fa-user-slash"></i> Revoke</button></div>`;
+      const pwShown = shownPw[uid] ? (c && c.password ? `<span class="team-pw" title="Password you set${c.setAt ? ' on ' + new Date(c.setAt).toLocaleDateString('en-GB') : ''}. The user may have changed it since.">🔑 ${esc(c.password)}</span>` : `<span class="team-pw">no saved password — use Reset once</span>`) : '';
       li.innerHTML = `
 <div class="team-row-info">
 <span class="team-row-name">${esc(p.name)} ${meta.icon}</span>
 ${uid === me.uid ? `<span class="team-role-tag">${esc(meta.tag)}</span>` : `<select class="team-role-select" title="Change role (only you can see Junior / Senior)" onchange="changeTeamRole('${esc(uid)}', this.value, this)">${ADMIN_ROLE_KEYS.map(r => `<option value="${r}" ${adminRoleKey(p) === r ? 'selected' : ''}>${ADMIN_ROLES[r].label}</option>`).join('')}</select>`}
 <span class="team-row-user">@${esc(p.username || '')}</span>
+${pwShown}
 </div>
 ${action}`;
       list.appendChild(li);
@@ -1665,10 +1711,21 @@ async function createTeamAccount() {
   if (pass.length < 8) { alert("Password must be at least 8 characters."); return; }
   if (!pick) return;
   const role = pick.role;
-  const secondary = firebase.apps.find(a => a.name === 'secondary') || firebase.initializeApp(firebaseConfig, 'secondary');
+  if (Object.values(teamMembers || {}).some(p => String(p.username || '').toLowerCase() === username)) { alert("That username is already taken."); return; }
+  const secondary = secondaryApp();
   try {
-    const cred = await secondary.auth().createUserWithEmailAndPassword(username + EMAIL_DOMAIN, pass);
+    let email = username + EMAIL_DOMAIN, cred;
+    try { cred = await secondary.auth().createUserWithEmailAndPassword(email, pass); }
+    catch (e) {
+      if (e.code !== 'auth/email-already-in-use') throw e;
+      // an old, stopped login still holds this name: give the new account its own login behind the same username
+      email = `${username}.r${Date.now().toString(36)}${EMAIL_DOMAIN}`;
+      cred = await secondary.auth().createUserWithEmailAndPassword(email, pass);
+    }
     await db.ref('users/' + cred.user.uid).set(pick.level ? { name, username, role, level: pick.level } : { name, username, role });
+    await db.ref('credentials/' + cred.user.uid).set({ email, password: pass, name, username, setAt: Date.now() });
+    if (email !== username + EMAIL_DOMAIN) await db.ref('login_alias/' + aliasKey(username)).set(email);
+    else await db.ref('login_alias/' + aliasKey(username)).remove().catch(() => {});
     await secondary.auth().signOut();
     document.getElementById('new-member-name').value = '';
     document.getElementById('new-member-username').value = '';
@@ -1679,10 +1736,88 @@ async function createTeamAccount() {
     alert(e.code === 'auth/email-already-in-use' ? "That username is already taken." : "Could not create account: " + e.message);
   }
 }
+// ---------- saved passwords, reset, stopped logins (admin only) ----------
+const shownPw = {};
+const aliasKey = u => String(u || '').toLowerCase().replace(/[.#$\[\]\/]/g, '_');
+function loginEmailOf(uid) { const c = credentials[uid], p = teamMembers[uid]; return (c && c.email) || ((p && p.username) ? p.username + EMAIL_DOMAIN : ''); }
+function toggleTeamPw(uid) { shownPw[uid] = !shownPw[uid]; renderTeam(); }
+// keep a record of an old login so it can be cleaned up later
+async function markStopped(uid, reason) {
+  const p = teamMembers[uid] || {}, c = credentials[uid] || {};
+  await db.ref('credentials/' + uid).set({
+    email: loginEmailOf(uid), password: c.password || null, name: p.name || c.name || '', username: p.username || c.username || '',
+    setAt: c.setAt || null, stopped: Date.now(), reason
+  });
+}
+function secondaryApp() { return firebase.apps.find(a => a.name === 'secondary') || firebase.initializeApp(firebaseConfig, 'secondary'); }
+async function resetTeamAccount(uid) {
+  if (userRole !== 'admin' || uid === me.uid || !teamMembers[uid]) return;
+  const p = teamMembers[uid], c = credentials[uid];
+  const saved = c && c.password;
+  let pw = prompt(`Reset ${p.name}'s password.\n\n${saved ? 'Leave empty to go back to the saved password (' + saved + '),\nor type a new one (min 8 characters):' : 'Type the new password (min 8 characters):'}`, '');
+  if (pw === null) return;
+  pw = pw.trim() || saved || '';
+  if (pw.length < 8) { alert('Password must be at least 8 characters.'); return; }
+  if (!confirm(`Reset ${p.name}?\n\nUsername stays: ${p.username}\nNew password: ${pw}\n\nThe old password will stop working. Tasks are not affected.`)) return;
+  const email = `${String(p.username || 'user').toLowerCase()}.r${Date.now().toString(36)}${EMAIL_DOMAIN}`;
+  const sec = secondaryApp();
+  try {
+    const cred = await sec.auth().createUserWithEmailAndPassword(email, pw);
+    await sec.auth().signOut();
+    const newUid = cred.user.uid;
+    const prof = { name: p.name, username: p.username, role: p.role };
+    if (p.level) prof.level = p.level;
+    await db.ref('users/' + newUid).set(prof);
+    await db.ref('credentials/' + newUid).set({ email, password: pw, name: p.name, username: p.username, setAt: Date.now() });
+    await db.ref('login_alias/' + aliasKey(p.username)).set(email);
+    await markStopped(uid, 'reset');
+    await db.ref('users/' + uid).remove();
+    await db.ref('presence/' + uid).remove().catch(() => {});
+    await db.ref('password_requests/' + uid).remove().catch(() => {});
+    logActivity(`Mokhtar reset the password for ${p.name}`);
+    alert(`Done ✔\n\nUsername: ${p.username}\nPassword: ${pw}\n\nSend these to ${p.name}.`);
+  } catch (e) {
+    alert('Could not reset: ' + (e.code === 'PERMISSION_DENIED' ? 'the database rules need updating.' : e.message));
+  }
+}
+function renderStoppedAccounts() {
+  const list = document.getElementById('stopped-list');
+  if (!list || userRole !== 'admin') return;
+  const ids = Object.keys(credentials).filter(k => credentials[k] && credentials[k].stopped).sort((a, b) => credentials[b].stopped - credentials[a].stopped);
+  document.getElementById('stopped-count').textContent = `(${ids.length})`;
+  document.getElementById('stopped-box').classList.toggle('hidden', !ids.length);
+  list.innerHTML = ids.map(k => { const c = credentials[k];
+    return `<li class="team-row stopped-row"><div class="team-row-info"><span class="team-row-name">${esc(c.name || '—')}</span><span class="team-role-tag">${c.reason === 'reset' ? 'Old login (reset)' : 'Revoked'}</span><span class="team-row-user">${esc(c.email || '')}</span></div>
+<button class="team-revoke-btn" title="Delete this old login for good" onclick="deleteStoppedAccount('${esc(k)}')"><i class="fa-solid fa-trash-can"></i> Delete</button></li>`; }).join('');
+}
+async function deleteStoppedAccount(uid) {
+  const c = credentials[uid];
+  if (userRole !== 'admin' || !c || !c.stopped) return;
+  if (teamMembers[uid]) { alert('This account is active again — revoke it first.'); return; }
+  if (!confirm(`Delete the old login of ${c.name || c.email} permanently?`)) return;
+  const sec = secondaryApp();
+  let removedFromFirebase = false;
+  if (c.email && c.password) {
+    try {
+      const r = await sec.auth().signInWithEmailAndPassword(c.email, c.password);
+      await r.user.delete(); removedFromFirebase = true;
+    } catch (e) {
+      if (e.code === 'auth/user-not-found') removedFromFirebase = true; // already gone
+    }
+    try { await sec.auth().signOut(); } catch (e) {}
+  }
+  if (!removedFromFirebase) {
+    const ok = confirm(`The site can't delete this login by itself (the user changed the password, or it was made before passwords were saved).\n\nDelete it yourself in Firebase Console → Authentication → search:\n${c.email}\n\nPress OK to remove it from this list now.`);
+    if (!ok) return;
+  }
+  await db.ref('credentials/' + uid).remove();
+  toast(removedFromFirebase ? 'Old login deleted' : 'Removed from the list', 'success');
+}
 async function revokeTeamAccount(uid) {
   if (userRole !== 'admin' || uid === me.uid) return;
   const p = teamMembers[uid];
   if (!confirm(`Revoke access for ${p ? p.name : 'this user'}? They will no longer be able to open the portal.`)) return;
+  await markStopped(uid, 'revoked').catch(() => {});
   await db.ref('users/' + uid).remove();
   await db.ref('presence/' + uid).remove().catch(() => {});
   await db.ref('password_requests/' + uid).remove().catch(() => {});
@@ -1927,6 +2062,7 @@ function setTaskFilters() {
   showArchivedTasks = document.getElementById('tf-archive').value === '1';
   activeTaskSearch = (document.getElementById('tf-search').value || '').trim().toLowerCase();
   renderTasks();
+  renderProjectStats();
 }
 function taskMatchesSearch(t) {
   if (!activeTaskSearch) return true;
@@ -1985,6 +2121,34 @@ function renderAll() {
   calculateAnalytics();
   renderTasks();
   renderStats();
+  renderProjectStats();
+}
+// per-project cards (admin + general manager). Clicking one filters the task list to that project.
+function renderProjectStats() {
+  const box = document.getElementById('proj-stats');
+  if (!box || (userRole !== 'admin' && userRole !== 'manager')) return;
+  const projects = getProjects(), by = {};
+  tasks.filter(t => !t.archived).forEach(t => {
+    const k = t.project || '—';
+    const r = by[k] = by[k] || { total: 0, done: 0, prog: 0, pend: 0, late: 0 };
+    r.total++;
+    if (t.progress === 100) r.done++; else if (t.progress === 50) r.prog++; else r.pend++;
+    if (isOverdue(t)) r.late++;
+  });
+  const keys = Object.keys(by).sort((a, b) => (by[b].total - by[b].done) - (by[a].total - by[a].done) || by[b].total - by[a].total);
+  box.classList.toggle('hidden', !keys.length);
+  box.innerHTML = keys.map(k => { const r = by[k], d = Math.round(r.done / r.total * 100), dp = Math.round((r.done + r.prog) / r.total * 100);
+    return `<button type="button" class="proj-card ${activeProjectFilter === k ? 'sel' : ''}" data-p="${esc(k)}" onclick="pickProjectCard(this.dataset.p)" title="${esc(labelFor(projects, k))} – click to filter">
+<div class="proj-ring" style="background:conic-gradient(#2ecc71 0 ${d}%,#f0b429 ${d}% ${dp}%,#e67e22 ${dp}% 100%)"><span>${d}%</span></div>
+<div><div class="proj-name">${esc(labelFor(projects, k))}</div>
+<div class="proj-mini"><i style="background:#2ecc71"></i>${r.done} done · <i style="background:#f0b429"></i>${r.prog} prog<br><i style="background:#e67e22"></i>${r.pend} pending${r.late ? ` · <b>${r.late} late</b>` : ''}</div></div></button>`; }).join('');
+}
+function pickProjectCard(k) {
+  const sel = document.getElementById('tf-project');
+  const want = activeProjectFilter === k ? 'ALL' : k;   // click the selected card again to show all projects
+  sel.value = want;
+  if (sel.value !== want) sel.value = 'ALL';
+  setTaskFilters();
 }
 
 function calculateAnalytics() {
@@ -2430,8 +2594,11 @@ function renderTasks() {
     return (activeProjectFilter === 'ALL' || task.project === activeProjectFilter) &&
            (activePriorityFilter === 'ALL' || task.priority === activePriorityFilter);
   });
+  // order: open before completed · priority (an overdue task counts as High) · nearest deadline first, no date last
   const priorityOrder = { high: 1, medium: 2, low: 3 };
-  filteredTasks.sort((a, b) => (isOverdue(b) - isOverdue(a)) || (priorityOrder[a.priority] || 9) - (priorityOrder[b.priority] || 9));
+  const effPr = t => isOverdue(t) ? 1 : (priorityOrder[t.priority] || 2);
+  const dl = t => t.deadline || '9999-12-31';
+  filteredTasks.sort((a, b) => ((a.progress === 100) - (b.progress === 100)) || effPr(a) - effPr(b) || dl(a).localeCompare(dl(b)));
 
   const container = document.getElementById('task-list-container');
   container.innerHTML = '';
@@ -2514,6 +2681,7 @@ ${statusCycleBtn}${archiveActionBtn}
 ${task.assignee ? `<span class="assignee-badge">To: ${esc(task.assignee)}</span>` : ''}
 ${task.forwardedFrom ? `<span class="assignee-badge" style="opacity:.85" title="Forwarded"><i class="fa-solid fa-share"></i> from ${esc(task.forwardedFrom)}</span>` : ''}
 ${task.fromMeeting ? `<span class="type-badge" title="Created from a meeting summary"><i class="fa-solid fa-people-group"></i> Meeting</span>` : ''}
+${Array.isArray(task.sharedWith) && task.sharedWith.length ? `<span class="assignee-badge shared-badge" title="The same item was also sent to them as their own separate task"><i class="fa-solid fa-user-group"></i> Shared with ${esc(task.sharedWith.join(', '))}</span>` : ''}
 ${isSenior() && task.fromMeeting && !task.archived ? `<span class="assignee-badge" style="opacity:.8" title="Meeting tasks: you can complete, forward or archive them, not edit them"><i class="fa-solid fa-lock"></i> Locked</span>` : ''}
 ${deadlineHtml}
 ${late ? `<span class="overdue-badge"><i class="fa-solid fa-triangle-exclamation"></i> OVERDUE</span>` : ''}
@@ -3196,6 +3364,11 @@ const MT_KINDS = ['Action', 'RFI', 'Clash', 'Model Update', 'Verify'];
 const MT_KIND_TYPE = { 'RFI': 'RFI', 'Clash': 'Coordination', 'Model Update': 'Modeling', 'Verify': 'Coordination', 'Action': 'Coordination' };
 const MT_MAX_IMGS = 4;
 const kindCls = k => 'k-' + String(k || 'Action').replace(/\s+/g, '-');
+// an item can go to one or more people; old meetings stored a single "assignee"
+const itemPeople = it => Array.isArray(it.assignees) ? it.assignees.filter(Boolean) : (it.assignee ? [it.assignee] : []);
+const itemTaskIds = it => Array.isArray(it.taskIds) ? it.taskIds.filter(Boolean) : (it.taskId ? [it.taskId] : []);
+// colour of the card follows the chosen task type
+const TYPE_KIND = { 'RFI': 'RFI', 'Modeling': 'Model Update' };
 const meetingList = () => Object.keys(meetings).map(k => ({ id: k, ...meetings[k] }));
 const itemsOf = m => Object.keys(m.items || {}).map(k => ({ key: k, ...m.items[k] })).sort((a, b) => (a.order || 0) - (b.order || 0));
 const newKey = () => db.ref().push().key;
@@ -3228,8 +3401,9 @@ const guessStatus = t => /on hold|\bhold\b|\btbd\b|waiting for|pending (approval
 const guessPriority = t => /urgent|asap|critical|immediately|priority/i.test(t) ? 'high' : 'medium';
 function newItem(text, extra) {
   const t = String(text || '').trim();
-  const it = Object.assign({ key: newKey(), text: t, discipline: guessDiscipline(t), kind: guessKind(t), status: guessStatus(t), priority: guessPriority(t), images: [], assignee: '', due: '' }, extra || {});
-  if (!it.assignee) it.assignee = mtRemembered(it.discipline);
+  const it = Object.assign({ key: newKey(), text: t, discipline: guessDiscipline(t), kind: guessKind(t), status: guessStatus(t), priority: guessPriority(t), images: [], assignees: [], due: '' }, extra || {});
+  if (!it.ttype) it.ttype = MT_KIND_TYPE[it.kind] || 'Coordination';
+  if (!it.assignees.length) it.assignees = mtRemembered(it.discipline);
   return it;
 }
 
@@ -3380,13 +3554,14 @@ function renderMeetings() {
   const mbox = document.getElementById('meet-list');
   mbox.innerHTML = list.length ? list.map(m => {
     const its = itemsOf(m), isSent = m.status === 'sent';
-    const who = [...new Set(its.map(it => it.assignee).filter(Boolean))];
-    const done = isSent ? its.filter(it => { const t = tasks.find(x => x.id === it.taskId); return t && t.progress === 100; }).length : 0;
-    return `<div class="reg-row clickable ${isSent ? (done === its.length && its.length ? 'st-Answered' : 'st-Sent') : 'st-Draft'}" onclick="openMeetingModal('${m.id}')">
+    const who = [...new Set(its.flatMap(itemPeople))];
+    const showProg = isSent && userRole !== 'coordinator'; // the coordinator reviews notes, she doesn't track progress numbers
+    const done = showProg ? its.filter(it => { const ids = itemTaskIds(it); return ids.length && ids.every(id => { const t = tasks.find(x => x.id === id); return t && t.progress === 100; }); }).length : 0;
+    return `<div class="reg-row clickable ${isSent ? (showProg && done === its.length && its.length ? 'st-Answered' : 'st-Sent') : 'st-Draft'}" onclick="openMeetingModal('${m.id}')">
       <div class="reg-main">
         <div class="reg-badges"><span class="reg-num">${esc(m.date || '')}</span><span class="ai-badge">${esc(labelFor(getProjects(), m.project))}</span>${m.file ? '<span class="ai-badge" title="Original PDF saved"><i class="fa-solid fa-file-pdf"></i> PDF saved</span>' : m.source === 'pdf' ? '<span class="ai-badge" title="Read from PDF"><i class="fa-solid fa-file-pdf"></i> PDF</span>' : ''}</div>
         <div class="reg-title">${esc(m.title || 'Meeting')}</div>
-        <div class="reg-meta"><span>${its.length} action item(s)</span>${isSent ? `<span class="${done === its.length ? 'good' : ''}">${done}/${its.length} done</span>` : ''}${who.length ? `<span><i class="fa-solid fa-user"></i> ${who.map(esc).join(', ')}</span>` : ''}<span>by ${esc(m.createdBy || '')}</span></div>
+        <div class="reg-meta"><span>${its.length} action item(s)</span>${showProg ? `<span class="${done === its.length ? 'good' : ''}">${done}/${its.length} done</span>` : ''}${who.length ? `<span><i class="fa-solid fa-user"></i> ${who.map(esc).join(', ')}</span>` : ''}<span>by ${esc(m.createdBy || '')}</span></div>
       </div>
       <span class="status-pill ${isSent ? 'Sent' : 'Draft'}">${isSent ? 'Sent' : 'Draft'}</span>
     </div>`;
@@ -3423,6 +3598,7 @@ function openTaskDetails(ev, id) {
       <div class="td-f">Priority<b>${pr}</b></div>
       <div class="td-f">Created by<b>${esc(t.createdBy || 'Mokhtar')}</b></div>
       <div class="td-f">${t.completedAt ? 'Completed' : 'Status'}<b class="${progress === 100 ? 'good' : ''}">${t.completedAt ? esc(new Date(t.completedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })) : st[0]}</b></div>
+      ${Array.isArray(t.sharedWith) && t.sharedWith.length ? `<div class="td-f">Also sent to<b>${esc(t.sharedWith.join(', '))}</b></div>` : ''}
       ${t.forwardedFrom ? `<div class="td-f">Forwarded by<b>${esc(t.forwardedFrom)}${t.forwardedAt ? ' · ' + esc(new Date(t.forwardedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })) : ''}</b></div>` : ''}
       ${t.fromMeeting ? `<div class="td-f">From meeting<b id="td-meeting">loading...</b></div>` : ''}
       ${t.fromMeeting ? `<div class="td-f full" id="td-imgs-wrap" style="display:none">Screenshots from the meeting<div class="td-imgs" id="td-imgs"></div></div>` : ''}
@@ -3441,7 +3617,7 @@ async function loadTaskMeeting(t) {
     const canOpen = userRole === 'admin' || userRole === 'manager' || userRole === 'coordinator';
     const label = `${esc(m.title || 'Meeting')} (${esc(m.date || '')})`;
     el.innerHTML = canOpen ? `<span class="td-link" onclick="closeRegModal('td-modal'); showPage('meetings'); openMeetingModal('${esc(mid)}')">${label} →</span>` : label;
-    const key = Object.keys(m.items || {}).find(k => m.items[k].taskId === t.id);
+    const key = Object.keys(m.items || {}).find(k => itemTaskIds(m.items[k]).includes(t.id));
     if (!key || !m.items[key].imgCount) return;
     const imgs = (await db.ref(`meeting_images/${mid}/${key}`).once('value')).val();
     const box = document.getElementById('td-imgs');
@@ -3490,7 +3666,7 @@ function openMeetingModal(id) {
   const ro = !canEdit || (!!m && m.status === 'sent');
   mtEdit = m
     ? { id, project: m.project, date: m.date, title: m.title, status: m.status, source: m.source, fileName: m.fileName, file: m.file || null, notesText: m.notesText || '', createdBy: m.createdBy, createdAt: m.createdAt, readOnly: ro,
-        items: itemsOf(m).map(it => ({ key: it.key, text: it.text || '', discipline: it.discipline || 'Coordination', kind: it.kind || 'Action', status: it.status || 'Open', priority: it.priority || 'medium', images: [], imgCount: it.imgCount || 0, assignee: it.assignee || '', due: it.due || '', taskId: it.taskId })) }
+        items: itemsOf(m).map(it => ({ key: it.key, text: it.text || '', discipline: it.discipline || 'Coordination', kind: it.kind || 'Action', ttype: it.ttype || MT_KIND_TYPE[it.kind] || 'Coordination', status: it.status || 'Open', priority: it.priority || 'medium', images: [], imgCount: it.imgCount || 0, assignees: itemPeople(it), due: it.due || '', taskIds: itemTaskIds(it) })) }
     : { id: null, project: (getProjects()[0] || {}).value, date: cairoTodayISO(), title: '', status: 'draft', items: [], readOnly: false };
   mtDirty = false; mtFocusIdx = null;
   const ps = document.getElementById('mt-project'); fillProjectSelect(ps, false); ps.value = mtEdit.project || '';
@@ -3533,14 +3709,18 @@ function renderMeetingEditor() {
       <div class="mt-idx">${i + 1}</div>
       <div>
         ${ro ? '' : `<button class="mt-x" title="Remove this item" onclick="removeMeetingItem(${i})"><i class="fa-solid fa-trash-can"></i></button>`}
-        ${mtEdit.status === 'sent' ? (() => { const t = tasks.find(x => x.id === it.taskId); const st = t ? (t.progress === 100 ? '<span class="good">Done</span>' : t.progress === 50 ? '<span>In progress</span>' : '<span class="late">Pending</span>') : ''; return `<div class="reg-meta" style="margin:0 0 6px;"><span><i class="fa-solid fa-user"></i> ${esc(t ? t.assignee : it.assignee)}${t && t.forwardedFrom ? ` (forwarded by ${esc(t.forwardedFrom)})` : ''}</span>${st}</div>`; })() : ''}
+        ${mtEdit.status === 'sent' ? (() => { const ids = it.taskIds || [], ppl = it.assignees || [];
+          const rows = (ids.length ? ids : [null]).map((id, k) => { const t = id ? tasks.find(x => x.id === id) : null;
+            const st = t ? (t.progress === 100 ? '<span class="good">Done</span>' : t.progress === 50 ? '<span>In progress</span>' : '<span class="late">Pending</span>') : '';
+            return `<span><i class="fa-solid fa-user"></i> ${esc(t ? t.assignee : (ppl[k] || ''))}${t && t.forwardedFrom ? ` (forwarded by ${esc(t.forwardedFrom)})` : ''} ${st}</span>`; });
+          return `<div class="reg-meta mt-st-list" style="margin:0 0 6px;">${rows.join('')}</div>`; })() : ''}
         <label>Required action<textarea class="mt-in" ${dis} oninput="mtSet(${i},'text',this.value)">${esc(it.text)}</textarea></label>
         <div class="mt-fields">
           <label>Department<select class="mt-in" ${dis} onchange="mtSetDiscipline(${i},this.value)">${opt(DISCIPLINES, it.discipline)}</select></label>
-          <label>Type<select class="mt-in" ${dis} onchange="mtSet(${i},'kind',this.value,true)">${opt(MT_KINDS, it.kind)}</select></label>
+          <label>Task type<select class="mt-in" ${dis} onchange="mtSetType(${i},this.value)">${(() => { const tl = getTypes(); const extra = tl.some(x => x.value === it.ttype) ? [] : [{ value: it.ttype, label: it.ttype }]; return [...tl, ...extra].map(x => `<option value="${esc(x.value)}" ${x.value === it.ttype ? 'selected' : ''}>${esc(x.label)}</option>`).join(''); })()}</select></label>
           <label>Status<select class="mt-in" ${dis} onchange="mtSet(${i},'status',this.value,true)">${opt(['Open', 'On Hold'], it.status)}</select></label>
           <label>Priority<select class="mt-in" ${dis} onchange="mtSet(${i},'priority',this.value)">${opt(['high', 'medium', 'low'], it.priority, v => v === 'high' ? '🔥 High' : v === 'medium' ? '🟡 Medium' : '🟢 Low')}</select></label>
-          ${ro ? '' : `<label style="grid-column:span 2;">Send to<select class="mt-in" onchange="mtSetAssignee(${i},this.value)"><option value="">— choose a person —</option>${teamPeople().map(p => `<option value="${esc(p.name)}" ${p.name === it.assignee ? 'selected' : ''}>${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('')}</select></label>
+          ${ro ? '' : `<label style="grid-column:span 2;">Send to (one or more)<div class="mt-chips">${it.assignees.map((n, j) => `<span class="mt-chip">${esc(n)}<button type="button" title="Remove" onclick="mtRemoveAssignee(${i},${j})">✕</button></span>`).join('')}${(() => { const left = teamPeople().filter(p => !it.assignees.includes(p.name)); return left.length ? `<select class="mt-in" onchange="mtAddAssignee(${i},this.value)"><option value="">${it.assignees.length ? '＋ add another engineer' : '— choose a person —'}</option>${left.map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('')}</select>` : ''; })()}</div></label>
           <label style="grid-column:span 2;">Due date (optional)<input type="date" class="mt-in" value="${esc(it.due || '')}" onchange="mtSet(${i},'due',this.value)"></label>`}
         </div>
         <div class="mt-imgs">
@@ -3560,17 +3740,34 @@ function mtSet(i, field, val, rerender) {
   if (rerender) renderMeetingEditor();
 }
 // remember who usually takes each department, so the next meeting is pre-filled
-function mtRemembered(disc) { try { return (JSON.parse(localStorage.getItem('bimMeetAssign') || '{}'))[disc] || ''; } catch (e) { return ''; } }
-function mtSetAssignee(i, name) {
-  mtSet(i, 'assignee', name);
-  const it = mtEdit && mtEdit.items[i];
-  if (!it || !name) return;
-  try { const m = JSON.parse(localStorage.getItem('bimMeetAssign') || '{}'); m[it.discipline] = name; localStorage.setItem('bimMeetAssign', JSON.stringify(m)); } catch (e) {}
+function mtRemembered(disc) {
+  try { const v = (JSON.parse(localStorage.getItem('bimMeetAssign') || '{}'))[disc];
+    const names = (Array.isArray(v) ? v : (v ? [v] : [])), team = teamPeople().map(p => p.name);
+    return names.filter(n => !team.length || team.includes(n));
+  } catch (e) { return []; }
+}
+function mtRemember(it) { try { const m = JSON.parse(localStorage.getItem('bimMeetAssign') || '{}'); m[it.discipline] = it.assignees.slice(); localStorage.setItem('bimMeetAssign', JSON.stringify(m)); } catch (e) {} }
+function mtAddAssignee(i, name) {
+  const it = mtEdit && !mtEdit.readOnly && mtEdit.items[i];
+  if (!it || !name || it.assignees.includes(name)) { renderMeetingEditor(); return; }
+  it.assignees.push(name); mtDirty = true; mtRemember(it); renderMeetingEditor();
+}
+function mtRemoveAssignee(i, j) {
+  const it = mtEdit && !mtEdit.readOnly && mtEdit.items[i];
+  if (!it) return;
+  it.assignees = it.assignees.filter((n, k) => k !== j); mtDirty = true; mtRemember(it); renderMeetingEditor();
+}
+function mtSetType(i, val) {
+  const it = mtEdit && !mtEdit.readOnly && mtEdit.items[i];
+  if (!it) return;
+  it.ttype = val;
+  it.kind = TYPE_KIND[val] || (['Clash', 'Verify'].includes(it.kind) && val === 'Coordination' ? it.kind : 'Action');
+  mtDirty = true; renderMeetingEditor();
 }
 function mtSetDiscipline(i, disc) {
   if (!mtEdit || !mtEdit.items[i]) return;
   mtEdit.items[i].discipline = disc;
-  if (!mtEdit.items[i].assignee) mtEdit.items[i].assignee = mtRemembered(disc);
+  if (!mtEdit.items[i].assignees.length) mtEdit.items[i].assignees = mtRemembered(disc);
   mtDirty = true; renderMeetingEditor();
 }
 function addMeetingItem() {
@@ -3794,10 +3991,11 @@ async function saveMeeting(send) {
   const items = mtEdit.items.filter(it => String(it.text).trim());
   if (send) {
     if (!items.length) { alert('Add at least one action item before sending.'); return; }
-    const missing = items.map((it, i) => it.assignee ? null : i + 1).filter(Boolean);
+    const missing = items.map((it, i) => it.assignees.length ? null : i + 1).filter(Boolean);
     if (missing.length) { alert(`Choose who receives item(s): ${missing.join(', ')}`); return; }
-    const per = {}; items.forEach(it => { per[it.assignee] = (per[it.assignee] || 0) + 1; });
-    if (!confirm(`Send ${items.length} task(s)?\n\n${Object.keys(per).map(n => `• ${n}: ${per[n]}`).join('\n')}\n\nAfter sending, the meeting can't be edited.`)) return;
+    const per = {}; items.forEach(it => it.assignees.forEach(n => { per[n] = (per[n] || 0) + 1; }));
+    const nTasks = items.reduce((s, it) => s + it.assignees.length, 0);
+    if (!confirm(`Send ${nTasks} task(s) from ${items.length} item(s)?\n\n${Object.keys(per).map(n => `• ${n}: ${per[n]}`).join('\n')}\n\nAfter sending, the meeting can't be edited.`)) return;
   }
   const id = mtEdit.id || db.ref('meetings').push().key;
   const btns = ['mt-draft-btn', 'mt-send-btn'].map(x => document.getElementById(x));
@@ -3805,24 +4003,30 @@ async function saveMeeting(send) {
   try {
     const itemsObj = {}, imgsObj = {};
     items.forEach((it, i) => {
-      itemsObj[it.key] = { order: i, text: String(it.text).trim().slice(0, 1500), discipline: it.discipline, kind: it.kind, status: it.status, priority: it.priority, assignee: it.assignee || '', due: it.due || '', imgCount: it.images.length };
+      itemsObj[it.key] = { order: i, text: String(it.text).trim().slice(0, 1500), discipline: it.discipline, kind: it.kind, ttype: it.ttype || MT_KIND_TYPE[it.kind] || 'Coordination', status: it.status, priority: it.priority, assignees: it.assignees.slice(), assignee: it.assignees[0] || '', due: it.due || '', imgCount: it.images.length };
       if (it.images.length) imgsObj[it.key] = it.images.slice(0, MT_MAX_IMGS);
     });
     await db.ref('meeting_images/' + id).set(Object.keys(imgsObj).length ? imgsObj : null); // images first, while still a draft
     let fileMeta = mtEdit.file || null;
     if (mtEdit.pdfFile) fileMeta = await uploadMeetingPdf(id, mtEdit.pdfFile);     // the original PDF, for the archive
     if (send) {
-      // every item becomes a normal task for the chosen person
+      // every item becomes a normal task for each chosen person: separate copies, each with its own id
       for (const it of items) {
-        const task = {
-          project, type: MT_KIND_TYPE[it.kind] || 'Coordination',
-          details: `[${it.discipline}]${it.status === 'On Hold' ? ' (ON HOLD)' : ''} ${String(it.text).trim()}`.slice(0, 600),
-          priority: it.status === 'On Hold' ? 'low' : (it.priority || 'medium'),
-          deadline: it.due || '', assignee: it.assignee, progress: 0, archived: false,
-          fromMeeting: id, createdBy: me.name
-        };
-        const ref = await db.ref('tasks').push(task);
-        itemsObj[it.key].taskId = ref.key;
+        const ids = [];
+        for (const person of it.assignees) {
+          const task = {
+            project, type: it.ttype || MT_KIND_TYPE[it.kind] || 'Coordination',
+            details: `[${it.discipline}]${it.status === 'On Hold' ? ' (ON HOLD)' : ''} ${String(it.text).trim()}`.slice(0, 600),
+            priority: it.status === 'On Hold' ? 'low' : (it.priority || 'medium'),
+            deadline: it.due || '', assignee: person, progress: 0, archived: false,
+            fromMeeting: id, createdBy: me.name
+          };
+          if (it.assignees.length > 1) task.sharedWith = it.assignees.filter(n => n !== person);
+          const ref = await db.ref('tasks').push(task);
+          ids.push(ref.key);
+        }
+        itemsObj[it.key].taskIds = ids;
+        itemsObj[it.key].taskId = ids[0];
       }
     }
     const rec = {
@@ -3834,7 +4038,7 @@ async function saveMeeting(send) {
     if (send) rec.sentAt = Date.now();
     await db.ref('meetings/' + id).set(rec);
     logActivity(`${me.name} ${send ? 'sent' : 'saved'} meeting "${rec.title}" (${items.length} items)`);
-    toast(send ? `${items.length} task(s) sent` : 'Draft saved', 'success');
+    toast(send ? `${items.reduce((s, it) => s + it.assignees.length, 0)} task(s) sent` : 'Draft saved', 'success');
     closeMeetingModal(true);
   } catch (e) {
     alert('Could not save: ' + (e.code === 'PERMISSION_DENIED' ? "your account isn't allowed to do this (check the database rules)." : e.message));
