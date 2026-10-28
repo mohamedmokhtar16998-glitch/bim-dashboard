@@ -1634,8 +1634,9 @@ async function clearLoginHistory() {
 }
 
 // ------------------------ TEAM (FOUNDER) ----------------------------
+// the admin account is for running the site, not for work: it never appears in "assign to" lists
 function teamNames() {
-  return [...new Set(Object.values(teamMembers).map(p => p.name).filter(Boolean))];
+  return [...new Set(Object.values(teamMembers).filter(p => p.role !== 'admin').map(p => p.name).filter(Boolean))];
 }
 function renderTeam() {
   const sel = document.getElementById('assignee-input');
@@ -1643,8 +1644,9 @@ function renderTeam() {
     const current = sel.value;
     sel.innerHTML = isSenior()
       ? seniorTargets().map(n => `<option value="${esc(n)}">${n === me.name ? 'Me (' + esc(n) + ')' : esc(n)}</option>`).join('')
-      : Object.values(teamMembers).filter(p => p.name)
-        .map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('');
+      : Object.values(teamMembers).filter(p => p.name && p.role !== 'admin')
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(p => `<option value="${esc(p.name)}">${esc(p.name)}</option>`).join('');
     if (current) sel.value = current;
   }
   const tc = document.getElementById('sb-team-count'); if (tc) tc.textContent = Object.keys(teamMembers || {}).length;
@@ -3532,7 +3534,7 @@ async function parseMeetingPdf(file) {
 
 // ---------- page ----------
 function teamPeople() {
-  return Object.values(teamMembers || {}).filter(p => p.name && p.role !== 'coordinator')
+  return Object.values(teamMembers || {}).filter(p => p.name && p.role !== 'coordinator' && p.role !== 'admin')
     .sort((x, y) => (x.role === 'admin' ? -1 : 0) - (y.role === 'admin' ? -1 : 0) || x.name.localeCompare(y.name));
 }
 function renderMeetings() {
