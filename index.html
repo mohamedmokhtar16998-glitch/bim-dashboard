@@ -1666,6 +1666,7 @@ function renderTeam() {
       const action = uid === me.uid
         ? `<span class="team-you-tag">You</span>`
         : `<div class="team-actions">
+<button class="team-mini-btn" title="Edit name / username" onclick="editTeamAccount('${esc(uid)}')"><i class="fa-solid fa-pen"></i></button>
 <button class="team-mini-btn" title="Show the password you set for this account" onclick="toggleTeamPw('${esc(uid)}')"><i class="fa-solid fa-eye"></i></button>
 <button class="team-mini-btn" title="Reset password (forgotten password)" onclick="resetTeamAccount('${esc(uid)}')"><i class="fa-solid fa-key"></i> Reset</button>
 <button class="team-revoke-btn" title="Revoke access" onclick="revokeTeamAccount('${esc(uid)}')"><i class="fa-solid fa-user-slash"></i> Revoke</button></div>`;
@@ -1714,6 +1715,7 @@ async function createTeamAccount() {
   if (!pick) return;
   const role = pick.role;
   if (Object.values(teamMembers || {}).some(p => String(p.username || '').toLowerCase() === username)) { alert("That username is already taken."); return; }
+  if (nameTaken(name)) { alert(`There is already someone called "${name}". Use a different display name (tasks are linked by name).`); return; }
   const secondary = secondaryApp();
   try {
     let email = username + EMAIL_DOMAIN, cred;
@@ -1738,6 +1740,65 @@ async function createTeamAccount() {
     alert(e.code === 'auth/email-already-in-use' ? "That username is already taken." : "Could not create account: " + e.message);
   }
 }
+// ---------- edit a team member's name / username (admin only) ----------
+function nameTaken(name, exceptUid) {
+  const n = String(name || '').trim().toLowerCase();
+  return Object.keys(teamMembers || {}).some(k => k !== exceptUid && String(teamMembers[k].name || '').trim().toLowerCase() === n);
+}
+async function editTeamAccount(uid) {
+  if (userRole !== 'admin' || uid === me.uid || !teamMembers[uid]) return;
+  const p = teamMembers[uid], oldName = p.name, oldUser = String(p.username || '').toLowerCase();
+  let name = prompt(`Display name for ${oldName}:`, oldName);
+  if (name === null) return;
+  name = name.trim().replace(/\s+/g, ' ');
+  let username = prompt(`Username ${p.name} logs in with:`, oldUser);
+  if (username === null) return;
+  username = username.trim().toLowerCase();
+  if (!name) { alert('The name cannot be empty.'); return; }
+  if (!/^[a-z0-9._-]{3,30}$/.test(username)) { alert('Username: letters/numbers only, 3+ characters.'); return; }
+  if (name === oldName && username === oldUser) return;
+  if (nameTaken(name, uid)) { alert(`There is already someone called "${name}".`); return; }
+  if (username !== oldUser && Object.keys(teamMembers).some(k => k !== uid && String(teamMembers[k].username || '').toLowerCase() === username)) { alert('That username is already taken.'); return; }
+  const changes = [];
+  if (name !== oldName) changes.push(`Name: ${oldName} → ${name}`);
+  if (username !== oldUser) changes.push(`Username: ${oldUser} → ${username} (same password)`);
+  if (!confirm(`Update this account?\n\n${changes.join('\n')}${name !== oldName ? '\n\nThe name will be updated on all tasks and meetings.' : ''}`)) return;
+  try {
+    const up = {};
+    up[`users/${uid}/name`] = name;
+    up[`users/${uid}/username`] = username;
+    const c = credentials[uid];
+    if (c) { up[`credentials/${uid}/name`] = name; up[`credentials/${uid}/username`] = username; }
+    if (username !== oldUser) {
+      const email = loginEmailOf(uid);                      // the real login behind the account stays the same
+      if (!c) up[`credentials/${uid}`] = { email, password: null, name, username, setAt: null };
+      up[`login_alias/${aliasKey(username)}`] = email;
+      up[`login_alias/${aliasKey(oldUser)}`] = `blocked.${aliasKey(oldUser)}${EMAIL_DOMAIN}`; // old username stops working
+    }
+    let nTasks = 0, nMeet = 0;
+    if (name !== oldName) {
+      // tasks are linked by name: carry the new name everywhere
+      const all = (await db.ref('tasks').once('value')).val() || {};
+      Object.keys(all).forEach(id => { const t = all[id]; let hit = false;
+        ['assignee', 'createdBy', 'forwardedFrom'].forEach(f => { if (t[f] === oldName) { up[`tasks/${id}/${f}`] = name; hit = true; } });
+        if (Array.isArray(t.sharedWith) && t.sharedWith.includes(oldName)) { up[`tasks/${id}/sharedWith`] = t.sharedWith.map(n => n === oldName ? name : n); hit = true; }
+        if (hit) nTasks++; });
+      const ms = (await db.ref('meetings').once('value')).val() || {};
+      Object.keys(ms).forEach(mid => { const m = ms[mid]; let hit = false;
+        if (m.createdBy === oldName) { up[`meetings/${mid}/createdBy`] = name; hit = true; }
+        Object.keys(m.items || {}).forEach(k => { const it = m.items[k];
+          if (it.assignee === oldName) { up[`meetings/${mid}/items/${k}/assignee`] = name; hit = true; }
+          if (Array.isArray(it.assignees) && it.assignees.includes(oldName)) { up[`meetings/${mid}/items/${k}/assignees`] = it.assignees.map(n => n === oldName ? name : n); hit = true; } });
+        if (hit) nMeet++; });
+      if (pwRequests[uid]) up[`password_requests/${uid}/name`] = name;
+    }
+    await db.ref().update(up);
+    logActivity(`Mokhtar updated the account of ${name}`);
+    toast(`Saved${name !== oldName ? ` · name updated on ${nTasks} task(s), ${nMeet} meeting(s)` : ''}`, 'success');
+    if (username !== oldUser) alert(`${name} now logs in with:\nUsername: ${username}\n(same password as before)`);
+  } catch (e) { alert('Could not save: ' + (e.code === 'PERMISSION_DENIED' ? 'the database rules need updating.' : e.message)); }
+}
+
 // ---------- saved passwords, reset, stopped logins (admin only) ----------
 const shownPw = {};
 const aliasKey = u => String(u || '').toLowerCase().replace(/[.#$\[\]\/]/g, '_');
