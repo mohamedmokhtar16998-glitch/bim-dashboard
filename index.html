@@ -275,6 +275,13 @@ body.sb-open { overflow: hidden; }
 }
 /* ---------- Page tabs ---------- */
 .page-tabs { display: flex; gap: 6px; margin-bottom: 24px; padding: 5px; background: rgba(11, 15, 25, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; overflow-x: auto; }
+.tab-badge { background: #e74c3c; color: #fff; border-radius: 10px; font-size: 11px; font-weight: 700; padding: 1px 7px; line-height: 1.4; }
+.mn-new { background: rgba(240,180,41,0.18); color: #f6d58e; border-radius: 10px; font-size: 11px; font-weight: 700; padding: 2px 8px; }
+.mn-me { background: rgba(46,204,113,0.15); color: #a8f0c9; border-radius: 10px; font-size: 11px; font-weight: 600; padding: 2px 8px; }
+.reg-row.mn-unseen { border-left-color: #f0b429 !important; }
+.pt-proj { background: rgba(25,33,56,0.85); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+.pt-proj-h { display: flex; justify-content: space-between; font-weight: 700; font-size: 14px; color: #fff; margin-bottom: 7px; }
+.pt-proj-h span { font-weight: 400; font-size: 11.5px; color: #8fa0bc; }
 .page-tab { flex: 1; white-space: nowrap; background: none; border: none; color: #8fa0bc; font-family: inherit; font-size: 13px; font-weight: 700; padding: 10px 14px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all .2s ease; }
 .page-tab:hover { color: #fff; background: rgba(255,255,255,0.04); }
 .page-tab.active { background: linear-gradient(135deg, #4a72b2, #294a80); color: #fff; box-shadow: 0 4px 12px rgba(74,114,178,0.3); }
@@ -496,11 +503,14 @@ textarea.mt-in { min-height: 64px; resize: vertical; line-height: 1.45; }
 .mt-item.k-Model-Update { border-left-color: #3498db; } .mt-item.k-Verify { border-left-color: #f1c40f; }
 .mt-item.hold { opacity: .8; background: repeating-linear-gradient(135deg, rgba(25,33,56,0.85) 0 14px, rgba(92,110,140,0.12) 14px 28px); }
 .mt-idx { font-family: 'Roboto Mono', monospace; font-weight: 700; color: #6f97d6; font-size: 13px; padding-top: 4px; }
-.mt-fields { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+.mt-fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
 .mt-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; background: rgba(24,31,50,0.7); min-height: 38px; box-sizing: border-box; }
 .mt-chip { display: inline-flex; align-items: center; gap: 6px; background: #2a4f7c; color: #fff; border-radius: 14px; padding: 3px 6px 3px 10px; font-size: 12px; text-transform: none; letter-spacing: 0; font-weight: 600; }
 .mt-chip button { background: none; border: none; color: #cfe0f5; cursor: pointer; font-size: 11px; padding: 0 2px; }
 .mt-chip button:hover { color: #e74c3c; }
+.mt-chip em { font-style: normal; font-size: 10px; font-weight: 600; background: rgba(46,204,113,0.2); color: #a8f0c9; border-radius: 8px; padding: 1px 6px; }
+.mt-chip em.fz { background: rgba(240,180,41,0.2); color: #f6d58e; }
+.mt-name-warn { display: block; margin-top: 6px; font-size: 11.5px; color: #f6d58e; background: rgba(240,180,41,0.1); border: 1px solid rgba(240,180,41,0.3); border-radius: 6px; padding: 4px 8px; text-transform: none; letter-spacing: 0; font-weight: 500; }
 .mt-chips select.mt-in { width: auto; flex: 1; min-width: 150px; padding: 5px 8px; border-style: dashed; }
 .mt-st-list { display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .shared-badge { background: rgba(240,180,41,0.16) !important; color: #f6d58e !important; border-color: rgba(240,180,41,0.35) !important; }
@@ -926,6 +936,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <button class="page-tab" data-page="sheets" data-roles="admin manager" onclick="showPage('sheets')"><i class="fa-solid fa-layer-group"></i> Sheet Register</button>
 <button class="page-tab" data-page="reports" data-roles="admin manager" onclick="showPage('reports')"><i class="fa-solid fa-file-pdf"></i> Weekly Report</button>
 <button class="page-tab" data-page="meetings" data-roles="admin manager coordinator" onclick="showPage('meetings')"><i class="fa-solid fa-people-group"></i> Meetings</button>
+<button class="page-tab" data-page="mnotes" data-roles="member" onclick="showPage('mnotes')"><i class="fa-solid fa-file-pdf"></i> Meeting Notes <span class="tab-badge hidden" id="mnotes-badge">0</span></button>
 </div>
 <div id="tasks-page">
 <div class="dashboard-stats-wrapper" id="stats-wrapper-layout" data-roles="admin manager member">
@@ -1053,8 +1064,15 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <select id="meet-f-project" class="reg-select reg-project-filter" onchange="renderMeetings()"></select>
 <input id="meet-f-search" class="reg-search" placeholder="Search meeting title or notes..." oninput="renderMeetings()">
 <button class="reg-btn" data-roles="admin coordinator" onclick="openMeetingModal()"><i class="fa-solid fa-plus"></i> New Meeting</button>
+<button class="reg-btn ghost" data-roles="admin coordinator" onclick="openProjectTeams()"><i class="fa-solid fa-users"></i> Project teams</button>
 </div>
 <div class="reg-list" id="meet-list"></div>
+</div>
+<!-- engineers: the meeting notes (original PDF) of their projects -->
+<div id="mnotes-page" class="hidden">
+<div class="mt-section-title"><i class="fa-solid fa-file-pdf"></i> Meeting Notes</div>
+<div class="reg-toolbar"><select id="mn-f-project" class="reg-select reg-project-filter" onchange="renderMeetingNotes()"></select></div>
+<div class="reg-list" id="mn-list"></div>
 </div>
 </div>
 </div>
@@ -1082,6 +1100,19 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <label class="full">Send it to<select id="fwd-to"></select></label>
 <div class="reg-form-actions"><button class="reg-btn" onclick="confirmForward()"><i class="fa-solid fa-share"></i> Forward</button></div>
 </div>
+</div>
+</div>
+
+<!-- Project teams (admin + meeting coordinator) -->
+<div id="pt-modal" class="app-modal-overlay" onclick="if(event.target===this)closeRegModal('pt-modal')">
+<div class="app-modal-box" style="max-width:640px;">
+<div class="history-modal-header">
+<h3><i class="fa-solid fa-users"></i> Project teams</h3>
+<button class="close-modal-btn" onclick="closeRegModal('pt-modal')"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<p class="sb-note" style="margin:0 0 12px;">Who works on each project. Engineers see the meeting notes (PDF) of their projects only.</p>
+<div id="pt-body"></div>
+<div class="reg-form-actions"><button class="reg-btn" onclick="saveProjectTeams()"><i class="fa-solid fa-floppy-disk"></i> Save</button></div>
 </div>
 </div>
 
@@ -1537,6 +1568,13 @@ auth.onAuthStateChanged(async user => {
 
   if (userRole === 'admin' || userRole === 'manager' || userRole === 'coordinator') {
     listen(db.ref('meetings'), 'value', snap => { meetings = snap.val() || {}; renderMeetings(); });
+  }
+  if (userRole === 'admin' || userRole === 'coordinator' || userRole === 'member') {
+    listen(db.ref('project_teams'), 'value', snap => { projectTeams = snap.val() || {}; renderMeetingNotes(); });
+  }
+  if (userRole === 'member') {
+    listen(db.ref('meetings'), 'value', snap => { meetings = snap.val() || {}; renderMeetingNotes(); });
+    listen(db.ref('meeting_seen/' + user.uid), 'value', snap => { meetingSeen = snap.val() || {}; renderMeetingNotes(); });
   }
   if (userRole === 'member' || userRole === 'coordinator') {
     // names only: used to assign meeting items and to forward tasks
@@ -2826,12 +2864,13 @@ let sheets = {};
 let currentPage = 'tasks';
 let editingRfiId = null;
 let editingSheetId = null;
-const PAGE_IDS = { tasks: 'tasks-page', rfis: 'rfis-page', sheets: 'sheets-page', reports: 'reports-page', meetings: 'meetings-page' };
+const PAGE_IDS = { tasks: 'tasks-page', rfis: 'rfis-page', sheets: 'sheets-page', reports: 'reports-page', meetings: 'meetings-page', mnotes: 'mnotes-page' };
 const DISCIPLINES = ['Mechanical', 'Plumbing', 'Electrical', 'Fire Protection', 'Coordination', 'Architectural', 'Structural', 'Other'];
 
 function showPage(page) {
   if (page === 'meetings' && userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') page = 'tasks';
-  if (page !== 'tasks' && page !== 'meetings' && userRole !== 'admin' && userRole !== 'manager') page = 'tasks'; // members only see their tasks
+  if (page === 'mnotes' && userRole !== 'member') page = 'tasks';
+  if (page !== 'tasks' && page !== 'meetings' && page !== 'mnotes' && userRole !== 'admin' && userRole !== 'manager') page = 'tasks'; // members only see their tasks
   currentPage = page;
   Object.keys(PAGE_IDS).forEach(p => document.getElementById(PAGE_IDS[p]).classList.toggle('hidden', p !== page));
   const pg = document.getElementById(PAGE_IDS[page]);
@@ -2842,6 +2881,7 @@ function showPage(page) {
   document.querySelectorAll('.page-tab').forEach(t => t.classList.toggle('active', t.dataset.page === page));
   if (page === 'reports') initReportDates();
   if (page === 'meetings') renderMeetings();
+  if (page === 'mnotes') renderMeetingNotes();
 }
 const statusCls = s => String(s || '').replace(/\s+/g, '-');
 function addDaysISO(iso, n) {
@@ -3418,6 +3458,9 @@ ${table([...ph, 'Sheet No.', 'Title', 'Discipline', 'Rev', 'Status', 'Date'], is
 //  meetings list stays light.
 // =====================================================================
 let meetings = {};
+let projectTeams = {};        // { projKey: { uid: true } }
+let meetingSeen = {};         // engineer: { meetingId: time opened }
+const mnNotified = new Set(); // meetings already announced in this session
 let mtEdit = null;
 let mtDirty = false;
 let mtFocusIdx = null;
@@ -3462,11 +3505,71 @@ function guessKind(text) {
 }
 const guessStatus = t => /on hold|\bhold\b|\btbd\b|waiting for|pending (approval|answer|response)/i.test(t) ? 'On Hold' : 'Open';
 const guessPriority = t => /urgent|asap|critical|immediately|priority/i.test(t) ? 'high' : 'medium';
+// ---------- who is named in an item? only people who have an account on the site ----------
+function editDist(a, b) {
+  const m = a.length, n = b.length, d = Array.from({ length: m + 1 }, (_, i) => [i, ...Array(n).fill(0)]);
+  for (let j = 1; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[m][n];
+}
+function namesInText(text, fromColumn) {
+  const people = teamPeople();                     // no admin, no coordinator
+  const res = { names: [], how: {}, warns: [] };
+  if (!people.length || !text) return res;
+  const norm = t => String(t).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const low = ' ' + norm(text) + ' ';
+  const words = String(text).match(/\p{L}+/gu) || [];
+  const add = (name, how) => { if (!res.names.includes(name)) { res.names.push(name); res.how[name] = how; } };
+  // 1) full names ("Mohamed Mokhtar")
+  people.forEach(p => { const full = norm(p.name); if (full.includes(' ') && low.includes(' ' + full + ' ')) add(p.name, 'notes'); });
+  // 2) any part of a name – first or last ("Mohamed", "Mokhtar")
+  const byPart = {};
+  people.forEach(p => norm(p.name).split(' ').filter(w => w.length >= 2).forEach(w => { (byPart[w] = byPart[w] || []).includes(p.name) || byPart[w].push(p.name); }));
+  const usedWords = new Set();
+  Object.keys(byPart).forEach(w => {
+    if (!low.includes(' ' + w + ' ')) return;
+    usedWords.add(w);
+    const owners = byPart[w];
+    if (owners.some(n => res.names.includes(n))) return;   // already matched by full name
+    if (owners.length === 1) add(owners[0], 'notes');
+    else res.warns.push(`“${w[0].toUpperCase() + w.slice(1)}” could be ${owners.join(' or ')} – choose who`);
+  });
+  // 3) close spelling ("Nermeen" ≈ "Nirmeen"): Capitalised words, same first letter
+  words.filter(w => (fromColumn || /^\p{Lu}/u.test(w)) && w.length >= 4).forEach(w => {
+    const lw = w.toLowerCase();
+    if (usedWords.has(lw)) return;
+    Object.keys(byPart).forEach(f => {
+      if (usedWords.has(lw) || f.length < 4 || f[0] !== lw[0] || byPart[f].length !== 1 || res.names.includes(byPart[f][0])) return;
+      const dist = editDist(lw, f);
+      if (dist > 0 && dist <= (f.length >= 6 ? 2 : 1)) { add(byPart[f][0], 'fuzzy'); res.warns.push(`“${w}” was matched to ${byPart[f][0]} (close spelling) – please check`); usedWords.add(lw); }
+    });
+  });
+  // 3b) in the "responsible person" column, also read the letters glued together ("Gha da" → "ghada")
+  if (fromColumn) {
+    const compact = String(text).toLowerCase().replace(/[^\p{L}]+/gu, '');
+    Object.keys(byPart).forEach(f => {
+      if (f.length < 4 || byPart[f].length !== 1 || res.names.includes(byPart[f][0]) || !compact.includes(f)) return;
+      add(byPart[f][0], 'notes');
+      words.forEach(w => { if (f.includes(w.toLowerCase())) usedWords.add(w.toLowerCase()); });
+    });
+  }
+  // 4) the "responsible person" column: say which names aren't on the site
+  if (fromColumn) words.filter(w => w.length >= 3 && !usedWords.has(w.toLowerCase())).forEach(w => res.warns.push(`“${w}” (responsible person) has no account on the site – choose who`));
+  return res;
+}
 function newItem(text, extra) {
   const t = String(text || '').trim();
   const it = Object.assign({ key: newKey(), text: t, discipline: guessDiscipline(t), kind: guessKind(t), status: guessStatus(t), priority: guessPriority(t), images: [], assignees: [], due: '' }, extra || {});
   if (!it.ttype) it.ttype = MT_KIND_TYPE[it.kind] || 'Coordination';
-  if (!it.assignees.length) it.assignees = mtRemembered(it.discipline);
+  const fromCol = typeof it.personText === 'string' && it.personText.trim() !== '';   // empty column → look in the text instead
+  if (!it.assignees.length && (fromCol ? it.personText : t)) {
+    // the "responsible person" column wins; otherwise look for names anywhere in the item
+    const found = fromCol ? namesInText(it.personText, true) : namesInText(t);
+    if (found.names.length) { it.assignees = found.names.slice(); it.nameHow = found.how; }
+    if (found.warns.length) it.nameWarns = found.warns;
+  }
+  delete it.personText;
+  if (fromCol && !it.assignees.length) return it;   // a table row with nobody we know: leave it for the coordinator
   return it;
 }
 
@@ -3538,7 +3641,7 @@ async function parseMeetingPdf(file) {
         txt += pt.s; end = pt.x + pt.w;
       });
       txt = txt.replace(/\s+/g, ' ').trim();
-      if (txt) lines.push({ page: p, y: r.y - r.h, text: txt });
+      if (txt) lines.push({ page: p, y: r.y - r.h, h: r.h, text: txt, parts: r.parts.filter(pt => pt.s.trim()).map(pt => ({ x: pt.x, xe: pt.x + pt.w, s: pt.s })) });
     });
     // 2) where are the images drawn on the page?
     const ops = await page.getOperatorList();
@@ -3569,19 +3672,26 @@ async function parseMeetingPdf(file) {
       canvas.width = canvas.height = 0;
     }
   }
-  // 4) lines -> action items (a line starting with "-", "•" or "1." starts a new item)
-  const BUL = /^(?:[-–—•▪●◦*]|\d{1,2}[.)])\s*/;
-  const hasBullets = lines.some(l => BUL.test(l.text) && l.text.replace(BUL, '').trim().length > 3);
+  // 4) a table (RFI | ACTION | STATUS | RESPONSIBLE PERSON | DATE) is read row by row;
+  //    anything above it is read as a normal list
+  const tbl = readMeetingTable(lines);
+  const listLines = tbl ? lines.slice(0, tbl.start) : lines;
+  // lines -> action items (a line starting with "-", "•", ". " or "1." starts a new item)
+  const BUL = /^(?:[-–—•▪●◦*·]|\.(?=\s)|\d{1,2}[.)])\s*/;
+  const hasBullets = listLines.some(l => BUL.test(l.text) && l.text.replace(BUL, '').trim().length > 3);
   const items = []; let cur = null;
-  lines.forEach(l => {
+  listLines.forEach(l => {
     if (!hasBullets || BUL.test(l.text)) {
       const t = l.text.replace(BUL, '').trim();
       if (!t) return;
       cur = { text: t, page: l.page, y: l.y, images: [] }; items.push(cur);
-    } else if (cur) {
+    } else if (cur && /[\p{L}\p{N}]/u.test(l.text)) {                     // (skip lines that are just "." or "-")
       cur.text += (/-$/.test(cur.text) ? '' : ' ') + l.text;          // continuation / note under the item
     } // lines before the first bullet are headings (e.g. "RFI / Action")
   });
+  if (!hasBullets && tbl) items.length = 0;          // above a table, plain lines are just titles
+  for (let i = items.length - 1; i >= 0; i--) if (items[i].text.replace(/[^\p{L}\p{N}]/gu, '').length < 4) items.splice(i, 1);
+  if (tbl) items.push(...tbl.items);
   // 5) each screenshot belongs to the last item above it
   images.forEach(img => {
     let owner = null;
@@ -3591,6 +3701,172 @@ async function parseMeetingPdf(file) {
   });
   const rawText = lines.map((l, i) => (i && l.page !== lines[i - 1].page ? '\n' : '') + l.text).join('\n');
   return { items, imageCount: images.length, rawText };
+}
+
+// ---------- meeting notes written as a table ----------
+const TBL_ROLES = [
+  ['person', /responsib|person|owner|assign|\bwho\b|\bby\b/],
+  ['date', /date|\bdue\b|planned|target|deadline/],
+  ['status', /status|comment|remark|note|update/],
+  ['action', /action|task|required|to ?do|description/],
+  ['topic', /\brfi\b|item|topic|issue|subject|area|title|^#|^no\.?$/]
+];
+function readMeetingTable(lines) {
+  for (let hi = 0; hi < lines.length; hi++) {
+    const L = lines[hi];
+    if (!L.parts || L.parts.length < 3) continue;
+    // header cells: words close together belong to the same cell
+    const cells = [];
+    L.parts.slice().sort((a, b) => a.x - b.x).forEach(pt => {
+      const c = cells[cells.length - 1];
+      if (c && pt.x - c.xe < L.h * 0.8) { c.text += ' ' + pt.s; c.xe = pt.xe; } else cells.push({ x: pt.x, xe: pt.xe, text: pt.s });
+    });
+    if (cells.length < 3) continue;
+    const colOf = x => { let k = -1; cells.forEach((c, i) => { if (c.x <= x + L.h * 0.6) k = i; }); return k; };
+    // a header can wrap onto a second line (“RESPONSIBLE / PERSON”)
+    let start = hi + 1;
+    const nx = lines[hi + 1];
+    if (nx && nx.page === L.page && nx.y - L.y < L.h * 2.2 && nx.parts.every(pt => colOf(pt.x) > 0) && nx.text === nx.text.toUpperCase()) {
+      nx.parts.forEach(pt => { const k = colOf(pt.x); if (k >= 0) cells[k].text += ' ' + pt.s; });
+      start = hi + 2;
+    }
+    const roles = cells.map(c => { const t = c.text.toLowerCase().replace(/\s+/g, ''); const t2 = c.text.toLowerCase();
+      const r = TBL_ROLES.find(([, re]) => re.test(t2) || re.test(t)); return r ? r[0] : null; });
+    const have = new Set(roles.filter(Boolean));
+    if (have.size < 3 || !(have.has('action') || have.has('topic')) || !(have.has('person') || have.has('date') || have.has('status'))) continue;
+    if (!roles[0]) roles[0] = have.has('topic') ? 'other' : 'topic';
+    // rows: a new row starts where the "responsible person" column (or date / first column) gets text again
+    const anchor = have.has('person') ? 'person' : have.has('date') ? 'date' : roles[0];
+    const rows = []; let row = null, prevAnchor = false;
+    for (let i = start; i < lines.length; i++) {
+      const ln = lines[i], cellTxt = {}, cellEnd = {};
+      // pieces of one word ("Gha" + "da") are glued; a real gap becomes a space
+      ln.parts.slice().sort((a, b) => a.x - b.x).forEach(pt => { const k = colOf(pt.x); const role = k >= 0 ? (roles[k] || 'other') : 'other';
+        if (!cellTxt[role]) cellTxt[role] = [pt.s];
+        else { const arr = cellTxt[role], gap = pt.x - cellEnd[role]; if (gap > ln.h * 0.18 || /\s$/.test(arr[arr.length - 1]) || /^\s/.test(pt.s)) arr.push(pt.s); else arr[arr.length - 1] += pt.s; }
+        cellEnd[role] = pt.xe; });
+      const hasAnchor = !!cellTxt[anchor];
+      if (!row || (hasAnchor && !prevAnchor)) { row = { page: ln.page, y: ln.y, c: {} }; rows.push(row); }
+      Object.keys(cellTxt).forEach(r => { (row.c[r] = row.c[r] || []).push(cellTxt[r].join(' ')); });
+      prevAnchor = hasAnchor;
+    }
+    const J = a => (a || []).join(' ').replace(/\s+/g, ' ').trim();
+    const items = rows.map(r => {
+      const topic = J(r.c.topic), action = J(r.c.action) || J(r.c.other), status = J(r.c.status), date = J(r.c.date), person = J(r.c.person);
+      let text = topic && action ? `${topic}: ${action}` : (topic || action);
+      if (!text) return null;
+      if (status) text += ` (Status: ${status})`;
+      let due = '';
+      const md = date.match(/(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/), iso = date.match(/(\d{4})-(\d{2})-(\d{2})/);
+      if (iso) due = iso[0];
+      else if (md) { const y = md[3].length === 2 ? '20' + md[3] : md[3]; due = `${y}-${md[1].padStart(2, '0')}-${md[2].padStart(2, '0')}`; }
+      if (date && !due) text += ` (Planned: ${date})`;
+      return { text, page: r.page, y: r.y, images: [], personText: person, due };
+    }).filter(Boolean);
+    return items.length ? { start: hi, items } : null;
+  }
+  return null;
+}
+
+// ---------- engineers: meeting notes of their projects ----------
+function myMeetingNotes() {
+  if (userRole !== 'member' || !me) return [];
+  return meetingList().filter(m => m.status === 'sent' && (
+    (projectTeams[projKey(m.project)] || {})[me.uid] ||
+    itemsOf(m).some(it => itemPeople(it).includes(me.name)) ||
+    tasks.some(t => t.fromMeeting === m.id && t.assignee === me.name)))
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)) || (b.sentAt || 0) - (a.sentAt || 0));
+}
+function renderMeetingNotes() {
+  if (userRole !== 'member') return;
+  const all = myMeetingNotes();
+  const unseen = all.filter(m => !meetingSeen[m.id]);
+  const badge = document.getElementById('mnotes-badge');
+  if (badge) { badge.textContent = unseen.length; badge.classList.toggle('hidden', !unseen.length); }
+  // announce new notes once per session
+  const fresh = unseen.filter(m => !mnNotified.has(m.id));
+  if (fresh.length) {
+    fresh.forEach(m => mnNotified.add(m.id));
+    const m = fresh[0];
+    toast(fresh.length === 1 ? `🔔 New meeting notes: ${labelFor(getProjects(), m.project)} – ${m.title || 'Meeting'} (${m.date || ''})` : `🔔 ${fresh.length} new meeting notes — open “Meeting Notes”`, 'info');
+  }
+  if (currentPage !== 'mnotes') return;
+  const sel = document.getElementById('mn-f-project');
+  if (sel && !sel.options.length) fillProjectSelect(sel, true);
+  const fp = (sel && sel.value) || 'ALL';
+  const list = all.filter(m => fp === 'ALL' || m.project === fp);
+  const box = document.getElementById('mn-list');
+  box.innerHTML = list.length ? list.map(m => {
+    const mine = tasks.filter(t => t.fromMeeting === m.id && t.assignee === me.name).length;
+    const isNew = !meetingSeen[m.id];
+    return `<div class="reg-row ${isNew ? 'mn-unseen' : ''}">
+      <div class="reg-main">
+        <div class="reg-badges"><span class="reg-num">${esc(m.date || '')}</span><span class="ai-badge">${esc(labelFor(getProjects(), m.project))}</span>${isNew ? '<span class="mn-new">NEW</span>' : ''}${mine ? `<span class="mn-me">${mine} task${mine > 1 ? 's' : ''} for you</span>` : ''}</div>
+        <div class="reg-title">${esc(m.title || 'Meeting')}</div>
+      </div>
+      ${m.file ? `<div style="display:flex;gap:6px;flex-shrink:0;"><button class="reg-btn" onclick="openNotesPdf('${esc(m.id)}', false)"><i class="fa-solid fa-file-pdf"></i> Open PDF</button><button class="reg-btn ghost" title="Download" onclick="openNotesPdf('${esc(m.id)}', true)"><i class="fa-solid fa-download"></i></button></div>` : '<span class="sb-note">No PDF stored</span>'}
+    </div>`; }).join('') : emptyStateHtml('No meeting notes yet', 'When a meeting of your projects is sent, its PDF shows up here.');
+}
+async function openNotesPdf(mid, download) {
+  const m = meetings[mid];
+  if (!m || !m.file) { alert('No PDF is stored for this meeting.'); return; }
+  const win = download ? null : window.open('', '_blank');        // open the tab now, so the browser doesn't block it
+  try {
+    const c = (await db.ref('meeting_files/' + mid + '/c').once('value')).val() || {};
+    const b64 = Object.keys(c).sort((a, b) => a - b).map(k => c[k]).join('');
+    if (!b64) throw new Error('the file is empty');
+    const bin = atob(b64), u8 = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    const url = URL.createObjectURL(new Blob([u8], { type: 'application/pdf' }));
+    if (download) { const a = document.createElement('a'); a.href = url; a.download = (m.file && m.file.name) || m.fileName || 'meeting.pdf'; document.body.appendChild(a); a.click(); a.remove(); }
+    else if (win) {
+      // show the PDF inside the tab we opened (works in every browser), titled with the meeting
+      try {
+        win.document.title = `${m.title || 'Meeting'} – ${m.date || ''}`;
+        win.document.body.style.margin = '0';
+        win.document.body.innerHTML = `<iframe src="${url}" style="border:0;position:fixed;inset:0;width:100%;height:100%;"></iframe>`;
+      } catch (e) { win.location.href = url; }
+    } else window.location.href = url;
+    setTimeout(() => URL.revokeObjectURL(url), 120000);
+    db.ref(`meeting_seen/${me.uid}/${mid}`).set(Date.now()).catch(() => {});
+  } catch (e) {
+    if (win) win.close();
+    alert('Could not open the PDF: ' + (e.code === 'PERMISSION_DENIED' ? 'the database rules need updating.' : e.message));
+  }
+}
+// ---------- project teams (admin + meeting coordinator) ----------
+let ptEdit = {};
+function openProjectTeams() {
+  if (userRole !== 'admin' && userRole !== 'coordinator') return;
+  ptEdit = JSON.parse(JSON.stringify(projectTeams || {}));
+  renderProjectTeams();
+  document.getElementById('pt-modal').style.display = 'flex';
+}
+function ptEngineers() { return Object.keys(teamMembers || {}).filter(k => teamMembers[k].role === 'member' && teamMembers[k].name).sort((a, b) => teamMembers[a].name.localeCompare(teamMembers[b].name)); }
+function renderProjectTeams() {
+  const engs = ptEngineers();
+  document.getElementById('pt-body').innerHTML = getProjects().map(pr => {
+    const k = projKey(pr.value), team = Object.keys(ptEdit[k] || {}).filter(u => teamMembers[u]);
+    const left = engs.filter(u => !team.includes(u));
+    return `<div class="pt-proj"><div class="pt-proj-h">${esc(pr.label)}<span>${team.length ? team.length + ' engineer' + (team.length > 1 ? 's' : '') : 'no one yet'}</span></div>
+      <div class="mt-chips">${team.map(u => `<span class="mt-chip">${esc(teamMembers[u].name)}<button type="button" title="Remove" onclick="ptToggle('${esc(k)}','${esc(u)}',false)">✕</button></span>`).join('')}
+      ${left.length ? `<select class="mt-in" data-k="${esc(k)}" onchange="ptToggle(this.dataset.k, this.value, true)"><option value="">＋ add engineer</option>${left.map(u => `<option value="${esc(u)}">${esc(teamMembers[u].name)}</option>`).join('')}</select>` : ''}</div></div>`;
+  }).join('') || '<p class="sb-note">Add projects first (Setup → Projects).</p>';
+}
+function ptToggle(k, uid, on) {
+  if (!uid) return;
+  ptEdit[k] = ptEdit[k] || {};
+  if (on) ptEdit[k][uid] = true; else delete ptEdit[k][uid];
+  if (!Object.keys(ptEdit[k]).length) delete ptEdit[k];
+  renderProjectTeams();
+}
+async function saveProjectTeams() {
+  try {
+    await db.ref('project_teams').set(Object.keys(ptEdit).length ? ptEdit : null);
+    toast('Project teams saved', 'success');
+    logActivity(`${me.name} updated the project teams`);
+    closeRegModal('pt-modal');
+  } catch (e) { alert('Could not save: ' + (e.code === 'PERMISSION_DENIED' ? 'the database rules need updating.' : e.message)); }
 }
 
 // ---------- page ----------
@@ -3779,12 +4055,11 @@ function renderMeetingEditor() {
           return `<div class="reg-meta mt-st-list" style="margin:0 0 6px;">${rows.join('')}</div>`; })() : ''}
         <label>Required action<textarea class="mt-in" ${dis} oninput="mtSet(${i},'text',this.value)">${esc(it.text)}</textarea></label>
         <div class="mt-fields">
-          <label>Department<select class="mt-in" ${dis} onchange="mtSetDiscipline(${i},this.value)">${opt(DISCIPLINES, it.discipline)}</select></label>
           <label>Task type<select class="mt-in" ${dis} onchange="mtSetType(${i},this.value)">${(() => { const tl = getTypes(); const extra = tl.some(x => x.value === it.ttype) ? [] : [{ value: it.ttype, label: it.ttype }]; return [...tl, ...extra].map(x => `<option value="${esc(x.value)}" ${x.value === it.ttype ? 'selected' : ''}>${esc(x.label)}</option>`).join(''); })()}</select></label>
           <label>Status<select class="mt-in" ${dis} onchange="mtSet(${i},'status',this.value,true)">${opt(['Open', 'On Hold'], it.status)}</select></label>
           <label>Priority<select class="mt-in" ${dis} onchange="mtSet(${i},'priority',this.value)">${opt(['high', 'medium', 'low'], it.priority, v => v === 'high' ? '🔥 High' : v === 'medium' ? '🟡 Medium' : '🟢 Low')}</select></label>
-          ${ro ? '' : `<label style="grid-column:span 2;">Send to (one or more)<div class="mt-chips">${it.assignees.map((n, j) => `<span class="mt-chip">${esc(n)}<button type="button" title="Remove" onclick="mtRemoveAssignee(${i},${j})">✕</button></span>`).join('')}${(() => { const left = teamPeople().filter(p => !it.assignees.includes(p.name)); return left.length ? `<select class="mt-in" onchange="mtAddAssignee(${i},this.value)"><option value="">${it.assignees.length ? '＋ add another engineer' : '— choose a person —'}</option>${left.map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('')}</select>` : ''; })()}</div></label>
-          <label style="grid-column:span 2;">Due date (optional)<input type="date" class="mt-in" value="${esc(it.due || '')}" onchange="mtSet(${i},'due',this.value)"></label>`}
+          ${ro ? '' : `<label style="grid-column:span 2;">Send to (one or more)<div class="mt-chips">${it.assignees.map((n, j) => `<span class="mt-chip">${esc(n)}${it.nameHow && it.nameHow[n] ? `<em class="${it.nameHow[n] === 'fuzzy' ? 'fz' : ''}" title="Found in the meeting notes">${it.nameHow[n] === 'fuzzy' ? '≈ notes' : 'from notes'}</em>` : ''}<button type="button" title="Remove" onclick="mtRemoveAssignee(${i},${j})">✕</button></span>`).join('')}${(() => { const left = teamPeople().filter(p => !it.assignees.includes(p.name)); return left.length ? `<select class="mt-in" onchange="mtAddAssignee(${i},this.value)"><option value="">${it.assignees.length ? '＋ add another engineer' : '— choose a person —'}</option>${left.map(p => `<option value="${esc(p.name)}">${p.role === 'admin' ? '👑 ' : ''}${esc(p.name)}</option>`).join('')}</select>` : ''; })()}</div>${(it.nameWarns || []).map(w => `<span class="mt-name-warn">⚠ ${esc(w)}</span>`).join('')}</label>
+          <label>Due date (optional)<input type="date" class="mt-in" value="${esc(it.due || '')}" onchange="mtSet(${i},'due',this.value)"></label>`}
         </div>
         <div class="mt-imgs">
           ${it.images.map((src, j) => `<div class="mt-thumb"><img src="${src}" alt="Screenshot" onclick="viewImg(this.src)">${ro ? '' : `<button title="Remove image" onclick="removeItemImage(${i},${j})">✕</button>`}</div>`).join('')}
@@ -3813,12 +4088,12 @@ function mtRemember(it) { try { const m = JSON.parse(localStorage.getItem('bimMe
 function mtAddAssignee(i, name) {
   const it = mtEdit && !mtEdit.readOnly && mtEdit.items[i];
   if (!it || !name || it.assignees.includes(name)) { renderMeetingEditor(); return; }
-  it.assignees.push(name); mtDirty = true; mtRemember(it); renderMeetingEditor();
+  it.assignees.push(name); mtDirty = true; renderMeetingEditor();
 }
 function mtRemoveAssignee(i, j) {
   const it = mtEdit && !mtEdit.readOnly && mtEdit.items[i];
   if (!it) return;
-  it.assignees = it.assignees.filter((n, k) => k !== j); mtDirty = true; mtRemember(it); renderMeetingEditor();
+  it.assignees = it.assignees.filter((n, k) => k !== j); mtDirty = true; renderMeetingEditor();
 }
 function mtSetType(i, val) {
   const it = mtEdit && !mtEdit.readOnly && mtEdit.items[i];
@@ -3898,7 +4173,7 @@ async function importMeetingPdf(file) {
       alert("No text was found in this PDF (it may be a scanned picture).\nAdd the items manually, or use “Paste result from Claude”.");
       renderMeetingEditor(); return;
     }
-    const fresh = res.items.map(it => newItem(it.text, { images: it.images }));
+    const fresh = res.items.map(it => newItem(it.text, Object.assign({ images: it.images }, it.personText !== undefined ? { personText: it.personText } : {}, it.due ? { due: it.due } : {})));
     if (mtEdit.items.length && !confirm(`Found ${fresh.length} action items.\n\nOK = replace the current items\nCancel = add them after the current items`)) mtEdit.items = mtEdit.items.concat(fresh);
     else mtEdit.items = fresh;
     mtEdit.source = 'pdf'; mtEdit.fileName = file.name; mtEdit.pdfFile = file; mtEdit.notesText = res.rawText || ''; mtDirty = true;
@@ -3906,7 +4181,8 @@ async function importMeetingPdf(file) {
     if (guess) document.getElementById('mt-project').value = guess;
     const t = document.getElementById('mt-title');
     if (!t.value.trim()) t.value = cleanFileTitle(file.name);
-    toast(`Read ${fresh.length} items and ${res.imageCount} screenshot(s) — please review them`, 'success');
+    const byName = fresh.filter(it => it.nameHow && Object.keys(it.nameHow).length).length, toCheck = fresh.filter(it => it.nameWarns && it.nameWarns.length).length;
+    toast(`Read ${fresh.length} items and ${res.imageCount} screenshot(s)${byName ? ` · ${byName} assigned from names in the notes` : ''}${toCheck ? ` · ${toCheck} to check` : ''} — please review them`, 'success');
   } catch (e) {
     alert('Could not read this PDF: ' + e.message);
   }
@@ -3992,7 +4268,6 @@ function claudePrompt() {
   return `Read the attached meeting-notes PDF and list every action item in it.
 Reply with ONLY a JSON array (no other text), one object per item, in the same order as the PDF:
 [{"text": "clear description of what must be done, keeping sizes, levels and room numbers",
-  "discipline": one of ${JSON.stringify(DISCIPLINES)},
   "kind": one of ${JSON.stringify(MT_KINDS)},
   "status": "Open" or "On Hold",
   "priority": "high", "medium" or "low"}]
@@ -4079,7 +4354,7 @@ async function saveMeeting(send) {
         for (const person of it.assignees) {
           const task = {
             project, type: it.ttype || MT_KIND_TYPE[it.kind] || 'Coordination',
-            details: `[${it.discipline}]${it.status === 'On Hold' ? ' (ON HOLD)' : ''} ${String(it.text).trim()}`.slice(0, 600),
+            details: `${it.status === 'On Hold' ? '(ON HOLD) ' : ''}${String(it.text).trim()}`.slice(0, 600),
             priority: it.status === 'On Hold' ? 'low' : (it.priority || 'medium'),
             deadline: it.due || '', assignee: person, progress: 0, archived: false,
             fromMeeting: id, createdBy: me.name
