@@ -1105,13 +1105,14 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 
 <!-- Project teams (admin + meeting coordinator) -->
 <div id="pt-modal" class="app-modal-overlay" onclick="if(event.target===this)closeRegModal('pt-modal')">
-<div class="app-modal-box" style="max-width:640px;">
+<div class="app-modal-box" style="max-width:640px;max-height:calc(100vh - 32px);display:flex;flex-direction:column;">
 <div class="history-modal-header">
 <h3><i class="fa-solid fa-users"></i> Project teams</h3>
 <button class="close-modal-btn" onclick="closeRegModal('pt-modal')"><i class="fa-solid fa-xmark"></i></button>
 </div>
 <p class="sb-note" style="margin:0 0 12px;">Who works on each project. Engineers see the meeting notes (PDF) of their projects only.</p>
-<div id="pt-body"></div>
+<input id="pt-search" class="reg-search" placeholder="Search project..." oninput="renderProjectTeams()" style="margin:0 0 10px;">
+<div id="pt-body" style="overflow-y:auto;flex:1;min-height:0;padding-right:4px;"></div>
 <div class="reg-form-actions"><button class="reg-btn" onclick="saveProjectTeams()"><i class="fa-solid fa-floppy-disk"></i> Save</button></div>
 </div>
 </div>
@@ -3839,19 +3840,24 @@ let ptEdit = {};
 function openProjectTeams() {
   if (userRole !== 'admin' && userRole !== 'coordinator') return;
   ptEdit = JSON.parse(JSON.stringify(projectTeams || {}));
+  document.getElementById('pt-search').value = '';
+  document.getElementById('pt-body').scrollTop = 0;
   renderProjectTeams();
   document.getElementById('pt-modal').style.display = 'flex';
 }
 function ptEngineers() { return Object.keys(teamMembers || {}).filter(k => teamMembers[k].role === 'member' && teamMembers[k].name).sort((a, b) => teamMembers[a].name.localeCompare(teamMembers[b].name)); }
 function renderProjectTeams() {
   const engs = ptEngineers();
-  document.getElementById('pt-body').innerHTML = getProjects().map(pr => {
+  const q = (document.getElementById('pt-search').value || '').trim().toLowerCase();
+  const body = document.getElementById('pt-body'), keepScroll = body.scrollTop;
+  body.innerHTML = getProjects().filter(pr => !q || String(pr.label + ' ' + pr.value).toLowerCase().includes(q)).map(pr => {
     const k = projKey(pr.value), team = Object.keys(ptEdit[k] || {}).filter(u => teamMembers[u]);
     const left = engs.filter(u => !team.includes(u));
     return `<div class="pt-proj"><div class="pt-proj-h">${esc(pr.label)}<span>${team.length ? team.length + ' engineer' + (team.length > 1 ? 's' : '') : 'no one yet'}</span></div>
       <div class="mt-chips">${team.map(u => `<span class="mt-chip">${esc(teamMembers[u].name)}<button type="button" title="Remove" onclick="ptToggle('${esc(k)}','${esc(u)}',false)">✕</button></span>`).join('')}
       ${left.length ? `<select class="mt-in" data-k="${esc(k)}" onchange="ptToggle(this.dataset.k, this.value, true)"><option value="">＋ add engineer</option>${left.map(u => `<option value="${esc(u)}">${esc(teamMembers[u].name)}</option>`).join('')}</select>` : ''}</div></div>`;
-  }).join('') || '<p class="sb-note">Add projects first (Setup → Projects).</p>';
+  }).join('') || `<p class="sb-note">${q ? 'No project matches that search.' : 'Add projects first (Setup → Projects).'}</p>`;
+  body.scrollTop = keepScroll;   // adding someone doesn't jump back to the top
 }
 function ptToggle(k, uid, on) {
   if (!uid) return;
