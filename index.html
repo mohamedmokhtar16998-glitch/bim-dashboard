@@ -932,14 +932,14 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 <div class="page-tabs">
 <button class="page-tab active" data-page="tasks" onclick="showPage('tasks')"><i class="fa-solid fa-list-check"></i> Tasks</button>
-<button class="page-tab" data-page="rfis" data-roles="admin manager" onclick="showPage('rfis')"><i class="fa-solid fa-circle-question"></i> RFIs &amp; Submittals <span class="tab-count hidden" id="rfi-open-count"></span></button>
-<button class="page-tab" data-page="sheets" data-roles="admin manager" onclick="showPage('sheets')"><i class="fa-solid fa-layer-group"></i> Sheet Register</button>
+<button class="page-tab" data-page="rfis" data-roles="admin manager coordinator" onclick="showPage('rfis')"><i class="fa-solid fa-circle-question"></i> RFIs &amp; Submittals <span class="tab-count hidden" id="rfi-open-count"></span></button>
+<button class="page-tab" data-page="sheets" data-roles="admin manager coordinator" onclick="showPage('sheets')"><i class="fa-solid fa-layer-group"></i> Sheet Register</button>
 <button class="page-tab" data-page="reports" data-roles="admin manager" onclick="showPage('reports')"><i class="fa-solid fa-file-pdf"></i> Weekly Report</button>
 <button class="page-tab" data-page="meetings" data-roles="admin manager coordinator" onclick="showPage('meetings')"><i class="fa-solid fa-people-group"></i> Meetings</button>
 <button class="page-tab" data-page="mnotes" data-roles="member" onclick="showPage('mnotes')"><i class="fa-solid fa-file-pdf"></i> Meeting Notes <span class="tab-badge hidden" id="mnotes-badge">0</span></button>
 </div>
 <div id="tasks-page">
-<div class="dashboard-stats-wrapper" id="stats-wrapper-layout" data-roles="admin manager member">
+<div class="dashboard-stats-wrapper" id="stats-wrapper-layout" data-roles="admin manager coordinator member">
 <div class="analytics-grid">
 <div class="analytics-card card-glow-all">
 <span class="analytics-num" id="count-all">0</span>
@@ -967,7 +967,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 </div>
 </div>
-<div class="proj-cards" id="proj-stats" data-roles="admin manager" title="Click a project to show only its tasks"></div>
+<div class="proj-cards" id="proj-stats" data-roles="admin manager coordinator" title="Click a project to show only its tasks"></div>
 <div class="tracker-head">
 <h1><i class="fa-solid fa-folder-tree"></i> Projects Task Tracker</h1>
 <button class="new-task-btn" data-roles="admin coordinator" data-senior onclick="openTaskModal()"><i class="fa-solid fa-plus"></i> New Task</button>
@@ -1562,7 +1562,7 @@ auth.onAuthStateChanged(async user => {
   listen(db.ref('settings/types'), 'value', snap => { typesData = snap.val(); renderListControls(); renderAll(); });
   listen(db.ref('settings/levels'), 'value', snap => { levelsData = snap.val() || {}; renderSheets(); renderLevelsAdmin(); });
   listen(db.ref('settings/announcement'), 'value', snap => renderAnnouncement(snap.val()));
-  if (userRole === 'admin' || userRole === 'manager') {
+  if (userRole === 'admin' || userRole === 'manager' || userRole === 'coordinator') {
     listen(db.ref('registers/rfis'), 'value', snap => { rfis = snap.val() || {}; trackChanges('rfis', rfis); renderRfis(); });
     listen(db.ref('registers/sheets'), 'value', snap => { sheets = snap.val() || {}; trackChanges('sheets', sheets); migrateSheetStatuses(); renderSheets(); renderLevelsAdmin(); });
   }
@@ -2228,7 +2228,7 @@ function renderAll() {
 // per-project cards (admin + general manager). Clicking one filters the task list to that project.
 function renderProjectStats() {
   const box = document.getElementById('proj-stats');
-  if (!box || (userRole !== 'admin' && userRole !== 'manager')) return;
+  if (!box || (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator')) return;
   const projects = getProjects(), by = {};
   tasks.filter(t => !t.archived).forEach(t => {
     const k = t.project || '—';
@@ -2871,7 +2871,7 @@ const DISCIPLINES = ['Mechanical', 'Plumbing', 'Electrical', 'Fire Protection', 
 function showPage(page) {
   if (page === 'meetings' && userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') page = 'tasks';
   if (page === 'mnotes' && userRole !== 'member') page = 'tasks';
-  if (page !== 'tasks' && page !== 'meetings' && page !== 'mnotes' && userRole !== 'admin' && userRole !== 'manager') page = 'tasks'; // members only see their tasks
+  if (page !== 'tasks' && page !== 'meetings' && page !== 'mnotes' && userRole !== 'admin' && userRole !== 'manager' && !(userRole === 'coordinator' && (page === 'rfis' || page === 'sheets'))) page = 'tasks'; // members only see their tasks
   currentPage = page;
   Object.keys(PAGE_IDS).forEach(p => document.getElementById(PAGE_IDS[p]).classList.toggle('hidden', p !== page));
   const pg = document.getElementById(PAGE_IDS[page]);
@@ -2926,7 +2926,7 @@ function rfiList() {
   return Object.keys(rfis).map(k => ({ id: k, ...rfis[k] }));
 }
 function renderRfis() {
-  if (userRole !== 'admin' && userRole !== 'manager') return;
+  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') return;
   const all = rfiList();
   const open = all.filter(r => r.status === 'Draft' || r.status === 'Sent');
   const answered = all.filter(r => r.sentDate && r.answerDate);
@@ -3036,7 +3036,7 @@ async function deleteRfi() {
   closeRegModal('rfi-modal');
 }
 function exportRfis() {
-  if (userRole !== 'admin' && userRole !== 'manager') return;
+  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') return;
   const projects = getProjects();
   const rows = rfiList().sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number)).map(r => [
     r.kind, r.number, stripEmoji(labelFor(projects, r.project)), r.subject, r.sentTo, r.status, r.sentDate, r.dueDate, r.answerDate,
@@ -3142,7 +3142,7 @@ function setSheetView(v) {
 function toggleSheetGroup(key) { sheetCollapsed.has(key) ? sheetCollapsed.delete(key) : sheetCollapsed.add(key); renderSheets(); }
 
 function renderSheets() {
-  if (userRole !== 'admin' && userRole !== 'manager') return;
+  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') return;
   const all = sheetList();
   const count = st => all.filter(x => sheetStatus(x) === st).length;
   document.getElementById('sheet-summary').innerHTML = `
@@ -3354,7 +3354,7 @@ async function deleteSheet() {
   closeRegModal('sheet-modal');
 }
 function exportSheets() {
-  if (userRole !== 'admin' && userRole !== 'manager') return;
+  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') return;
   const projects = getProjects();
   const rows = sheetList().sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number, undefined, { numeric: true }))
     .map(s => { const lv = projectLevels(s.project), c = sheetLevelCode(s, savedLevels(s.project));
