@@ -932,8 +932,8 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 <div class="page-tabs">
 <button class="page-tab active" data-page="tasks" onclick="showPage('tasks')"><i class="fa-solid fa-list-check"></i> Tasks</button>
-<button class="page-tab" data-page="rfis" data-roles="admin manager coordinator" onclick="showPage('rfis')"><i class="fa-solid fa-circle-question"></i> RFIs &amp; Submittals <span class="tab-count hidden" id="rfi-open-count"></span></button>
-<button class="page-tab" data-page="sheets" data-roles="admin manager coordinator" onclick="showPage('sheets')"><i class="fa-solid fa-layer-group"></i> Sheet Register</button>
+<button class="page-tab" data-page="rfis" data-roles="admin manager coordinator member" onclick="showPage('rfis')"><i class="fa-solid fa-circle-question"></i> RFIs &amp; Submittals <span class="tab-count hidden" id="rfi-open-count"></span></button>
+<button class="page-tab" data-page="sheets" data-roles="admin manager coordinator member" onclick="showPage('sheets')"><i class="fa-solid fa-layer-group"></i> Sheet Register</button>
 <button class="page-tab" data-page="reports" data-roles="admin manager" onclick="showPage('reports')"><i class="fa-solid fa-file-pdf"></i> Weekly Report</button>
 <button class="page-tab" data-page="meetings" data-roles="admin manager coordinator" onclick="showPage('meetings')"><i class="fa-solid fa-people-group"></i> Meetings</button>
 <button class="page-tab" data-page="mnotes" data-roles="member" onclick="showPage('mnotes')"><i class="fa-solid fa-file-pdf"></i> Meeting Notes <span class="tab-badge hidden" id="mnotes-badge">0</span></button>
@@ -1002,6 +1002,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <option value="Submittal">Submittals only</option>
 </select>
 <select id="rfi-f-project" class="reg-select reg-project-filter" onchange="renderRfis()"></select>
+<select id="rfi-f-disc" class="reg-select" onchange="renderRfis()"></select>
 <select id="rfi-f-status" class="reg-select" onchange="renderRfis()">
 <option value="OPEN">Open (Draft + Sent)</option>
 <option value="ALL">All statuses</option>
@@ -1012,7 +1013,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </select>
 <input id="rfi-f-search" class="reg-search" placeholder="Search number, subject or recipient..." oninput="renderRfis()">
 <button class="reg-btn ghost" title="Export to Excel" onclick="exportRfis()"><i class="fa-solid fa-file-excel"></i> Export</button>
-<button class="reg-btn" data-roles="admin" onclick="openRfiModal()"><i class="fa-solid fa-plus"></i> New</button>
+<button class="reg-btn" data-roles="admin member" onclick="openRfiModal()"><i class="fa-solid fa-plus"></i> New</button>
 </div>
 <div class="reg-list" id="rfi-list"></div>
 </div>
@@ -1037,7 +1038,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </select>
 <input id="sheet-f-search" class="reg-search" placeholder="Search sheet number or title..." oninput="renderSheets()">
 <button class="reg-btn ghost" title="Export to Excel" onclick="exportSheets()"><i class="fa-solid fa-file-excel"></i> Export</button>
-<button class="reg-btn" data-roles="admin" onclick="openSheetModal()"><i class="fa-solid fa-plus"></i> New</button>
+<button class="reg-btn" data-roles="admin member" onclick="openSheetModal()"><i class="fa-solid fa-plus"></i> New</button>
 </div>
 <div class="reg-list" id="sheet-list"></div>
 </div>
@@ -1196,11 +1197,11 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <label class="full">Project<select id="rfi-project" onchange="suggestRfiNumber()"></select></label>
 <label class="full">Subject<input type="text" id="rfi-subject" placeholder="e.g. Duct clash with beam at grid C-4, Level 2"></label>
 <label>Sent to<input type="text" id="rfi-to" placeholder="e.g. GC / Architect / Engineer"></label>
+<label>Discipline<select id="rfi-disc"></select></label>
 <label>Status<select id="rfi-status"><option>Draft</option><option>Sent</option><option>Answered</option><option>Closed</option></select></label>
 <label>Date sent<input type="date" id="rfi-sent"></label>
 <label>Reply due<input type="date" id="rfi-due"></label>
 <label>Date answered<input type="date" id="rfi-answered"></label>
-<label>&nbsp;<span></span></label>
 <label class="full">Notes<textarea id="rfi-notes" placeholder="Answer summary, references, attachments location..."></textarea></label>
 <div class="reg-form-actions">
 <button class="reg-btn danger hidden" id="rfi-delete-btn" onclick="deleteRfi()"><i class="fa-solid fa-trash-can"></i></button>
@@ -1562,7 +1563,7 @@ auth.onAuthStateChanged(async user => {
   listen(db.ref('settings/types'), 'value', snap => { typesData = snap.val(); renderListControls(); renderAll(); });
   listen(db.ref('settings/levels'), 'value', snap => { levelsData = snap.val() || {}; renderSheets(); renderLevelsAdmin(); });
   listen(db.ref('settings/announcement'), 'value', snap => renderAnnouncement(snap.val()));
-  if (userRole === 'admin' || userRole === 'manager' || userRole === 'coordinator') {
+  if (userRole === 'admin' || userRole === 'manager' || userRole === 'coordinator' || userRole === 'member') {
     listen(db.ref('registers/rfis'), 'value', snap => { rfis = snap.val() || {}; trackChanges('rfis', rfis); renderRfis(); });
     listen(db.ref('registers/sheets'), 'value', snap => { sheets = snap.val() || {}; trackChanges('sheets', sheets); migrateSheetStatuses(); renderSheets(); renderLevelsAdmin(); });
   }
@@ -1709,7 +1710,7 @@ function renderTeam() {
 <button class="team-mini-btn" title="Show the password you set for this account" onclick="toggleTeamPw('${esc(uid)}')"><i class="fa-solid fa-eye"></i></button>
 <button class="team-mini-btn" title="Reset password (forgotten password)" onclick="resetTeamAccount('${esc(uid)}')"><i class="fa-solid fa-key"></i> Reset</button>
 <button class="team-revoke-btn" title="Revoke access" onclick="revokeTeamAccount('${esc(uid)}')"><i class="fa-solid fa-user-slash"></i> Revoke</button></div>`;
-      const pwShown = shownPw[uid] ? (c && c.password ? `<span class="team-pw" title="Password you set${c.setAt ? ' on ' + new Date(c.setAt).toLocaleDateString('en-GB') : ''}. The user may have changed it since.">🔑 ${esc(c.password)}</span>` : `<span class="team-pw">no saved password — use Reset once</span>`) : '';
+      const pwShown = shownPw[uid] ? (c && c.password ? `<span class="team-pw" title="${c.changedByUser ? 'Changed by the user' : 'Password you set'}${c.setAt ? ' on ' + new Date(c.setAt).toLocaleDateString('en-GB') : ''}">🔑 ${esc(c.password)}${c.changedByUser ? ' · changed by user' : ''}</span>` : `<span class="team-pw">no saved password — use Reset once</span>`) : '';
       li.innerHTML = `
 <div class="team-row-info">
 <span class="team-row-name">${esc(p.name)} ${meta.icon}</span>
@@ -1985,6 +1986,8 @@ async function changeMyPassword() {
     const cred = firebase.auth.EmailAuthProvider.credential(user.email, cur);
     await user.reauthenticateWithCredential(cred);
     await user.updatePassword(nw);
+    // keep the admin's saved copy in sync, so the admin can still see / reuse it
+    if (userRole !== 'admin') await db.ref('credentials/' + me.uid).update({ password: nw, setAt: Date.now(), changedByUser: true }).catch(() => {});
     if (userRole !== 'admin') await db.ref('password_requests/' + me.uid).remove().catch(() => {});
     logActivity(`${me.name} changed their password`);
     alert("Password changed successfully.");
@@ -2871,7 +2874,7 @@ const DISCIPLINES = ['Mechanical', 'Plumbing', 'Electrical', 'Fire Protection', 
 function showPage(page) {
   if (page === 'meetings' && userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') page = 'tasks';
   if (page === 'mnotes' && userRole !== 'member') page = 'tasks';
-  if (page !== 'tasks' && page !== 'meetings' && page !== 'mnotes' && userRole !== 'admin' && userRole !== 'manager' && !(userRole === 'coordinator' && (page === 'rfis' || page === 'sheets'))) page = 'tasks'; // members only see their tasks
+  if (page !== 'tasks' && page !== 'meetings' && page !== 'mnotes' && userRole !== 'admin' && userRole !== 'manager' && !((userRole === 'coordinator' || userRole === 'member') && (page === 'rfis' || page === 'sheets'))) page = 'tasks'; // members only see their tasks
   currentPage = page;
   Object.keys(PAGE_IDS).forEach(p => document.getElementById(PAGE_IDS[p]).classList.toggle('hidden', p !== page));
   const pg = document.getElementById(PAGE_IDS[page]);
@@ -2916,7 +2919,16 @@ function renderRegisterControls() {
   df.innerHTML = `<option value="ALL">All disciplines</option>` + DISCIPLINES.map(d => `<option>${d}</option>`).join('');
   if (cur) df.value = cur;
   document.getElementById('sheet-disc').innerHTML = DISCIPLINES.map(d => `<option>${d}</option>`).join('');
+  const rf = document.getElementById('rfi-f-disc'), rcur = rf.value;
+  rf.innerHTML = `<option value="ALL">All disciplines</option>` + DISCIPLINES.map(d => `<option>${d}</option>`).join('');
+  if (rcur) rf.value = rcur;
+  document.getElementById('rfi-disc').innerHTML = DISCIPLINES.map(d => `<option>${d}</option>`).join('');
 }
+
+// who may add / edit / delete register items: admin all; engineers add + edit all, delete only their own
+function regCanEdit() { return userRole === 'admin' || userRole === 'member'; }
+function regCanDelete(item) { return userRole === 'admin' || (userRole === 'member' && !!item && !!me && item.createdBy === me.uid); }
+function regByLine(item) { return item && item.createdByName ? `<span>Added by ${esc(item.createdByName)}</span>` : ''; }
 
 // ------------------------- RFIs & SUBMITTALS ------------------------
 function rfiIsLate(r) {
@@ -2926,7 +2938,7 @@ function rfiList() {
   return Object.keys(rfis).map(k => ({ id: k, ...rfis[k] }));
 }
 function renderRfis() {
-  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') return;
+  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator' && userRole !== 'member') return;
   const all = rfiList();
   const open = all.filter(r => r.status === 'Draft' || r.status === 'Sent');
   const answered = all.filter(r => r.sentDate && r.answerDate);
@@ -2944,18 +2956,19 @@ function renderRfis() {
   const fk = document.getElementById('rfi-f-kind').value;
   const fp = document.getElementById('rfi-f-project').value || 'ALL';
   const fs = document.getElementById('rfi-f-status').value;
+  const fd = document.getElementById('rfi-f-disc').value || 'ALL';
   const q = document.getElementById('rfi-f-search').value.trim().toLowerCase();
   const list = all.filter(r =>
-    (fk === 'ALL' || r.kind === fk) &&
+    (fk === 'ALL' || r.kind === fk) && (fd === 'ALL' || r.discipline === fd) &&
     (fp === 'ALL' || r.project === fp) &&
     (fs === 'ALL' || (fs === 'OPEN' ? (r.status === 'Draft' || r.status === 'Sent') : r.status === fs)) &&
     (!q || [r.number, r.subject, r.sentTo].some(v => String(v || '').toLowerCase().includes(q)))
   ).sort((a, b) => (rfiIsLate(b) - rfiIsLate(a)) || String(b.sentDate || '9999').localeCompare(String(a.sentDate || '9999')) || String(b.number).localeCompare(String(a.number)));
 
   const box = document.getElementById('rfi-list');
-  if (!list.length) { box.innerHTML = all.length ? emptyStateHtml('Nothing here', 'No items match these filters — try "All statuses".') : emptyStateHtml('No RFIs or submittals yet', userRole === 'admin' ? 'Log your first one with the “New” button.' : 'Nothing has been logged yet.'); fxDone('rfis'); return; }
+  if (!list.length) { box.innerHTML = all.length ? emptyStateHtml('Nothing here', 'No items match these filters — try "All statuses".') : emptyStateHtml('No RFIs or submittals yet', regCanEdit() ? 'Log your first one with the “New” button.' : 'Nothing has been logged yet.'); fxDone('rfis'); return; }
   const projects = getProjects();
-  const canEdit = userRole === 'admin';
+  const canEdit = regCanEdit();
   box.innerHTML = list.map((r, idx) => {
     const late = rfiIsLate(r);
     const fx = fxClasses('rfis', r.id, idx);
@@ -2965,13 +2978,14 @@ function renderRfis() {
     else if (r.sentDate && r.answerDate) timing = `<span class="good">Answered in ${Math.max(0, daysBetween(r.sentDate, r.answerDate))} day(s)</span>`;
     return `<div class="reg-row st-${statusCls(r.status)}${late ? ' is-late' : ''}${canEdit ? ' clickable' : ''}${fx.cls}" style="${fx.style}" ${canEdit ? `onclick="openRfiModal('${esc(r.id)}')"` : ''}>
 <div class="reg-main">
-<div class="reg-badges"><span class="reg-num">${esc(r.number || '—')}</span><span class="reg-kind ${esc(r.kind)}">${esc(r.kind)}</span><span class="project-badge" style="margin:0;">${esc(labelFor(projects, r.project))}</span></div>
+<div class="reg-badges"><span class="reg-num">${esc(r.number || '—')}</span><span class="reg-kind ${esc(r.kind)}">${esc(r.kind)}</span><span class="project-badge" style="margin:0;">${esc(labelFor(projects, r.project))}</span>${r.discipline ? `<span class="project-badge" style="margin:0;">${esc(r.discipline)}</span>` : ''}</div>
 <div class="reg-title">${esc(r.subject || 'No subject')}</div>
 <div class="reg-meta">
 ${r.sentTo ? `<span>To: ${esc(r.sentTo)}</span>` : ''}
 ${r.sentDate ? `<span>Sent: ${esc(r.sentDate)}</span>` : ''}
 ${r.dueDate ? `<span>Due: ${esc(r.dueDate)}</span>` : ''}
 ${r.answerDate ? `<span>Answered: ${esc(r.answerDate)}</span>` : ''}
+${regByLine(r)}
 ${timing}
 </div>
 </div>
@@ -2989,7 +3003,7 @@ function suggestRfiNumber() {
   document.getElementById('rfi-number').value = `${prefix}-${String(n).padStart(3, '0')}`;
 }
 function openRfiModal(id) {
-  if (userRole !== 'admin') return;
+  if (!regCanEdit()) return;
   editingRfiId = id || null;
   const r = id ? rfis[id] : null;
   document.getElementById('rfi-modal-title').innerHTML = `<i class="fa-solid fa-circle-question"></i> ${r ? 'Edit ' + esc(r.kind) : 'New RFI / Submittal'}`;
@@ -3003,17 +3017,18 @@ function openRfiModal(id) {
   document.getElementById('rfi-due').value = r ? (r.dueDate || '') : '';
   document.getElementById('rfi-answered').value = r ? (r.answerDate || '') : '';
   document.getElementById('rfi-notes').value = r ? (r.notes || '') : '';
-  document.getElementById('rfi-delete-btn').classList.toggle('hidden', !r);
+  document.getElementById('rfi-disc').value = r ? (r.discipline || 'Plumbing') : (me && me.discipline) || 'Plumbing';
+  document.getElementById('rfi-delete-btn').classList.toggle('hidden', !r || !regCanDelete(r));
   if (r) document.getElementById('rfi-number').value = r.number || ''; else suggestRfiNumber();
   document.getElementById('rfi-modal').style.display = 'flex';
 }
 async function saveRfi() {
-  if (userRole !== 'admin') return;
+  if (!regCanEdit()) return;
   const v = id => document.getElementById(id).value.trim();
   const data = {
     kind: v('rfi-kind'), number: v('rfi-number'), project: v('rfi-project'), subject: v('rfi-subject'),
     sentTo: v('rfi-to'), status: v('rfi-status'), sentDate: v('rfi-sent'), dueDate: v('rfi-due'),
-    answerDate: v('rfi-answered'), notes: v('rfi-notes'), updatedAt: Date.now()
+    answerDate: v('rfi-answered'), notes: v('rfi-notes'), discipline: v('rfi-disc'), updatedAt: Date.now()
   };
   if (!data.number || !data.subject) { alert("Number and subject are required."); return; }
   if (data.status !== 'Draft' && !data.sentDate) data.sentDate = cairoTodayISO();
@@ -3021,29 +3036,30 @@ async function saveRfi() {
   if (data.dueDate && data.sentDate && data.dueDate < data.sentDate) { alert("The reply due date is before the sent date."); return; }
   try {
     if (editingRfiId) await db.ref('registers/rfis/' + editingRfiId).update(data);
-    else { data.createdAt = Date.now(); await db.ref('registers/rfis').push(data); }
-    logActivity(`Mokhtar ${editingRfiId ? 'updated' : 'added'} ${data.kind} ${data.number} (${data.status})`);
+    else { data.createdAt = Date.now(); data.createdBy = me.uid; data.createdByName = me.name; await db.ref('registers/rfis').push(data); }
+    logActivity(`${me.name} ${editingRfiId ? 'updated' : 'added'} ${data.kind} ${data.number} (${data.status})`);
     toast(`${data.kind} ${data.number} saved`, 'success');
     closeRegModal('rfi-modal');
   } catch (e) { alert("Could not save: " + e.message); }
 }
 async function deleteRfi() {
-  if (userRole !== 'admin' || !editingRfiId) return;
+  if (!editingRfiId) return;
   const r = rfis[editingRfiId];
+  if (!regCanDelete(r)) { alert('Only the person who added it (or the admin) can delete it.'); return; }
   if (!confirm(`Delete ${r.kind} ${r.number}? This cannot be undone.`)) return;
   await db.ref('registers/rfis/' + editingRfiId).remove();
-  logActivity(`Mokhtar deleted ${r.kind} ${r.number}`);
+  logActivity(`${me.name} deleted ${r.kind} ${r.number}`);
   closeRegModal('rfi-modal');
 }
 function exportRfis() {
-  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') return;
+  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator' && userRole !== 'member') return;
   const projects = getProjects();
   const rows = rfiList().sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number)).map(r => [
-    r.kind, r.number, stripEmoji(labelFor(projects, r.project)), r.subject, r.sentTo, r.status, r.sentDate, r.dueDate, r.answerDate,
+    r.kind, r.number, stripEmoji(labelFor(projects, r.project)), r.discipline || '', r.subject, r.sentTo, r.status, r.sentDate, r.dueDate, r.answerDate,
     r.sentDate && r.answerDate ? Math.max(0, daysBetween(r.sentDate, r.answerDate)) : '', rfiIsLate(r) ? 'YES' : '', r.notes
   ]);
   toCsvAndDownload(`bimwow-rfis-submittals-${cairoTodayISO()}.csv`,
-    ['Type', 'Number', 'Project', 'Subject', 'Sent To', 'Status', 'Date Sent', 'Reply Due', 'Date Answered', 'Response Days', 'Overdue', 'Notes'], rows);
+    ['Type', 'Number', 'Project', 'Discipline', 'Subject', 'Sent To', 'Status', 'Date Sent', 'Reply Due', 'Date Answered', 'Response Days', 'Overdue', 'Notes'], rows);
 }
 
 // --------------------------- SHEET REGISTER -------------------------
@@ -3142,7 +3158,7 @@ function setSheetView(v) {
 function toggleSheetGroup(key) { sheetCollapsed.has(key) ? sheetCollapsed.delete(key) : sheetCollapsed.add(key); renderSheets(); }
 
 function renderSheets() {
-  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') return;
+  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator' && userRole !== 'member') return;
   const all = sheetList();
   const count = st => all.filter(x => sheetStatus(x) === st).length;
   document.getElementById('sheet-summary').innerHTML = `
@@ -3162,9 +3178,9 @@ function renderSheets() {
     (!q || [s.number, s.title].some(v => String(v || '').toLowerCase().includes(q)))
   ).sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number, undefined, { numeric: true }));
   const box = document.getElementById('sheet-list');
-  if (!list.length) { box.innerHTML = all.length ? emptyStateHtml('Nothing here', 'No sheets match these filters.') : emptyStateHtml('Sheet register is empty', userRole === 'admin' ? 'Add your first sheet with the “New” button.' : 'No sheets have been logged yet.'); fxDone('sheets'); return; }
+  if (!list.length) { box.innerHTML = all.length ? emptyStateHtml('Nothing here', 'No sheets match these filters.') : emptyStateHtml('Sheet register is empty', regCanEdit() ? 'Add your first sheet with the “New” button.' : 'No sheets have been logged yet.'); fxDone('sheets'); return; }
   const projects = getProjects();
-  const canEdit = userRole === 'admin';
+  const canEdit = regCanEdit();
   let idx = 0;
   const row = (s, opts) => {
     const st = sheetStatus(s), fx = fxClasses('sheets', s.id, idx++);
@@ -3175,7 +3191,7 @@ function renderSheets() {
 <div class="reg-main">
 <div class="reg-badges"><span class="reg-num">${esc(s.number)}</span>${opts.disc ? `<span class="type-badge" style="margin:0;">${esc(s.discipline || '')}</span>` : ''}${opts.proj ? `<span class="project-badge" style="margin:0;">${esc(labelFor(projects, s.project))}</span>` : ''}${opts.level ? `<span class="lv-tag">${esc(opts.level)}</span>` : ''}</div>
 <div class="reg-title">${esc(s.title || 'Untitled sheet')}</div>
-<div class="reg-meta">${s.date ? `<span>${dLabel}: ${esc(s.date)}</span>` : ''}${s.notes ? `<span>${esc(s.notes)}</span>` : ''}</div>
+<div class="reg-meta">${s.date ? `<span>${dLabel}: ${esc(s.date)}</span>` : ''}${s.notes ? `<span>${esc(s.notes)}</span>` : ''}${regByLine(s)}</div>
 </div>
 <span class="status-pill ${statusCls(st)}">${esc(st)}</span>
 </div>`;
@@ -3237,7 +3253,7 @@ function fillSheetLevelSelect(keepChoice) {
   sel.value = [...sel.options].some(o => o.value === cur) ? cur : '';
 }
 function openSheetModal(id) {
-  if (userRole !== 'admin') return;
+  if (!regCanEdit()) return;
   editingSheetId = id || null;
   const s = id ? sheets[id] : null;
   document.getElementById('sheet-modal-title').innerHTML = `<i class="fa-solid fa-layer-group"></i> ${s ? 'Edit Sheet ' + esc(s.number) : 'New Sheet'}`;
@@ -3252,7 +3268,7 @@ function openSheetModal(id) {
   document.getElementById('sheet-date').value = s ? (s.date || '') : cairoTodayISO();
   document.getElementById('sheet-notes').value = s ? (s.notes || '') : '';
   fillSheetLevelSelect(false);
-  document.getElementById('sheet-delete-btn').classList.toggle('hidden', !s);
+  document.getElementById('sheet-delete-btn').classList.toggle('hidden', !s || !regCanDelete(s));
   const hist = document.getElementById('sheet-history');
   const hh = s && s.history ? Object.values(s.history).sort((a, b) => (a.at || 0) - (b.at || 0)) : [];
   hist.classList.toggle('hidden', !hh.length);
@@ -3260,7 +3276,7 @@ function openSheetModal(id) {
   document.getElementById('sheet-modal').style.display = 'flex';
 }
 async function saveSheet() {
-  if (userRole !== 'admin') return;
+  if (!regCanEdit()) return;
   const v = id => document.getElementById(id).value.trim();
   const data = {
     project: v('sheet-project'), number: v('sheet-number').toUpperCase(), title: v('sheet-title'), discipline: v('sheet-disc'),
@@ -3280,12 +3296,12 @@ async function saveSheet() {
       }
       await db.ref('registers/sheets/' + editingSheetId).update(data);
     } else {
-      data.createdAt = Date.now();
+      data.createdAt = Date.now(); data.createdBy = me.uid; data.createdByName = me.name;
       const ref = db.ref('registers/sheets').push();
       await ref.set(data);
       await db.ref(`registers/sheets/${ref.key}/history`).push(histEntry);
     }
-    logActivity(`Mokhtar ${editingSheetId ? 'updated' : 'added'} sheet ${data.number} Rev ${data.revision} (${data.status})`);
+    logActivity(`${me.name} ${editingSheetId ? 'updated' : 'added'} sheet ${data.number} Rev ${data.revision} (${data.status})`);
     toast(`Sheet ${data.number} saved`, 'success');
     closeRegModal('sheet-modal');
   } catch (e) { alert("Could not save: " + e.message); }
@@ -3346,15 +3362,16 @@ async function resetLevels() {
   await db.ref('settings/levels/' + projKey(project)).remove();
 }
 async function deleteSheet() {
-  if (userRole !== 'admin' || !editingSheetId) return;
+  if (!editingSheetId) return;
   const s = sheets[editingSheetId];
+  if (!regCanDelete(s)) { alert('Only the person who added it (or the admin) can delete it.'); return; }
   if (!confirm(`Delete sheet ${s.number}? This cannot be undone.`)) return;
   await db.ref('registers/sheets/' + editingSheetId).remove();
-  logActivity(`Mokhtar deleted sheet ${s.number}`);
+  logActivity(`${me.name} deleted sheet ${s.number}`);
   closeRegModal('sheet-modal');
 }
 function exportSheets() {
-  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator') return;
+  if (userRole !== 'admin' && userRole !== 'manager' && userRole !== 'coordinator' && userRole !== 'member') return;
   const projects = getProjects();
   const rows = sheetList().sort((a, b) => String(a.project).localeCompare(b.project) || String(a.number).localeCompare(b.number, undefined, { numeric: true }))
     .map(s => { const lv = projectLevels(s.project), c = sheetLevelCode(s, savedLevels(s.project));
