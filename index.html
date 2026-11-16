@@ -3741,12 +3741,16 @@ function readMeetingTable(lines) {
       if (c && pt.x - c.xe < L.h * 0.8) { c.text += ' ' + pt.s; c.xe = pt.xe; } else cells.push({ x: pt.x, xe: pt.xe, text: pt.s });
     });
     if (cells.length < 3) continue;
-    const colOf = x => { let k = -1; cells.forEach((c, i) => { if (c.x <= x + L.h * 0.6) k = i; }); return k; };
+    // headers are often centred over their column while the cell text starts at the left edge,
+    // so a piece of text belongs to the header whose centre is nearest to the piece's centre
+    cells.forEach(c => { c.cx = (c.x + c.xe) / 2; });
+    const colOf = (x, xe) => { const m = xe !== undefined ? (x + xe) / 2 : x; let k = -1, best = Infinity;
+      cells.forEach((c, i) => { const d = Math.abs(c.cx - m); if (d < best) { best = d; k = i; } }); return k; };
     // a header can wrap onto a second line (“RESPONSIBLE / PERSON”)
     let start = hi + 1;
     const nx = lines[hi + 1];
-    if (nx && nx.page === L.page && nx.y - L.y < L.h * 2.2 && nx.parts.every(pt => colOf(pt.x) > 0) && nx.text === nx.text.toUpperCase()) {
-      nx.parts.forEach(pt => { const k = colOf(pt.x); if (k >= 0) cells[k].text += ' ' + pt.s; });
+    if (nx && nx.page === L.page && nx.y - L.y < L.h * 2.2 && nx.parts.every(pt => colOf(pt.x, pt.xe) > 0) && nx.text === nx.text.toUpperCase()) {
+      nx.parts.forEach(pt => { const k = colOf(pt.x, pt.xe); if (k >= 0) cells[k].text += ' ' + pt.s; });
       start = hi + 2;
     }
     const roles = cells.map(c => { const t = c.text.toLowerCase().replace(/\s+/g, ''); const t2 = c.text.toLowerCase();
@@ -3764,8 +3768,8 @@ function readMeetingTable(lines) {
       ln.parts.slice().sort((a, b) => a.x - b.x).forEach(pt => {
         // a piece glued to the previous one ("leve" + "l(the Z", "Revi" + "t)") belongs to the same cell,
         // even if it reaches past where the next column's header starts
-        let k = colOf(pt.x);
-        if (prevK !== null && prevK >= 0 && k !== prevK && pt.x - prevXe < ln.h * 0.18 && !/^\s/.test(pt.s)) k = prevK;
+        let k = colOf(pt.x, pt.xe);
+        if (prevK !== null && prevK >= 0 && k !== prevK && pt.x - prevXe < ln.h * 0.18 && pt.x - prevXe > -ln.h * 0.3 && !/^\s/.test(pt.s)) k = prevK;
         prevK = k; prevXe = pt.xe;
         const role = k >= 0 ? (roles[k] || 'other') : 'other';
         if (!cellTxt[role]) cellTxt[role] = [pt.s];
@@ -3786,8 +3790,8 @@ function readMeetingTable(lines) {
       const md = date.match(/(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/), iso = date.match(/(\d{4})-(\d{2})-(\d{2})/);
       if (iso) due = iso[0];
       else if (md) { const y = md[3].length === 2 ? '20' + md[3] : md[3]; due = `${y}-${md[1].padStart(2, '0')}-${md[2].padStart(2, '0')}`; }
-      if (date && !due) text += ` (Planned: ${date})`;
-      return { text, page: r.page, y: r.y, images: [], personText: person, due };
+      if (date && !due && /[\p{L}\p{N}]/u.test(date)) text += ` (Planned: ${date})`;
+      return { text, page: r.page, y: r.y, images: [], personText: person, due, actionText: action, topicText: topic };
     }).filter(Boolean);
     return items.length ? { start: hi, items } : null;
   }
@@ -4240,8 +4244,10 @@ async function repairMeetingTexts() {
       const bin = atob(b64), u8 = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
       const res = await parseMeetingPdf(new Blob([u8], { type: 'application/pdf' }));
-      const fresh = res.items.map(it => String(it.text).trim()).filter(Boolean);
-      const bySig = {}; fresh.forEach(t => { (bySig[sig(t)] = bySig[sig(t)] || []).push(t); });
+      // older reads could put the ACTION column (scrambled) in place of the whole row, so match on it too
+      const bySig = {};
+      res.items.forEach(it => { const t = String(it.text || '').trim(); if (!t) return;
+        [it.text, it.actionText].forEach(v => { if (!v) return; const k = sig(v); if (!k) return; (bySig[k] = bySig[k] || []).push(t); }); });
       const up = {};
       itemsOf(m).forEach(it => {
         const old = String(it.text || '').trim(); if (!old) return;
