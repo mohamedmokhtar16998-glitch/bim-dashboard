@@ -1066,6 +1066,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <input id="meet-f-search" class="reg-search" placeholder="Search meeting title or notes..." oninput="renderMeetings()">
 <button class="reg-btn" data-roles="admin coordinator" onclick="openMeetingModal()"><i class="fa-solid fa-plus"></i> New Meeting</button>
 <button class="reg-btn ghost" data-roles="admin coordinator" onclick="openProjectTeams()"><i class="fa-solid fa-users"></i> Project teams</button>
+<button class="reg-btn ghost" data-roles="admin" onclick="repairMeetingTexts()" title="Re-read stored meeting PDFs and fix items/tasks whose text came out scrambled"><i class="fa-solid fa-wand-magic-sparkles"></i> Fix PDF text</button>
 </div>
 <div class="reg-list" id="meet-list"></div>
 </div>
@@ -3759,7 +3760,14 @@ function readMeetingTable(lines) {
     for (let i = start; i < lines.length; i++) {
       const ln = lines[i], cellTxt = {}, cellEnd = {};
       // pieces of one word ("Gha" + "da") are glued; a real gap becomes a space
-      ln.parts.slice().sort((a, b) => a.x - b.x).forEach(pt => { const k = colOf(pt.x); const role = k >= 0 ? (roles[k] || 'other') : 'other';
+      let prevK = null, prevXe = -1e9;
+      ln.parts.slice().sort((a, b) => a.x - b.x).forEach(pt => {
+        // a piece glued to the previous one ("leve" + "l(the Z", "Revi" + "t)") belongs to the same cell,
+        // even if it reaches past where the next column's header starts
+        let k = colOf(pt.x);
+        if (prevK !== null && prevK >= 0 && k !== prevK && pt.x - prevXe < ln.h * 0.18 && !/^\s/.test(pt.s)) k = prevK;
+        prevK = k; prevXe = pt.xe;
+        const role = k >= 0 ? (roles[k] || 'other') : 'other';
         if (!cellTxt[role]) cellTxt[role] = [pt.s];
         else { const arr = cellTxt[role], gap = pt.x - cellEnd[role]; if (gap > ln.h * 0.18 || /\s$/.test(arr[arr.length - 1]) || /^\s/.test(pt.s)) arr.push(pt.s); else arr[arr.length - 1] += pt.s; }
         cellEnd[role] = pt.xe; });
@@ -4210,6 +4218,50 @@ async function importMeetingPdf(file) {
     alert('Could not read this PDF: ' + e.message);
   }
   renderMeetingEditor();
+}
+
+// ---------- admin: fix items/tasks that were read with scrambled text (older PDF reader) ----------
+// Re-reads each stored PDF. An item is only changed when the new text has exactly the same letters and
+// digits as the old one (so it is the same sentence, just put back in the right order); anything the
+// coordinator edited by hand is left alone. Linked tasks get the same fix; progress, people and dates stay.
+async function repairMeetingTexts() {
+  if (userRole !== 'admin') return;
+  const sig = t => String(t || '').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '').split('').sort().join('');
+  const list = meetingList().filter(m => m.file);
+  if (!list.length) { alert('No meetings with a stored PDF.'); return; }
+  if (!confirm(`Re-read ${list.length} stored meeting PDF(s) and fix any item whose text came out scrambled?\n\nOnly the wording is fixed (same letters, right order). Tasks keep their progress, people and dates.`)) return;
+  toast('Checking meeting PDFs…', 'info');
+  let fixedItems = 0, fixedTasks = 0, failed = 0;
+  for (const m of list) {
+    try {
+      const c = (await db.ref('meeting_files/' + m.id + '/c').once('value')).val() || {};
+      const b64 = Object.keys(c).sort((a, b) => a - b).map(k => c[k]).join('');
+      if (!b64) continue;
+      const bin = atob(b64), u8 = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+      const res = await parseMeetingPdf(new Blob([u8], { type: 'application/pdf' }));
+      const fresh = res.items.map(it => String(it.text).trim()).filter(Boolean);
+      const bySig = {}; fresh.forEach(t => { (bySig[sig(t)] = bySig[sig(t)] || []).push(t); });
+      const up = {};
+      itemsOf(m).forEach(it => {
+        const old = String(it.text || '').trim(); if (!old) return;
+        const cand = (bySig[sig(old)] || []).find(t => t !== old);
+        if (!cand) return;
+        up[`meetings/${m.id}/items/${it.key}/text`] = cand.slice(0, 1500); fixedItems++;
+        itemTaskIds(it).forEach(tid => {
+          const t = tasks.find(x => x.id === tid); if (!t) return;
+          const d = String(t.details || '');
+          let nd = null;
+          if (d.includes(old)) nd = d.replace(old, cand);
+          else if (sig(d.replace(/^\(ON HOLD\)\s*/, '')) === sig(old)) nd = (/^\(ON HOLD\)/.test(d) ? '(ON HOLD) ' : '') + cand;
+          if (nd && nd !== d) { up[`tasks/${tid}/details`] = nd.slice(0, 600); fixedTasks++; }
+        });
+      });
+      if (Object.keys(up).length) await db.ref().update(up);
+    } catch (e) { failed++; console.warn('repair', m.id, e); }
+  }
+  if (fixedItems) logActivity(`${me.name} fixed the text of ${fixedItems} meeting item(s) and ${fixedTasks} task(s) from their PDFs`);
+  alert(`Done ✔\n\nMeeting items fixed: ${fixedItems}\nTasks fixed: ${fixedTasks}${failed ? `\nPDFs that could not be read: ${failed}` : ''}${!fixedItems ? '\n\nNothing needed fixing.' : ''}`);
 }
 
 // ---------- archive: original PDF + full notes ----------
