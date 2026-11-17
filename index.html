@@ -4231,6 +4231,9 @@ async function importMeetingPdf(file) {
 async function repairMeetingTexts() {
   if (userRole !== 'admin') return;
   const sig = t => String(t || '').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '').split('').sort().join('');
+  const words = t => (String(t || '').toLowerCase().match(/[\p{L}\p{N}]+/gu) || []);
+  const overlap = (a, b) => { const bag = {}; b.forEach(w => { bag[w] = (bag[w] || 0) + 1; }); let hit = 0;
+    a.forEach(w => { if (bag[w]) { bag[w]--; hit++; } }); return hit / a.length; };
   const list = meetingList().filter(m => m.file);
   if (!list.length) { alert('No meetings with a stored PDF.'); return; }
   if (!confirm(`Re-read ${list.length} stored meeting PDF(s) and fix any item whose text came out scrambled?\n\nOnly the wording is fixed (same letters, right order). Tasks keep their progress, people and dates.`)) return;
@@ -4245,13 +4248,21 @@ async function repairMeetingTexts() {
       for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
       const res = await parseMeetingPdf(new Blob([u8], { type: 'application/pdf' }));
       // older reads could put the ACTION column (scrambled) in place of the whole row, so match on it too
+      const freshTexts = res.items.map(it => String(it.text || '').trim()).filter(Boolean);
       const bySig = {};
       res.items.forEach(it => { const t = String(it.text || '').trim(); if (!t) return;
         [it.text, it.actionText].forEach(v => { if (!v) return; const k = sig(v); if (!k) return; (bySig[k] = bySig[k] || []).push(t); }); });
       const up = {};
       itemsOf(m).forEach(it => {
         const old = String(it.text || '').trim(); if (!old) return;
-        const cand = (bySig[sig(old)] || []).find(t => t !== old);
+        let cand = (bySig[sig(old)] || []).find(t => t !== old);
+        if (!cand) {
+          // columns that got mixed up (older reader): pick the row that holds most of this item's words,
+          // only when one row clearly wins
+          const ow = words(old); if (ow.length < 4) return;
+          const sc = freshTexts.map(t => ({ t, s: overlap(ow, words(t)) })).sort((a, b) => b.s - a.s);
+          if (sc[0] && sc[0].s >= 0.7 && (!sc[1] || sc[0].s - sc[1].s >= 0.25) && sc[0].t !== old) cand = sc[0].t;
+        }
         if (!cand) return;
         up[`meetings/${m.id}/items/${it.key}/text`] = cand.slice(0, 1500); fixedItems++;
         itemTaskIds(it).forEach(tid => {
