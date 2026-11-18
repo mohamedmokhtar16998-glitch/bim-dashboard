@@ -795,9 +795,9 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 </div>
 </details>
 
-<div class="sb-group-label" data-roles="admin"><i class="fa-solid fa-gear"></i> Setup</div>
+<div class="sb-group-label" data-roles="admin coordinator"><i class="fa-solid fa-gear"></i> Setup</div>
 
-<details class="sb-section" data-roles="admin">
+<details class="sb-section" data-roles="admin coordinator">
 <summary><i class="fa-solid fa-folder-tree sb-ico"></i> Projects & Task Types <span class="sb-pill" id="sb-proj-count" style="background:#4a72b2;">0</span></summary>
 <div class="sb-body">
 <div class="sb-sub">Projects</div>
@@ -807,6 +807,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <input class="sb-input" type="text" id="new-project-name" placeholder="New project name">
 </div>
 <button class="sb-btn ghost" onclick="addListItem('projects')"><i class="fa-solid fa-plus"></i> Add Project</button>
+<div data-roles="admin">
 <div class="sb-sub">Task Types</div>
 <ul class="sb-list" id="types-admin-list"></ul>
 <div class="sb-row">
@@ -814,6 +815,7 @@ html.light .mt-drop:hover, html.light .mt-drop.over { color: #1d2433; }
 <input class="sb-input" type="text" id="new-type-name" placeholder="New task type">
 </div>
 <button class="sb-btn ghost" onclick="addListItem('types')"><i class="fa-solid fa-plus"></i> Add Task Type</button>
+</div>
 </div>
 </details>
 
@@ -2053,10 +2055,11 @@ function renderListControls() {
   tfp.value = activeProjectFilter;
   renderRegisterControls(); renderRfis(); renderSheets();
   // Admin lists
-  if (userRole !== 'admin') return;
-  const row = (kind, it) => `<li class="sb-item"><span>${esc(it.label)}</span><button class="icon-btn" title="Remove" onclick="removeListItem('${kind}','${esc(it.key)}')"><i class="fa-solid fa-trash-can"></i></button></li>`;
+  if (userRole !== 'admin' && userRole !== 'coordinator') return;
+  const row = (kind, it) => `<li class="sb-item"><span>${esc(it.label)}</span>${userRole === 'admin' ? `<button class="icon-btn" title="Remove" onclick="removeListItem('${kind}','${esc(it.key)}')"><i class="fa-solid fa-trash-can"></i></button>` : ''}</li>`;
   document.getElementById('projects-admin-list').innerHTML = projects.map(p => row('projects', p)).join('');
   const pc = document.getElementById('sb-proj-count'); if (pc) pc.textContent = projects.length;
+  if (userRole !== 'admin') return;
   const lvp = document.getElementById('lv-project'); if (lvp) { fillProjectSelect(lvp, false); renderLevelsAdmin(); }
   document.getElementById('types-admin-list').innerHTML = types.map(t => row('types', t)).join('');
 }
@@ -2069,7 +2072,7 @@ async function seedListIfNeeded(kind) {
   await db.ref('settings/' + kind).set(obj);
 }
 async function addListItem(kind) {
-  if (userRole !== 'admin') return;
+  if (userRole !== 'admin' && !(userRole === 'coordinator' && kind === 'projects')) return;
   const pre = kind === 'projects' ? 'new-project' : 'new-type';
   const emoji = document.getElementById(pre + '-emoji').value.trim();
   let name = document.getElementById(pre + '-name').value.trim();
@@ -2078,11 +2081,11 @@ async function addListItem(kind) {
   const list = kind === 'projects' ? getProjects() : getTypes();
   if (list.some(x => x.value.toLowerCase() === value.toLowerCase())) { alert("That one already exists."); return; }
   try {
-    await seedListIfNeeded(kind);
+    if (userRole === 'admin') await seedListIfNeeded(kind);
     await db.ref('settings/' + kind).push({ value, label: (emoji ? emoji + ' ' : '') + name, order: Date.now() });
     document.getElementById(pre + '-emoji').value = '';
     document.getElementById(pre + '-name').value = '';
-    logActivity(`Mokhtar added ${kind === 'projects' ? 'project' : 'task type'}: ${name}`);
+    logActivity(`${me.name} added ${kind === 'projects' ? 'project' : 'task type'}: ${name}`);
     toast(`${name} added`, 'success');
   } catch (e) { alert("Could not save: " + e.message); }
 }
@@ -4047,6 +4050,12 @@ function openMeetingModal(id) {
   document.getElementById('mt-date').value = mtEdit.date || '';
   document.getElementById('mt-title').value = mtEdit.title || '';
   ['mt-project', 'mt-date', 'mt-title'].forEach(x => document.getElementById(x).disabled = ro);
+  // a sent meeting logged on the wrong project: admin / coordinator can still move it (and its tasks)
+  ps.onchange = null;
+  if (ro && mtEdit.id && (userRole === 'admin' || userRole === 'coordinator')) {
+    ps.disabled = false; ps.title = 'Wrong project? Pick the right one – the meeting and its tasks move with it';
+    ps.onchange = () => changeSentMeetingProject(ps);
+  } else ps.title = '';
   document.getElementById('mt-drop-zone').classList.toggle('hidden', ro);
   document.querySelector('#meet-modal .mt-tools').classList.toggle('hidden', ro);
   document.getElementById('mt-claude-box').classList.add('hidden');
@@ -4279,6 +4288,26 @@ async function repairMeetingTexts() {
   }
   if (fixedItems) logActivity(`${me.name} fixed the text of ${fixedItems} meeting item(s) and ${fixedTasks} task(s) from their PDFs`);
   alert(`Done ✔\n\nMeeting items fixed: ${fixedItems}\nTasks fixed: ${fixedTasks}${failed ? `\nPDFs that could not be read: ${failed}` : ''}${!fixedItems ? '\n\nNothing needed fixing.' : ''}`);
+}
+
+async function changeSentMeetingProject(sel) {
+  if (!mtEdit || !mtEdit.id || (userRole !== 'admin' && userRole !== 'coordinator')) return;
+  const from = mtEdit.project, to = sel.value;
+  if (!to || to === from) return;
+  const projects = getProjects();
+  const ids = [...new Set(mtEdit.items.flatMap(it => it.taskIds || []))].filter(tid => tasks.some(t => t.id === tid));
+  if (!confirm(`Move this meeting from ${stripEmoji(labelFor(projects, from))} to ${stripEmoji(labelFor(projects, to))}?\n\n${ids.length} task(s) made from it will move too. Progress, people and dates stay the same.`)) { sel.value = from; return; }
+  const up = { [`meetings/${mtEdit.id}/project`]: to };
+  ids.forEach(tid => { up[`tasks/${tid}/project`] = to; });
+  try {
+    await db.ref().update(up);
+    mtEdit.project = to;
+    logActivity(`${me.name} moved meeting "${mtEdit.title || 'Meeting'}" to ${stripEmoji(labelFor(projects, to))}`);
+    toast(`Meeting and ${ids.length} task(s) moved`, 'success');
+  } catch (e) {
+    sel.value = from;
+    alert('Could not move it: ' + (e.code === 'PERMISSION_DENIED' ? 'the database rules need updating.' : e.message));
+  }
 }
 
 // ---------- archive: original PDF + full notes ----------
